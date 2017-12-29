@@ -2,12 +2,31 @@
 <html>
   <head>
     <meta charset="utf-8">	
-	<meta name="viewport" content="width=device-width,initial-scale=1.0">
-	<link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
+	  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+	  <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
     <title>xhmianh5</title>
   </head>
-  <body>
+  <body style="background: red">
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+  <script type="text/javascript" charset="utf-8" async defer>
+  // 基准值为750px 设计稿
+    (function (doc, win) {
+          var docEl = doc.documentElement,
+              resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+              recalc = function () {
+                  var clientWidth = docEl.clientWidth;
+                  if (!clientWidth) return;
+                  if(clientWidth>=750){
+                      docEl.style.fontSize = '100px';
+                  }else{
+                      docEl.style.fontSize = 100 * (clientWidth /750) + 'px';
+                  }
+              };
+          if (!doc.addEventListener) return;
+          win.addEventListener(resizeEvt, recalc, false);
+          doc.addEventListener('DOMContentLoaded', recalc, false);
+      })(document, window);  
+  </script>
 </html>
