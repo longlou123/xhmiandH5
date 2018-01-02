@@ -43,14 +43,14 @@
     width: 100%;
     background: #f55947;
     height: 3rem;
-    font-size: 16px;
+    font-size: 0.16rem;
   }
     .div {
-      height:50px; 
+      height:0.5rem; 
       text-align: center;
-      line-height: 50px;
+      line-height: 0.5rem;
       color: #000;
-      font-size: 16px;
+      font-size:0.2rem;
       button{
         background: #fff;
       }
