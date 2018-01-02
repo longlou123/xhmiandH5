@@ -7,7 +7,7 @@
        <p @click="go">11111</p>
     </div>
       <div class="two">
-         <h1>22222</h1>
+         <h1>2222244444</h1>
       </div>
   </div>
 </template>
