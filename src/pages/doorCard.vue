@@ -1,7 +1,9 @@
 <template>
 	<div class="big_div">
-		<div class="header"></div>
-		<div class="center"></div>
+		<div class="center">
+			<div class="door_text"></div>
+			<div class="door_img"></div>
+		</div>
 	</div>
 </template>
 <script type="text/ecmascript-6">
@@ -10,27 +12,44 @@
     name:'test',
     data(){
       return {
-          hand:"我是测试的哟"
       }
     },
     methods:{
-      test(){
-        Toast({
-          message: '提示',
-          position: 'top',
-          duration: 3000
-        });
-      },
-      go(){
-        this.$router.push({ path: '/test2'});
-      }
+    
+
     }
   }
 
 </script>
 <style lang="scss" scoped>
+html,body{
+	width:7.5rem;
+	height:13.34rem;
+}
 .big_div{
-	width:100%;
-	height:100%;
+	width:7.5rem;
+	height:13.34rem;
+	.center{
+		width:7.5rem;
+	    height:13.34rem;
+		background-color:#EFf2f5;
+	    padding-top:3.5rem;
+
+		.door_text{
+			width:2.96rem;
+			height:0.29rem;
+			background-image:url(../images/text.png);
+			background-size:100% 100%;
+			margin:0 auto;
+			margin-bottom:0.5rem;
+		}
+		.door_img{
+			width:1.76rem;
+			height:1.19rem;
+			background-image:url(../images/dragon.png);
+			background-size:100% 100%;
+			margin:0 auto;
+		}
+	}
 }
 </style>
