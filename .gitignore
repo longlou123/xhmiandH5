@@ -9,6 +9,8 @@ yarn-error.log*
 test/unit/coverage
 test/e2e/reports
 selenium-debug.log
+ui/*
+ui/
 
 
 # Editor directories and files

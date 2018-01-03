@@ -9,7 +9,6 @@ import 'mint-ui/lib/style.css'
 Vue.use(MintUI);
 
 Vue.config.productionTip = false //来关闭生产模式下给出的提示
-
 new Vue({
   el: '#app',
   router,
