@@ -6,6 +6,9 @@ import test2 from '@/pages/test2'
 import doorCard from '@/pages/doorCard'
 import management from '@/pages/management'
 import authorization from '@/pages/authorization'
+import activateCard from '@/pages/activateCard'
+
+
 
 
 
@@ -38,6 +41,11 @@ export default new Router({
       path: '/authorization',
       name: 'authorization',
       component: authorization
-    }
+    },
+    {
+      path: '/activateCard',
+      name: 'activateCard',
+      component: activateCard
+    },
   ]
 })

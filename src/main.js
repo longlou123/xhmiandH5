@@ -6,7 +6,11 @@ import App from './App'
 import router from './router'
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
+import iView from 'iview';
+import 'iview/dist/styles/iview.css';    // 使用 CSS
+
 Vue.use(MintUI);
+Vue.use(iView);
 
 Vue.config.productionTip = false //来关闭生产模式下给出的提示
 new Vue({
