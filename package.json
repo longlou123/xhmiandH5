@@ -13,7 +13,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "iview": "^2.0.0",
+    "iview": "^2.8.0",
     "iview-loader": "^1.0.0",
     "node-sass": "^4.5.3",
     "sass-loader": "^6.0.6",

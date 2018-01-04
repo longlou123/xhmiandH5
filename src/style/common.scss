@@ -35,10 +35,10 @@ figcaption,
   font-style: normal;
   text-decoration: none;
   border: none;
-  // color: #fff;
+  color: #2f405f;
   font-weight: normal;
   font-family: "Microsoft Yahei";
-  font-size: 0.14rem;               //默认字体16px；
+  font-size: 0.24rem;               //默认字体16px；
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
   -webkit-font-smoothing: antialiased;
@@ -98,7 +98,7 @@ html,
 body {
   height: 100%;
   width: 100%;
-  background-color: #F5F5F5;
+  background-color: #eff2f5;
 }
 
 
@@ -168,26 +168,13 @@ body {
 .animation_opactiy {
   animation: backOpacity 2s ease-in-out infinite;
 }
-// 实时位置监控地图信息字体颜色
-.XSDFXPage label{
-  color:black;
-}
-.BMap_pop div{
-  color:black;
-}
-.BMap_pop div b{
-  color:black;
-}
-.BMap_pop div table{
-  border:0.01rem solid #999;
-}
-.BMap_pop div table tr{
 
+
+//按钮字体颜色、大小
+button{
+  span{
+    font-size: 0.3rem;
+    color: #fff;
+  }
 }
-.BMap_pop div tbody tr td{
-  display:inline-block;
-  width:1.2rem;
-  line-height:0.3rem;
-  height:0.25rem;
-  border:0.01rem solid #999;
-}
+

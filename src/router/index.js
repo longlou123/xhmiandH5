@@ -8,6 +8,11 @@ import management from '@/pages/management'
 import authorization from '@/pages/authorization'
 import project from '@/pages/project'
 import entranceGuard from '@/pages/entranceGuard'
+import activateCard from '@/pages/activateCard'
+
+
+
+
 
 
 Vue.use(Router)
@@ -48,6 +53,10 @@ export default new Router({
       path: '/entranceGuard',
       name: 'entranceGuard',
       component: entranceGuard
-    }
+    },{
+      path: '/activateCard',
+      name: 'activateCard',
+      component: activateCard
+    },
   ]
 })
