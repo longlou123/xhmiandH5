@@ -1,20 +1,20 @@
 <template>
   <div class="header">
-    <div  class="div">    
-      <button  type="">{{hand}}</button>
-    </div>
-    <div class="one">
-       <p @click="go">15555555</p>
-    </div>
-      <div class="two">
-        <!--<Slider v-model="value" range></Slider>-->
-      </div>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="doorCard">doorCard</router-link></Button>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="management">management</router-link></Button>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="project">project</router-link></Button>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="management">management</router-link></Button>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="activateCard">activateCard</router-link></Button>
+      
+
+      
+      
+      
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   export default {
-    name:'test',
     data(){
       return {
           hand:"我是测试的哟",
@@ -36,7 +36,7 @@
     /*position: fixed;*/
     z-index: 99;
     width: 100%;
-    background: #f55947;
+    // background: #f55947;
     height: 3rem;
     font-size: 0.16rem;
   }

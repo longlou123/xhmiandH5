@@ -12,15 +12,13 @@
     	<button >确定</button>
     </div>
 	</div>
-	 
 </template>
 <script >
   export default {
     name:'test',
     data(){
       return {
-      	   vertical: 'apple'
-                
+      	   vertical: 'apple'                
       }
     },
     methods:{
@@ -37,7 +35,7 @@
 		width:7.5rem;
     	height: 13.34rem;
     	background-color:#EFf2f5;
-    	padding-top:1.28rem;
+    	// padding-top:1.28rem;
     	.ivu-radio-group{
     		width:100%;
     	}
@@ -70,6 +68,5 @@
 				border-radius:0.08rem;
 			}
 		}
-
 	}
 </style>

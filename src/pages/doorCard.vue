@@ -15,8 +15,6 @@
       }
     },
     methods:{
-    
-
     }
   }
 
@@ -33,7 +31,7 @@ html,body{
 		width:7.5rem;
 	    height:13.34rem;
 		background-color:#EFf2f5;
-	    padding-top:3.5rem;
+	    padding-top:2.3rem;
 
 		.door_text{
 			width:2.96rem;

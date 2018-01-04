@@ -12,12 +12,7 @@ import projectEmpower from '@/pages/projectEmpower'
 import callerInvite from '@/pages/callerInvite'
 import doorEmpower from '@/pages/doorEmpower'
 import callerNodepad from '@/pages/callerNodepad'
-
-
-
-
-
-
+import details from '@/pages/details'
 Vue.use(Router)
 
 export default new Router({
@@ -55,6 +50,10 @@ export default new Router({
       path: '/activateCard',
       name: 'activateCard',
       component: activateCard
+    },{
+      path: '/details',
+      name: 'details',
+      component: details
     },
     //二维码访客邀请
     {

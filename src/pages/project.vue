@@ -8,9 +8,12 @@
             <span>千灯湖</span>
         </Radio>
     </RadioGroup>
-    <div class="btn"  @click="sure">
+    <div class="next_btn">
+        <Button type="primary" shape="circle" :long="true" class="btn" @click="nextClick()">确定</Button>
+      </div>
+    <!-- <div class="btn"  @click="sure">
     	<button >确定</button>
-    </div>
+    </div> -->
 	</div>
 	 
 </template>
@@ -24,7 +27,7 @@
       }
     },
     methods:{
-    sure(){
+    nextClick(){
     	this.$router.push({path:"/entranceGuard"})
     }
 
@@ -37,7 +40,7 @@
 		width:7.5rem;
     	height: 13.34rem;
     	background-color:#EFf2f5;
-    	padding-top:1.28rem;
+    	padding-top:0.2rem;
     	.ivu-radio-group{
     		width:100%;
     	}
@@ -58,18 +61,16 @@
     		float: left;
     		text-align: left;
 			}
-		.btn{
-			position:absolute;
-			left:0;
-			right:0;
-			bottom:1.3rem;
-			button{
-				width: 6rem;
-				height: 0.8rem;
-				background-color:#5698FF;
-				border-radius:0.08rem;
-			}
-		}
-
-	}
+		.next_btn{
+            position: fixed;
+            bottom: 0.8rem;
+            width: 6.2rem;
+            left: 50%;
+            transform: translateX(-50%);
+                span{
+                     font-size: 0.3rem;
+                        color: #fff;
+                }
+             }
+	       }
 </style>

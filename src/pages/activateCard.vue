@@ -31,7 +31,7 @@
         </Steps>
       </div>
       <div class="next_btn">
-        <Button type="primary" shape="circle" :long="true" class="btn" @click="nextClick()">{{btnText}}</Button>
+        <Button type="primary" :long="true" class="btn" @click="nextClick()">{{btnText}}</Button>
       </div>
     </div>
 </template>
@@ -152,7 +152,7 @@
 <style lang="scss" scoped>
   .main{
     .head{
-      height: 6.5rem;
+      height: 6.2rem;
     }
     .circle_time{
       background-color: #fff;
@@ -174,7 +174,7 @@
     overflow: hidden;
     .tips{
       height: 0.9rem;
-      margin-top: 0.9rem;
+      margin-top: 0.5rem;
       position: relative;
       .error{
         position: absolute;
@@ -233,6 +233,7 @@
       height: 2.75rem;
       width: 6.6rem;
       margin: 0 auto;
+      margin-bottom: 0.3rem;
       background-color: #fff;
       box-shadow: 0 0.12rem 0.21rem 0 #ced4e5;
       border-radius: 0.1rem;
@@ -240,7 +241,7 @@
     }
     .next_btn{
       position: fixed;
-      bottom: 0.65rem;
+      bottom: 0.8rem;
       width: 6.2rem;
       left: 50%;
       transform: translateX(-50%);
