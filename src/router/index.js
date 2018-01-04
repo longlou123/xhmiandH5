@@ -11,12 +11,6 @@ import entranceGuard from '@/pages/entranceGuard'
 import activateCard from '@/pages/activateCard'
 import details from '@/pages/details'
 
-
-
-
-
-
-
 Vue.use(Router)
 
 export default new Router({
@@ -42,7 +36,7 @@ export default new Router({
       component: management
     },
     {
-      path: '/management',
+      path: '/authorization',
       name: 'authorization',
       component: authorization
     },
@@ -52,7 +46,7 @@ export default new Router({
       component: project
     },
     {
-      path: '/project',
+      path: '/entranceGuard',
       name: 'entranceGuard',
       component: entranceGuard
     },{
