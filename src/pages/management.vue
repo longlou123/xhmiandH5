@@ -10,6 +10,15 @@
 					<button class="btn">注销</button>
 				</div>
 			</div>
+				<div class="delete">
+					<div>注销将会无法使用门卡</div>
+					<div class="delete_text">请确定是否进行删除</div>
+					<div class="btn_box">
+						<button class="btn1">取消</button>
+					    <button class="btn2">确定</button>	
+					</div>
+						
+				</div>
 		</div>
 </template>
 <script >
@@ -27,7 +36,6 @@
 
 </script>
 <style lang="scss" scoped>
- // @import './style/common.scss'
     .center{
     	width: 7.5rem;
     	height:13.34rem;
@@ -35,7 +43,7 @@
     	padding-top:1.5rem;
     	.visitors{
     		width:7.5rem;
-    		height:3.1rem;
+    		height:3.3rem;
     		background-color:#ffffff;
     		overflow:hidden;
     		box-shadow: 0px 5px 5px #E8EBF4;
@@ -64,8 +72,8 @@
     			
     			.btn{
     				float:right;
-    				width:1.2rem;
-    				height:0.5rem;
+    				width:1.4rem;
+    				height:0.6rem;
     				color:#ffffff;
     				outline:none;
     				border:none;
@@ -76,6 +84,36 @@
     			}
     		}
     	}
+
+    	.delete{
+    		padding:0.2rem 0.5rem;
+    		width: 4.48rem;
+    		height:1.94rem;
+    		background-color:#ffffff;
+    		margin:auto auto;
+    		box-shadow: 0px 5px 5px #E8EBF4;
+    		div{
+    			font-size:0.32rem;
+    		    color:#8DB9FE;
+    		}
+    		.delete_text{
+    			padding-bottom:0.2rem;
+    			border-bottom:0.01rem solid #EFF1F4;
+    		}
+    		.btn_box{
+    			margin-top:0.05rem;
+    			display:flex;
+    			justify-content: space-around;
+    			button{
+    			background-color:transparent;
+    			font-size:0.32rem;
+    			color:#C0C0C1;			
+    		}
+    		}
+    		
+    	}
+    	
+    	
     }
 	
 </style>
