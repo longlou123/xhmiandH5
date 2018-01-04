@@ -40,7 +40,7 @@ export default new Router({
       component: management
     },
     {
-      path: '/authorization',
+      path: '/management',
       name: 'authorization',
       component: authorization
     },
@@ -50,7 +50,7 @@ export default new Router({
       component: project
     },
     {
-      path: '/entranceGuard',
+      path: '/project',
       name: 'entranceGuard',
       component: entranceGuard
     },{
