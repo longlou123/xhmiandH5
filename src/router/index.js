@@ -2,13 +2,16 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import test1 from '@/pages/test1'
-import test2 from '@/pages/test2'
 import doorCard from '@/pages/doorCard'
 import management from '@/pages/management'
 import authorization from '@/pages/authorization'
 import project from '@/pages/project'
 import entranceGuard from '@/pages/entranceGuard'
 import activateCard from '@/pages/activateCard'
+import projectEmpower from '@/pages/projectEmpower'
+import callerInvite from '@/pages/callerInvite'
+import doorEmpower from '@/pages/doorEmpower'
+import callerNodepad from '@/pages/callerNodepad'
 
 
 
@@ -23,11 +26,6 @@ export default new Router({
       path: '/',
       name: 'test1',
       component: test1
-    },
-    {
-      path: '/test2',
-      name: 'test2',
-      component: test2
     },
     {
       path: '/doorCard',
@@ -57,6 +55,27 @@ export default new Router({
       path: '/activateCard',
       name: 'activateCard',
       component: activateCard
+    },
+    //二维码访客邀请
+    {
+      path: '/projectEmpower',
+      name: 'projectEmpower',
+      component: projectEmpower
+    },
+    {
+      path: '/callerInvite',
+      name: 'callerInvite',
+      component: callerInvite
+    },
+    {
+      path: '/doorEmpower',
+      name: 'doorEmpower',
+      component: doorEmpower
+    },
+    {
+      path: '/callerNodepad',
+      name: 'callerNodepad',
+      component: callerNodepad
     },
   ]
 })

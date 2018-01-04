@@ -14625,3 +14625,23 @@ span.ivu-date-picker-cells-cell-disabled.ivu-date-picker-cells-cell-selected em 
     vertical-align: top
     
 }
+
+
+/*---------自定义样式啦--------------------1.04*/
+.center .ivu-radio-group-vertical .ivu-radio-wrapper {
+	height: 0.86rem;
+	line-height: 0.86rem;
+	width:100%;
+	padding: 0 0.5rem;
+	border-bottom:0.01rem solid #E5E7E9;
+}
+.center .ivu-radio-group-vertical .ivu-radio-wrapper:hover{
+    	background-color:#DEE7F0;
+}
+.center .ivu-radio-group {
+	display: inline-block;
+	font-size: 12px;
+	vertical-align: middle;
+	float: left;
+	text-align: left;
+}
