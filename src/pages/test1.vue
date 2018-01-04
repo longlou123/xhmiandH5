@@ -4,7 +4,7 @@
       <button  type="">{{hand}}</button>
     </div>
     <div class="one">
-       <p @click="go">11111</p>
+       <p @click="go">11111222222</p>
     </div>
       <div class="two">
         <!--<Slider v-model="value" range></Slider>-->
