@@ -19,11 +19,8 @@ ui/
 *.ntvs*
 *.njsproj
 *.sln
-xhplatform.rar
 .project
 
-theme/*.css
-!theme/index.css
 flatpickr/flatpickr.min.css
 flatpickr/flatpickr.min.css
 flatpickr/flatpickr.min.js
