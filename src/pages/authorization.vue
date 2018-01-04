@@ -171,9 +171,8 @@
     	.door_stop{
     		padding:0.3rem 0 0 0.5rem;
     		text-align:left;
-    		overflow-y: auto;
     		.text{
-    			font-size:0.32rem;
+    			font-size:0.3rem;
     			margin-bottom:0.3rem;
     		}
     		.flex{
@@ -204,10 +203,10 @@
     						.Icons{
     								position:absolute;
    				   					top: 0;
-   				    				left:0rem;
+   				    				left:0;
    				    				right:0;
    				    				bottom:0;
-   				    				font-size:0.5rem;
+   				    				font-size:0.3rem;
     							}
     						}
     					}			

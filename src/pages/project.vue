@@ -63,7 +63,7 @@
 			}
 		.next_btn{
             position: fixed;
-            bottom: 0.65rem;
+            bottom: 0.8rem;
             width: 6.2rem;
             left: 50%;
             transform: translateX(-50%);
