@@ -6,8 +6,8 @@ import test2 from '@/pages/test2'
 import doorCard from '@/pages/doorCard'
 import management from '@/pages/management'
 import authorization from '@/pages/authorization'
-
-
+import project from '@/pages/project'
+import entranceGuard from '@/pages/entranceGuard'
 
 
 Vue.use(Router)
@@ -38,6 +38,16 @@ export default new Router({
       path: '/authorization',
       name: 'authorization',
       component: authorization
+    },
+    {
+      path: '/project',
+      name: 'project',
+      component: project
+    },
+    {
+      path: '/entranceGuard',
+      name: 'entranceGuard',
+      component: entranceGuard
     }
   ]
 })

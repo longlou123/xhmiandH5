@@ -7,7 +7,7 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-  import {DatetimePicker, Button, Toast} from 'mint-ui';//引入miti ui功能
+  
   export default {
     name:'test',
     data(){

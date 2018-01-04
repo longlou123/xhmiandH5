@@ -1,33 +1,28 @@
 <template>
   <div class="header">
     <div  class="div">    
-      <button @click='test' type="">{{hand}}</button>
+      <button  type="">{{hand}}</button>
     </div>
     <div class="one">
        <p @click="go">11111</p>
     </div>
       <div class="two">
-         <h1>2222244444</h1>
+        <!--<Slider v-model="value" range></Slider>-->
       </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import {DatetimePicker, Button, Toast} from 'mint-ui';//引入miti ui功能
   export default {
     name:'test',
     data(){
       return {
-          hand:"我是测试的哟"
+          hand:"我是测试的哟",
       }
     },
     methods:{
       test(){
-        Toast({
-          message: '提示',
-          position: 'top',
-          duration: 3000
-        });
+      	
       },
       go(){
         this.$router.push({ path: '/test2'});
