@@ -13,6 +13,7 @@ import callerInvite from '@/pages/callerInvite'
 import doorEmpower from '@/pages/doorEmpower'
 import callerNodepad from '@/pages/callerNodepad'
 import details from '@/pages/details'
+import twoDimension from '@/pages/twoDimension'
 Vue.use(Router)
 
 export default new Router({
@@ -75,6 +76,11 @@ export default new Router({
       path: '/callerNodepad',
       name: 'callerNodepad',
       component: callerNodepad
+    },
+    {
+      path: '/twoDimension',
+      name: 'twoDimension',
+      component: twoDimension
     },
   ]
 })
