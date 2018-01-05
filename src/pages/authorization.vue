@@ -18,6 +18,17 @@
         	<FormItem label="生效日期 :" prop="name2">
             	<Input v-model="formValidate.name2" placeholder=""></Input>
         	</FormItem>
+
+
+
+          <mt-datetime-picker
+            ref="picker"
+            type="date"
+            v-model="pickerValue">
+          </mt-datetime-picker>
+
+
+
         	<FormItem label="失效日期 :" prop="name3">
            		 <Input v-model="formValidate.name3" placeholder=""></Input>
         	</FormItem>
@@ -74,8 +85,7 @@
    		 	 	 </div>
    		 	</div>  		 	
    		 </div>
-		</div>
-		 
+		</div>	 
    		 <div class="btn" @click="handleSubmit('formValidate')">
     		<button type="primary" >下一步</button>
     	</div>
@@ -111,8 +121,12 @@
                     city: [
                         { required: true, message: 'Please select the type', trigger: 'change' }
                     ],
-                }
+                },
+          pickerValue: ''
       }
+    },
+    mounted(){
+      this.$refs.picker.open();
     },
     methods:{
     	sure(){
@@ -190,16 +204,21 @@
     			margin-right:0.3rem;
     			margin-bottom:0.4rem;
     			box-shadow: 5px 5px 5px #E8EBF4;	
+          border-radius:0.1rem;
+          span{
+            font-size:0.24rem;
+          }
     			.Icon{
     				display:inline-block;
     				position:absolute;
-   				    top: -30px;
-   				    font-size:0.5rem;
+   				  top: -30px;
+            left:1.7rem;
+   				  font-size:0.5rem;
    				    .ivu-icon{
-   				    			font-size:0.5rem;
+   				    			      font-size:0.5rem;
    				               	color:#5698FF;
    				           	}
-    					}
+    					       }
     						.Icons{
     								position:absolute;
    				   					top: 0;
