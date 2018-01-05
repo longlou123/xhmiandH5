@@ -1,7 +1,7 @@
 <template>	
 	<div class="center">
 		<div class="scoll">
-			<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+			<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
         	<FormItem label="使用人 :" prop="name">
             	<Input v-model="formValidate.name" placeholder=""></Input>
         	</FormItem>
@@ -15,23 +15,21 @@
         	<FormItem label="手机 :" prop="name1">
             	<Input v-model="formValidate.name1" placeholder=""></Input>
        		 </FormItem>
-        	<FormItem label="生效日期 :" prop="name2">
-            	<Input v-model="formValidate.name2" placeholder=""></Input>
-        	</FormItem>
-
-
-
+        	 <div  @click="show">
+             <FormItem label="生效日期 :" prop="name2">
+              <Input v-model="formValidate.name2" placeholder="" ></Input>
+          </FormItem>
+           </div>
           <mt-datetime-picker
             ref="picker"
             type="date"
             v-model="pickerValue">
           </mt-datetime-picker>
-
-
-
-        	<FormItem label="失效日期 :" prop="name3">
-           		 <Input v-model="formValidate.name3" placeholder=""></Input>
-        	</FormItem>
+          <div  @click="show_box">
+            <FormItem label="失效日期 :" prop="name3">
+               <Input v-model="this.pickerValue" placeholder="" style="ime-mode:disabled"></Input>
+          </FormItem>
+          </div>  
    		 </Form>
    		<div class="door_stop">
    		 	<div class="text">授权门禁</div>
@@ -112,12 +110,6 @@
                      name1: [
                         { required: true, message: '请填写手机号', trigger: 'blur' }
                     ],
-                     name2: [
-                        { required: true, message: '请填写生效日期', trigger: 'blur' }
-                    ],
-                     name3: [
-                        { required: true, message: '请填写失效日期', trigger: 'blur' }
-                    ],
                     city: [
                         { required: true, message: 'Please select the type', trigger: 'change' }
                     ],
@@ -126,13 +118,20 @@
       }
     },
     mounted(){
-      this.$refs.picker.open();
     },
     methods:{
+       show(){
+        this.$refs.picker.open();
+        console.log(this.pickerValue);
+      },
+      show_box(){
+        this.$refs.picker.open();
+        console.log(this.pickerValue);
+      },
     	sure(){
     		this.$router.push({path:"/project"})
     	},    	
-		handleSubmit (name) {
+		  handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         this.$Message.success('Success!');
@@ -141,7 +140,7 @@
                     }
                 })
             },
-        handleReset (name) {
+      handleReset (name) {
                 this.$refs[name].resetFields();
             }
         
@@ -152,35 +151,18 @@
 <style lang="scss" scoped>
  // @import './style/common.scss'
     .center{
-    	width:7.5rem;
-    	height: 13.34rem;
     	background-color:#EFf2f5;
+      padding-top:0.2rem;
     	.scoll{
     		width: 100%;
-    		height: 9.9rem;
+    		height: 13rem;
     		overflow-y: scroll;
     		Form{
     		    width: 7.5rem;
     		    height: 6rem;
     		    background-color:#ffffff;
-    		    padding-top:0.5rem;
-    		    padding-right:0.78rem;
-    		    padding:0.5rem 0.78rem 0.45rem 0.3rem;
+    		    padding:0.5rem ;
     		    box-shadow: 0px 5px 5px #E8EBF4;
-    		.sub_btn{
-    			 width: 100%;
-    			 position: absolute;
-    			 left: -0.75rem;
-   				 bottom: 0.5rem;
-   				 .ivu-form-item-content{
-   				 	margin-left:0;
-   				 	.ivu-btn-primary{
-    				width: 5.85rem;
-    				height: 0.75rem;
-    				background-color:#5698FF;
-    				}
-   				} 			
-    		} 		
     	}
     	.door_stop{
     		padding:0.3rem 0 0 0.5rem;
