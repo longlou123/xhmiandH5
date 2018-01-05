@@ -74,8 +74,7 @@
    		 	 	 </div>
    		 	</div>  		 	
    		 </div>
-		</div>
-		 
+		</div>	 
    		 <div class="btn" @click="handleSubmit('formValidate')">
     		<button type="primary" >下一步</button>
     	</div>
@@ -190,16 +189,21 @@
     			margin-right:0.3rem;
     			margin-bottom:0.4rem;
     			box-shadow: 5px 5px 5px #E8EBF4;	
+          border-radius:0.1rem;
+          span{
+            font-size:0.24rem;
+          }
     			.Icon{
     				display:inline-block;
     				position:absolute;
-   				    top: -30px;
-   				    font-size:0.5rem;
+   				  top: -30px;
+            left:1.7rem;
+   				  font-size:0.5rem;
    				    .ivu-icon{
-   				    			font-size:0.5rem;
+   				    			      font-size:0.5rem;
    				               	color:#5698FF;
    				           	}
-    					}
+    					       }
     						.Icons{
     								position:absolute;
    				   					top: 0;
