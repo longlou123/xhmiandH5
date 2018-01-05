@@ -18,6 +18,17 @@
         	<FormItem label="生效日期 :" prop="name2">
             	<Input v-model="formValidate.name2" placeholder=""></Input>
         	</FormItem>
+
+
+
+          <mt-datetime-picker
+            ref="picker"
+            type="date"
+            v-model="pickerValue">
+          </mt-datetime-picker>
+
+
+
         	<FormItem label="失效日期 :" prop="name3">
            		 <Input v-model="formValidate.name3" placeholder=""></Input>
         	</FormItem>
@@ -110,8 +121,12 @@
                     city: [
                         { required: true, message: 'Please select the type', trigger: 'change' }
                     ],
-                }
+                },
+          pickerValue: ''
       }
+    },
+    mounted(){
+      this.$refs.picker.open();
     },
     methods:{
     	sure(){
