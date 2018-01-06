@@ -11,9 +11,6 @@
     <div class="next_btn">
         <Button type="primary" shape="circle" :long="true" class="btn" @click="nextClick()">确定</Button>
       </div>
-    <!-- <div class="btn"  @click="sure">
-    	<button >确定</button>
-    </div> -->
 	</div>
 	 
 </template>
@@ -37,10 +34,7 @@
 </script>
 <style lang="scss" scoped>
 	.center{
-		width:7.5rem;
-    	height: 13.34rem;
-    	background-color:#EFf2f5;
-    	padding-top:0.2rem;
+    	background-color:#ffffff;
     	.ivu-radio-group{
     		width:100%;
     	}

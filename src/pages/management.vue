@@ -1,5 +1,5 @@
 <template>	
-		<div class="center">
+		<div class="management">
 			<div class="visitors">
 				<div class="center_one">
 					<div class="center_two" @click="jump">
@@ -7,41 +7,40 @@
 					    <div class="card">卡号：13738381438</div>
 					    <div class="time">有效期：2017-10-10至2017-10-11</div>
 					</div>
-					<button class="btn" @click="show_yes">注销</button>
+					<button class="btn" @click="modal3 = true">注销</button>
 				</div>
-			</div>
-				<div class="delete" v-show="show">
-					<div>注销将会无法使用门卡</div>
-					<div class="delete_text">请确定是否进行删除</div>
-					<div class="btn_box">
-						<button class="btn1">取消</button>
-						<div class="bar"></div>
-					    <button class="btn2" >确定</button>	
-					</div>	
-				</div>
-		</div>
+			</div>			
+            <div class="deletes" >
+                <Modal  v-model="modal3">
+                        <p>注销将会无法使用门卡</p>
+                        <p>请确定是否进行删除</p>
+                </Modal>
+            </div>										
+		    </div>
 </template>
 <script >
   export default {
     name:'test',
     data(){
       return {
-      	show:false,
+      	modal3: false,
       }
     },
+
     methods:{
-    	show_yes(){
-    		this.show=true;
-    	},
     	jump(){
     		this.$router.push({path:"/details"});
-
-    	}
+    	},
+        success(){
+            this.MessageBox.confirm(message, title);
+        }
+        
+       
     }
   }
 </script>
 <style lang="scss" scoped>
-    .center{
+    .management{
     	width: 7.5rem;
     	height:13.34rem;
     	background-color:#EFf2f5;
@@ -91,38 +90,12 @@
     			}
     		}
     	}
-    	.delete{
-    		padding:0.2rem 0.5rem;
-    		width: 4.48rem;
-    		height:1.94rem;
-    		background-color:#ffffff;
-    		margin:auto auto;
-    		box-shadow: 0px 5px 5px #E8EBF4;
-    		div{
-    			font-size:0.32rem;
-    		    color:#8DB9FE;
-    		}
-    		.delete_text{
-    			padding-bottom:0.2rem;
-    			border-bottom:0.02rem solid #EFF1F4;
-    		}
-    		.btn_box{
-    			margin-top:0.05rem;
-    			display:flex;
-    			justify-content: space-around;
-    			button{
-    			background-color:transparent;
-    			font-size:0.32rem;
-    			color:#C0C0C1;			
-    		}
-    		}
-    		.bar{
-    			display:inline-block;
-    			width:0.02rem;
-    			height:0.5rem;
-    			background-color:#EFF1F4;
-    		}
-    	}   	
+    		
     }
+    .ivu-modal-footer .ivu-btn-primary{
+                color:#5698FF;
+                background-color:transparent;
+                border-color:transparent;
+            }   
 	
 </style>

@@ -10960,7 +10960,7 @@ textarea.ivu-page-options-elevator input {
     margin: 0 auto;
     position: relative;
     outline: 0;
-    top: 100px
+    top: 100px;
 }
 
 .ivu-modal-hidden {
@@ -11056,8 +11056,8 @@ textarea.ivu-page-options-elevator input {
 
 .ivu-modal-footer {
     border-top: 1px solid #e3e8ee;
-    padding: 12px 18px 12px 18px;
-    text-align: right
+    padding: 0.05rem  0;
+    /*text-align: right*/
 }
 
 .ivu-modal-footer button+button {
@@ -14672,4 +14672,54 @@ a {
 }
 .ivu-btn {
     border-radius: 0.2rem;
+}
+/*自定义弹出删除页面样式*/
+.ivu-modal-body P{
+    color:#8DB9FE;
+}
+/*.ivu-btn-text span{
+    color:#C0C0C1;
+}*/
+.ivu-btn-primary {
+    color:#C0C0C1;
+    background-color:#39f;
+    border-color:#39f;
+}
+/*.ivu-btn-primary span{
+    color:#C0C0C1;
+}*/
+.ivu-modal-content{
+    position: relative;
+    left:1.3rem;
+    top:2rem;
+    background-color: #fff;
+    border: 0;
+    border-radius: 6px;
+    background-clip: padding-box;
+    width: 4.5rem;
+    height: 2.3rem;
+    text-align: center;
+}
+.ivu-modal-footer{
+    text-align:none;
+    padding:none;
+}
+/*自定义详情页样式*/
+.ivu-form .ivu-form-item-label{
+    font-size:0.3rem;
+    color:#5A575F;
+}
+/*.ivu-input{
+    text-align:right;
+    border:none;
+}*/
+.ivu-modal-body{
+    color:#5698FF;
+    /*background-color:none;*/
+    /*border-color:none;*/
+}
+.deletes .ivu-modal .ivu-btn-primary {
+    color:#5698FF;
+    background-color:transparent;
+    border-color:transparent;
 }
