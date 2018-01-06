@@ -5,7 +5,9 @@
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="project">project</router-link></Button>
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="management">management</router-link></Button>
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="activateCard">activateCard</router-link></Button>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="callerInvite">访客邀请</router-link></Button>
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="callerNodepad">访客邀请记录</router-link></Button>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="callerDetail">访客邀请记录-详情</router-link></Button>
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="projectEmpower">访客邀请授权项目</router-link></Button>
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="doorEmpower">访客邀请授权门禁</router-link></Button>
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="twoDimension">访客邀请二维码</router-link></Button>
