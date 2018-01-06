@@ -74,9 +74,9 @@ export default {
     	font-size: 0.38rem;
     }
     .message{   		
-    		height: 3.4rem;
-    		width: 100%;
-    		margin: 0.1rem 0;
+    		    height: 3.4rem;
+    		    width: 100%;
+    		    margin: 0.1rem 0;
     		p{
     			height: 0.55rem;
     			width: 100%;
@@ -93,13 +93,13 @@ export default {
     			display: inline-block;
     		}
     }
-.next_btn{
-      position: fixed;
-      bottom: 0.8rem;
-      width: 6.2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      }
-}
+    .next_btn{
+            position: fixed;
+            bottom: 0.8rem;
+            width: 6.2rem;
+            left: 50%;
+            transform: translateX(-50%);
+       }
+   }
 
 </style>

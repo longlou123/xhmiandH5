@@ -33,9 +33,7 @@
     	},
         success(){
             this.MessageBox.confirm(message, title);
-        }
-        
-       
+        }    
     }
   }
 </script>
@@ -75,7 +73,9 @@
     						font-size:0.24rem;
     			  			}
     					}
-    			
+                    .ivu-btn-primary{
+                        background-color:red!important;
+                    }         			
     			.btn{
     				float:right;
     				width:1.4rem;
@@ -89,13 +89,9 @@
     				margin-right:0.2rem;
     			}
     		}
-    	}
-    		
+    	}		
     }
-    .ivu-modal-footer .ivu-btn-primary{
-                color:#5698FF;
-                background-color:transparent;
-                border-color:transparent;
-            }   
+
+      
 	
 </style>

@@ -172,7 +172,7 @@
 				.text {
 					font-size: 0.32rem;
 					margin-bottom: 0.3rem;
-				}
+						}
 				.flex {
 					display: flex;
 					justify-content: flex-start;
