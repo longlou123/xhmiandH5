@@ -18,7 +18,7 @@ export default {
 	methods: {
 		sure() {	
 			//alert(222)
-			this.$router.push({path: ""})
+			this.$router.push({path: "callerDetail"})
 		}
 	}
 }
