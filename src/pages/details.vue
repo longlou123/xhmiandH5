@@ -36,7 +36,7 @@
         		<Button type="primary" @click="again">重新发卡</Button>
         		<Button type="primary"  @click="modal3 = true">删除信息</Button>
     		</div>
-    			<Modal  v-model="modal3">
+    			<Modal  v-model="modal3" class="modal">
         				  <p>注销将会删除账号信息</p>
         				  <p>请确定是否进行删除</p>
     			</Modal>
@@ -57,7 +57,6 @@
 				input6:'',
 				input7:'',
 				modal3:false,
-
 			}
 		},
 		methods:{
@@ -104,6 +103,9 @@
                 button{
                 	margin-right:1rem;
                 }
+            }
+            .modal{
+
             }
 		}
 </style>

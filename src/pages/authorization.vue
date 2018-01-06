@@ -17,17 +17,22 @@
        		 </FormItem>
         	 <div  @click="show">
              <FormItem label="生效日期 :" prop="name2">
-              <Input v-model="formValidate.name2" placeholder="" ></Input>
+              <Input v-model="this.pickerValue" placeholder=""  ></Input>
           </FormItem>
            </div>
           <mt-datetime-picker
-            ref="picker"
+            v-model="pickerValue"
             type="date"
-            v-model="pickerValue">
+            ref="picker" 
+            year-format=" {value} 年"
+            month-format=" {value} 月"
+            date-format=" {value} 日"
+
+            >
           </mt-datetime-picker>
           <div  @click="show_box">
             <FormItem label="失效日期 :" prop="name3">
-               <Input v-model="this.pickerValue" placeholder="" style="ime-mode:disabled"></Input>
+               <Input v-model="this.pickerValue" placeholder="" ></Input>
           </FormItem>
           </div>  
    		 </Form>
@@ -122,11 +127,11 @@
     methods:{
        show(){
         this.$refs.picker.open();
-        console.log(this.pickerValue);
+        // console.log(this.pickerValue);
       },
       show_box(){
         this.$refs.picker.open();
-        console.log(this.pickerValue);
+        // console.log(this.pickerValue);
       },
     	sure(){
     		this.$router.push({path:"/project"})

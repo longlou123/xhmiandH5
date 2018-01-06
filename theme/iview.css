@@ -14718,3 +14718,8 @@ a {
     /*background-color:none;*/
     /*border-color:none;*/
 }
+.deletes .ivu-modal .ivu-btn-primary {
+    color:#5698FF;
+    background-color:transparent;
+    border-color:transparent;
+}

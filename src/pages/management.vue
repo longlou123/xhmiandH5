@@ -9,12 +9,14 @@
 					</div>
 					<button class="btn" @click="modal3 = true">注销</button>
 				</div>
-			</div>				
-					<Modal  v-model="modal3">
-        				    <p>注销将会无法使用门卡</p>
-        				    <p>请确定是否进行删除</p>
-    				</Modal>				
-		</div>
+			</div>			
+            <div class="deletes" >
+                <Modal  v-model="modal3">
+                        <p>注销将会无法使用门卡</p>
+                        <p>请确定是否进行删除</p>
+                </Modal>
+            </div>										
+		    </div>
 </template>
 <script >
   export default {
@@ -24,11 +26,16 @@
       	modal3: false,
       }
     },
+
     methods:{
     	jump(){
     		this.$router.push({path:"/details"});
-
-    	}
+    	},
+        success(){
+            this.MessageBox.confirm(message, title);
+        }
+        
+       
     }
   }
 </script>
@@ -83,9 +90,12 @@
     			}
     		}
     	}
-    	.deletes{
     		
-    	}   	
     }
+    .ivu-modal-footer .ivu-btn-primary{
+                color:#5698FF;
+                background-color:transparent;
+                border-color:transparent;
+            }   
 	
 </style>
