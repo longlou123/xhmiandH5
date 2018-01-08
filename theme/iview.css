@@ -14138,7 +14138,7 @@ span.ivu-date-picker-cells-cell-disabled.ivu-date-picker-cells-cell-selected em 
 }
 
 .ivu-form-item {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     vertical-align: top;
     zoom: 1
 }
@@ -14715,11 +14715,19 @@ a {
 }*/
 .ivu-modal-body{
     color:#5698FF;
-    /*background-color:none;*/
-    /*border-color:none;*/
+    
 }
-.deletes .ivu-modal .ivu-btn-primary {
-    color:#5698FF;
+  button.ivu-btn.ivu-btn-text.ivu-btn-large span{
+    color:#C0C0C1;
+
+  }
+  button.ivu-btn.ivu-btn-primary.ivu-btn-large span{
+    color:#C0C0C1;
+    border-left:0.01rem solid #C0C0C1;
+    padding-left:0.75rem;
+    }
+  button.ivu-btn.ivu-btn-primary.ivu-btn-large{
     background-color:transparent;
     border-color:transparent;
-}
+  }
+    

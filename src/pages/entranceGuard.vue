@@ -23,7 +23,7 @@
     },
     methods:{
     nextClick(){
-    	this.$router.push({path:""})
+    	this.$router.push({path:"/authorization"})
     }
 
     }
@@ -63,6 +63,6 @@
                      font-size: 0.3rem;
                         color: #fff;
                 }
-             }
-	}
+            }
+	    }
 </style>

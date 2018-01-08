@@ -83,12 +83,11 @@
 					width: 1.5rem;
 				}
 				input{
-				// width: 2.76rem;
 				text-align:right;
 				margin-left: 1.5rem;
+				color:#BBBEC2;
 			}
 			}
-
 		}
 		.next_btn{
             position: fixed;
@@ -96,6 +95,7 @@
             width: 6.2rem;
             left: 60%;
             transform: translateX(-50%);
+            	
                 span{
                      font-size: 0.3rem;
                         color: #fff;
@@ -103,9 +103,6 @@
                 button{
                 	margin-right:1rem;
                 }
-            }
-            .modal{
-
             }
 		}
 </style>

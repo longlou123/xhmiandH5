@@ -18,8 +18,7 @@
   export default {
     data(){
       return {
-      	   vertical: 'apple'
-                
+      	   vertical: 'apple'                
         }
     },
     methods:{

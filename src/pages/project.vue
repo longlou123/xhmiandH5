@@ -10,7 +10,7 @@
     </RadioGroup>
     <div class="next_btn">
         <Button type="primary" shape="circle" :long="true" class="btn" @click="nextClick()">确定</Button>
-      </div>
+    </div>
 	</div>
 	 
 </template>
@@ -19,15 +19,13 @@
     name:'test',
     data(){
       return {
-      	   vertical: 'apple'
-                
+      	   vertical: 'apple'               
       }
     },
     methods:{
     nextClick(){
     	this.$router.push({path:"/entranceGuard"})
     }
-
     }
   }
 
@@ -65,6 +63,6 @@
                      font-size: 0.3rem;
                         color: #fff;
                 }
-             }
-	       }
+            }
+	    }
 </style>

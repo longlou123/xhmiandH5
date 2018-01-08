@@ -2,8 +2,8 @@
 	<div class="big_div">
 		<div class="center">
 			<div class="door_text"></div>
-			<div class="door_img"></div>
-		</div>
+			<img class="door_img" src="../images/dragon.png">
+		   </div>
 	</div>
 </template>
 <script type="text/ecmascript-6">
@@ -44,7 +44,6 @@ html,body{
 		.door_img{
 			width:1.76rem;
 			height:1.19rem;
-			background-image:url(../images/dragon.png);
 			background-size:100% 100%;
 			margin:0 auto;
 		}
