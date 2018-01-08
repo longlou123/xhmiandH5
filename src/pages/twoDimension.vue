@@ -35,7 +35,7 @@ export default {
 	data() {
 		return {
 			vertical: 'apple',
-			btnText: '下一步',
+			btnText: '分享',
 
 		}
 	},
