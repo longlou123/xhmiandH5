@@ -8,7 +8,6 @@ import authorization from '@/pages/authorization'
 // import project from '@/pages/project'
 import entranceGuard from '@/pages/entranceGuard'
 import activateCard from '@/pages/activateCard'
-import projectEmpower from '@/pages/projectEmpower'
 import callerInvite from '@/pages/callerInvite'
 import doorEmpower from '@/pages/doorEmpower'
 import callerNodepad from '@/pages/callerNodepad'
@@ -58,11 +57,7 @@ export default new Router({
       component: details
     },
     //二维码访客邀请
-    {
-      path: '/projectEmpower',
-      name: 'projectEmpower',
-      component: projectEmpower
-    },
+    
     {
       path: '/callerInvite',
       name: 'callerInvite',
