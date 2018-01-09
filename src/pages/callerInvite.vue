@@ -205,7 +205,7 @@
 		padding-top: 0.2rem;
 		.scoll {
 			width: 100%;
-			height: 11.4rem;
+			height: 9.8rem;
 			overflow-y: auto;
 			Form {
 				width: 7.5rem;
