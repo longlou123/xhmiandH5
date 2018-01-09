@@ -13,7 +13,9 @@
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="twoDimension">访客邀请二维码</router-link></Button>
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="authorization">授权门卡</router-link></Button>
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="details">门卡详情</router-link></Button>
-
+      <a href="tel:18312583532">一键拨打号码</a>
+      <a href="sms:10086?body=百度的网站是www.baidu.com">一键发送短信</a>
+      
       
       
       
