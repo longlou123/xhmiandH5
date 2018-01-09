@@ -177,7 +177,7 @@
 			},
 			sure() {
 				this.$router.push({
-					path: "/projectEmpower"
+					path: "/doorEmpower"
 				})
 			},
 			handleSubmit(name) {
