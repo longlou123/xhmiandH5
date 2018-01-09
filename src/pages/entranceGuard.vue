@@ -1,38 +1,84 @@
 <template>
-	<div class="center">
-		<RadioGroup v-model="vertical" vertical>	
-				<Radio label="apple">
-                		<span>中海华庭东大门</span>
-                </Radio>		       
-        <Radio label="android">
-            <span>千灯湖</span>
-        </Radio>
-    </RadioGroup>
+	<div class="entranceGuard">
+		<div class="entranceGuard_box" >
+        <Checkbox
+            :indeterminate="indeterminate"
+            :value="checkAll"
+            @click.prevent.native="handleCheckAll">全选</Checkbox>
+    </div>
+    <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
+        <Checkbox label="千灯湖"></Checkbox>       
+    </CheckboxGroup>
+     <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
+        <Checkbox label="中海华庭东大门"></Checkbox>
+    </CheckboxGroup>
+    <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
+        <Checkbox label="中海华庭西大门"></Checkbox>
+    </CheckboxGroup>
     <div class="next_btn">
         <Button type="primary" shape="circle" :long="true" class="btn" @click="nextClick()">确定</Button>
       </div>
 	</div>
 </template>
 <script >
-  export default {
-    name:'test',
-    data(){
-      return {
-      	   vertical: 'apple'                
-      }
-    },
-    methods:{
-    nextClick(){
-    	this.$router.push({path:"/authorization"})
-    }
+ export default {
+        data () {
+            return {
+                indeterminate: true,
+                checkAll: false,
+                checkAllGroup: ['千灯湖', '中海华庭东大门']
+            }
+        },
+        methods: {
+            nextClick(){
+            this.$router.push({path:"/authorization"})
+                },
 
+            handleCheckAll () {
+                if (this.indeterminate) {
+                    this.checkAll = false;
+                } else {
+                    this.checkAll = !this.checkAll;
+                }
+                this.indeterminate = false;
+
+                if (this.checkAll) {
+                    this.checkAllGroup = ['千灯湖', '中海华庭东大门', '中海华庭西大门'];
+                } else {
+                    this.checkAllGroup = [];
+                }
+            },
+            checkAllGroupChange (data) {
+                if (data.length === 3) {
+                    this.indeterminate = false;
+                    this.checkAll = true;
+                } else if (data.length > 0) {
+                    this.indeterminate = true;
+                    this.checkAll = false;
+                } else {
+                    this.indeterminate = false;
+                    this.checkAll = false;
+                }
+            }
+        }
     }
-  }
+   
+
+
 
 </script>
 <style lang="scss" scoped>
-	.center{
+	.entranceGuard{
     	background-color:#ffffff;
+        .entranceGuard_box{
+            border-bottom: 1px solid #e9e9e9;
+            padding-bottom:6px;
+            margin-bottom:6px;
+            height:0.86rem;
+            text-align:left;
+            line-height: 0.86rem;
+            padding-left:0.03rem;
+        }
     	.ivu-radio-group{
     		width:100%;
     	}
