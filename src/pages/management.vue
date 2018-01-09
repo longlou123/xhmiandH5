@@ -44,11 +44,13 @@
     	background-color:#EFf2f5;
     	padding-top:0.2rem;
     	.visitors{
-    		width:7.5rem;
     		height:3.5rem;
     		background-color:#ffffff;
     		overflow:hidden;
     		box-shadow: 0px 5px 5px #E8EBF4;
+            margin:0 0.3rem;
+            border-radius:0.2rem;
+            box-shadow: 0px -5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4;  
     		.center_one{
     			text-align:left;
     			width:7rem;
@@ -58,18 +60,18 @@
     				padding:0.3rem 0  0.4rem 0.3rem;
     				border-bottom:0.02rem solid #E0E0E1;
     				.text_span{
-    				font-size:0.3rem;
+    				font-size:0.36rem;
     				color:#36A0FB;
     				padding-right:0.25rem;
     			   	}
     			   	.time{
-    			   		font-size:0.3rem;
+    			   		font-size:0.24rem;
     			   	}
-    			    	.card{
+    			    .card{
     			    		margin:0.3rem 0;
-    			    		font-size:0.3rem;
+    			    		font-size:0.24rem;
     			    		}
-    			    	.guest{
+    			    .guest{
     						font-size:0.24rem;
     			  			}
     					}
@@ -84,7 +86,7 @@
     				outline:none;
     				border:none;
     				background-color:#5698FF;
-    				border-radius:0.1rem;
+    				border-radius:0.2rem;
     				margin-top:0.12rem;
     				margin-right:0.2rem;
     			}

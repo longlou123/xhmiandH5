@@ -1,8 +1,8 @@
 <template>	
-	<div class="center">
+	<div class="authorization">
 		<div class="scoll">
 			<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
-        	<FormItem label="使用人 :" prop="name">
+        	<FormItem label="姓名 :" prop="name">
             	<Input v-model="formValidate.name" placeholder=""></Input>
         	</FormItem>
         	<FormItem label="类型 :" prop="city">
@@ -16,8 +16,8 @@
             	<Input v-model="formValidate.name1" placeholder=""></Input>
        		 </FormItem>
         	 <div  @click="show">
-             <FormItem label="生效日期 :" >
-              <Input v-model="failure" placeholder=""  readonly ></Input>
+             <FormItem label="生效日期 :"  prop="failure">
+              <Input v-model="formValidate.failure" placeholder=""  readonly ></Input>
           </FormItem>
            </div>
           <mt-datetime-picker
@@ -39,8 +39,8 @@
             >
           </mt-datetime-picker>
           <div  @click="show_box">
-            <FormItem label="失效日期 :" >
-               <Input v-model="effect" placeholder=""  readonly></Input>
+            <FormItem label="失效日期 :" prop="effect" >
+               <Input v-model="formValidate.effect" placeholder=""  readonly></Input>
           </FormItem>
           </div>  
    		 </Form>
@@ -108,14 +108,14 @@
     name:'test',
     data(){
       return {
-          effect:'',
-          failure:'',
       	  formValidate: {
                     name: '',
                     name1: '',
                     name2: '',
                     name3: '',
                     city: '',
+                    effect:'',
+                    failure:''
                 },
           ruleValidate: {
                     name: [
@@ -127,6 +127,13 @@
                     city: [
                         { required: true, message: 'Please select the type', trigger: 'change' }
                     ],
+                    effect:[
+                        { required: true, message: '请选择失效时间', trigger: 'change' }
+                    ],
+                    failure:[
+                        { required: true, message: '请选择生效时间', trigger: 'change' }
+                    ]
+
                 },
           pickerValuer: '',
           pickerValues:''
@@ -134,8 +141,7 @@
     },
     mounted(){
       var d = new Date();
-      this.failure = d.getFullYear()+"-0"+(d.getMonth()+1)+"-0"+d.getDate();
-      console.log(this.failure);
+      this.formValidate.failure = d.getFullYear()+"-0"+(d.getMonth()+1)+"-0"+d.getDate();
     },
     watch:{
       pickerValuer(){
@@ -159,9 +165,7 @@
                 }
                 return fmt;
             }
-            this.failure = this.pickerValuer.format("yyyy-MM-dd");
-            console.log(this.failure);
-            console.log("我出去了");
+            this.formValidate.failure = this.pickerValuer.format("yyyy-MM-dd");
             // this.failure= this.pickerValue.format("yyyy-MM-dd");
         },
       pickerValues(){
@@ -185,7 +189,7 @@
                 }
                 return fmt;
             }
-            this.effect= this.pickerValues.format("yyyy-MM-dd");
+            this.formValidate.effect= this.pickerValues.format("yyyy-MM-dd");
             console.log("我进来了")
         }
     },
@@ -198,7 +202,7 @@
         // console.log(this.pickerValue);
       },
     	sure(){
-    		this.$router.push({path:"/project"})
+    		this.$router.push({path:"/entranceGuard"})
     	},    	
 		  handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
@@ -216,28 +220,35 @@
         }
 </script>
 <style lang="scss" scoped>
-    .center{
-    	background-color:#EFf2f5;
+html,body{
+  background-color:#EFf2f5;
+}
+    .authorization{ 	
       padding-top:0.2rem;
     	.scoll{
     		width: 100%;
-    		height: 11.5rem;
+    		height: 9.8rem;
     		overflow-y: auto;
     		Form{
-    		    width: 100%;
+    		    width: 90%;
+            border-radius:0.15rem;
     		    height: 6rem;
     		    background-color:#ffffff;
-    		    padding: 0.5rem 0.7rem 0.4rem 0rem;
-    		    box-shadow: 0px 5px 5px #E8EBF4;
+    		    margin: 0.2rem 0.3rem 0.2rem 0.4rem;
+            padding:0.5rem 0.3rem 0.2rem 0;
+    		    box-shadow: 0px -5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4;
     	     }
     	     .door_stop{
-    		      padding:0.3rem 0 0 0.5rem;
+              height:5rem;
+    		      padding:0rem 0 0 0.4rem;
     		      text-align:left;
     		      .text{
     			     font-size:0.3rem;
-    			     margin-bottom:0.3rem;
+    			     margin-bottom:0.2rem;
     		      }
     		      .flex{
+                width:100%;
+                height:3rem;
     			     display:flex;
     			     justify-content:flex-start;
     			     flex-wrap:wrap;
@@ -249,9 +260,9 @@
     			         text-align:center;
     			         border-radius:0.02rem;
     			         position:relative;
-    			         margin-right:0.3rem;
+    			         margin-right:0.35rem;
     			         margin-bottom:0.4rem;
-    			         box-shadow: 5px 5px 5px #E8EBF4;	
+    			         box-shadow: 0px -5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4;	
                    border-radius:0.1rem;
                       span{
                           font-size:0.24rem;
@@ -260,11 +271,11 @@
     				              display:inline-block;
     				              position:absolute;
    				                top: -30px;
-                          left:1.7rem;
+                          left:1.8rem;
    				                font-size:0.5rem;
    				           .ivu-icon{
    				    			      font-size:0.5rem;
-   				               	color:#5698FF;
+   				               	color:#39f;
    				           	}
     					       }
     						     .Icons{
@@ -285,10 +296,11 @@
 			                  right:0;
 			                  bottom:0.9rem;
 			               button{
-				                width: 6rem;
-				                height: 0.8rem;
-				                background-color:#5698FF;
-				                border-radius:0.08rem;
+				                width: 6.92rem;
+				                height: 0.89rem;
+				                background-color:#39f;
+				                border-radius:0.2rem;
+                        font-size:0.36rem;
 				                color:#ffffff;
 			                }
 		                }

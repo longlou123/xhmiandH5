@@ -5,7 +5,7 @@ import test1 from '@/pages/test1'
 import doorCard from '@/pages/doorCard'
 import management from '@/pages/management'
 import authorization from '@/pages/authorization'
-import project from '@/pages/project'
+// import project from '@/pages/project'
 import entranceGuard from '@/pages/entranceGuard'
 import activateCard from '@/pages/activateCard'
 import projectEmpower from '@/pages/projectEmpower'
@@ -39,11 +39,11 @@ export default new Router({
       name: 'authorization',
       component: authorization
     },
-    {
-      path: '/project',
-      name: 'project',
-      component: project
-    },
+    // {
+    //   path: '/project',
+    //   name: 'project',
+    //   component: project
+    // },
     {
       path: '/entranceGuard',
       name: 'entranceGuard',
