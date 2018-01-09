@@ -14737,7 +14737,7 @@ a {
     text-align: left;
     font-size: 14px;
     line-height: 0.86rem;
-    border-bottom:0.01rem solid #E5E7E9;
+    /*border-bottom:0.01rem solid #E5E7E9;*/
     background-color:#ffffff;
     border-radius:0.2rem;
 }
@@ -14772,6 +14772,7 @@ a {
         .entranceGuard .ivu-checkbox-wrapper{
             font-size:0.3rem;
             width:100%;
+            border-radius:0.2rem;
         }
 .entranceGuard .ivu-checkbox-wrapper:hover{
             background-color:#DEE7F0;
