@@ -95,7 +95,7 @@
             width: 6.2rem;
             left: 60%;
             transform: translateX(-50%);
-            	
+            margin-left:-0.2rem;	
                 span{
                      font-size: 0.3rem;
                         color: #fff;

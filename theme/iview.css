@@ -9419,7 +9419,9 @@ span.ivu-radio+* {
 }
 
 .ivu-checkbox-group-item {
-    display: inline-block
+    display: inline-block;
+    width:100%;
+
 }
 
 .ivu-switch {
@@ -11940,7 +11942,7 @@ textarea.ivu-input {
 }
 
 .ivu-input-icon+.ivu-input {
-    padding-right: 32px
+    padding-right: 3px
 }
 
 .ivu-input-wrapper-large .ivu-input-icon {
@@ -14734,12 +14736,50 @@ a {
 .entranceGuard .ivu-checkbox-group{
     text-align: left;
     font-size: 14px;
-    padding-left: 0.3rem;
-    height:0.86rem;
     line-height: 0.86rem;
     border-bottom:0.01rem solid #E5E7E9;
-    background-color:#EFF2F5;
+    background-color:#ffffff;
+    border-radius:0.2rem;
 }
 .entranceGuard .ivu-checkbox-group:hover{
-    background-color:#DEE7F0;
+    /*background-color:#DEE7F0;*/
 }
+ .authorization .ivu-form-item-error-tip{
+    font-size:0.24rem;
+ }
+ .project .ivu-radio-group{
+            width:90%;
+            display: inline-block;
+            font-size: 12px;
+            vertical-align: middle;
+            float: left;
+            text-align: left;
+            margin: 0 0.35rem;
+            background-color: #ffffff;
+            border-radius: 0.2rem;
+            box-shadow: -5px -5px 5px #E8EBF4, 5px 5px 5px #E8EBF4, 5px 5px 5px #E8EBF4, 5px 5px 5px #E8EBF4;
+        }
+ .ivu-radio-group-vertical .ivu-radio-wrapper:hover{
+            background-color:#DEE7F0;
+            border-radius: 0.1rem;
+        }
+        [type=reset], [type=submit], button, html [type=button]{
+            height:0.89rem;
+        }
+        .project button span{
+            font-size:0.36rem;
+        }
+        .entranceGuard .ivu-checkbox-wrapper{
+            font-size:0.3rem;
+            width:100%;
+        }
+.entranceGuard .ivu-checkbox-wrapper:hover{
+            background-color:#DEE7F0;
+        }
+
+        .entranceGuard  button span{
+            font-size:0.36rem;
+        }
+        .entranceGuard .ivu-checkbox{
+            margin-left:0.3rem;
+        }
