@@ -40,63 +40,33 @@
 			<div class="door_stop">
 				<div class="text">授权门禁:</div>
 				<div class="flex">
-					<div class="door_box">
-						<span>中海华庭东大门</span>
-						<div class="Icon">
-							<Icon type="ios-close"></Icon>
-						</div>
-					</div>
-					<div class="door_box">
-						<span>中海华庭东大门</span>
-						<div class="Icon">
-							<Icon type="ios-close"></Icon>
-						</div>
-					</div>
-					<div class="door_box">
-						<span>中海华庭东大门</span>
-						<div class="Icon">
-							<Icon type="ios-close"></Icon>
-						</div>
-					</div>
-					<div class="door_box">
-						<span>中海华庭东大门</span>
-						<div class="Icon">
-							<Icon type="ios-close"></Icon>
-						</div>
-					</div>
-					<div class="door_box">
-						<span>中海华庭东大门</span>
-						<div class="Icon">
-							<Icon type="ios-close"></Icon>
-						</div>
-					</div>
-					<div class="door_box">
-						<span>中海华庭东大门</span>
-						<div class="Icon">
-							<Icon type="ios-close"></Icon>
-						</div>
-					</div>
-					<div class="door_box">
-						<span>中海华庭东大门</span>
-						<div class="Icon">
-							<Icon type="ios-close"></Icon>
-						</div>
-					</div>
-					<div class="door_box" @click="sure">
-						<div class="Icon Icons">
-							<Icon type="ios-plus-outline"></Icon>
-						</div>
-					</div>
+					<ul class="door_box" v-for='(name,index) in projectPage'>
+						<li>
+							<span>{{name}}</span>
+							<div class="detele" @click="Delete(index)">
+								<Icon type="ios-close"></Icon>
+							</div>
+						</li>
+						
+					</ul>
+					<div class="door_box" v-if='add'>
+   		 				<div class="Icon ">
+   		 					<span @click="sure">
+   		 						<Icon type="ios-plus-outline" class='Icons'></Icon>
+   		 					</span>
+   		 				</div>
+   		 	 	 	</div>
 				</div>
 			</div>
 		</div>
 		<div class="btn" @click="handleSubmit('formValidate')">
-			<button type="primary">下一步</button>
+			<button type="primary" shape="circle" :long="true">确定邀请</button>
 		</div>
 	</div>
 
 </template>
 <script>
+	import { mapState, mapMutations } from 'vuex';
 	export default {
 		name: 'test',
 		data() {
@@ -109,6 +79,9 @@
 					end_time: '',
 					data:''
 				},
+				add:false,
+				projectPage:[],//页面展示数据
+				projectInital:['中海华庭东大门','中海华庭东小门','中海华庭东中门','中海华庭东地门','中海华庭东天门'],//初始化数据
 				ruleValidate: {
 					name: [{
 						required: true,
@@ -118,7 +91,7 @@
 					type: [{
 						required: true,
 						message: '请选择类型',
-						trigger: 'blur'
+						trigger: 'change'
 					}],
 					phone: [{
 						required: true,
@@ -142,15 +115,48 @@
 					}],
 				},
 				pickerValue: new Date(),
-				//star_time:null,
-				//end_time:null,
 				time: new Date(),
 				star:true,
 				end:false,
+				index:0,
 			}
 		},
-		mounted() {},
+		watch:{
+		//数据变化时
+		
+		},
+		computed:{
+			...mapState(['project','projectDoop'])
+		},
+		created() {
+
+		},
+		mounted() {
+			if(this.project.length == 0){
+				this.projectPage = this.projectInital
+			}else{
+				for(var i=0;i<this.projectDoop.length;i++){
+					for(var j=0;j<this.project.length;j++){
+						if(this.projectDoop[i]===this.project[j]){
+							this.project.splice(j,1);
+						}					
+					}					
+				}
+				for(var i = 0; i <this.projectDoop.length; i++){
+				  this.project.push(this.projectDoop[i]);
+				}
+				this.projectPage = this.project
+			}
+			if(this.projectPage.length<this.projectInital.length){
+				this.add = true;
+			}
+		},
 		methods: {
+			Delete(index){
+				 this.projectPage.splice(index,1);
+				 this.add = true;
+				 this.$store.commit('PROJECT',this.projectPage);//储存修改的数据
+			},
 			nowTis(){
 				if(this.star){
 					var Year = this.pickerValue.getFullYear();
@@ -176,16 +182,18 @@
 				this.end = true;
 			},
 			sure() {
-				this.$router.push({
-					path: "/doorEmpower"
-				})
+				if(this.add){
+					this.$router.push({
+						path: "/doorEmpower"
+					})
+				}				
 			},
 			handleSubmit(name) {
 				this.$refs[name].validate((valid) => {
 					if(valid) {
 						//this.$Message.success('Success!');
 						//console.log(this.formValidate)
-						this.$router.push({path: "/twoDimension"})
+						this.$router.push({path: "/callerDetail"})
 					} else {
 						// this.$Message.error('Fail!');
 					}
@@ -209,11 +217,12 @@
 			overflow-y: auto;
 			Form {
 				width: 7.5rem;
-				width: 100%;
+				width: 90%;
+				border-radius:0.15rem;
 				background-color: #ffffff;
-				padding: 0.5rem;
-				padding-bottom: 0.1rem;
-				box-shadow: 0px 5px 5px #E8EBF4;
+				margin: 0.2rem 0.3rem 0.2rem 0.4rem;
+            		padding:0.5rem 0.3rem 0.2rem 0;
+				box-shadow: 0px -5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4;
 			}
 			.door_stop {
 				margin: 0 0.3rem;
@@ -240,7 +249,14 @@
 						span {
 							font-size: 0.24rem;
 						}
-						.Icon {
+						.Icon {						
+							font-size: 0.5rem;
+							.Icons {
+								font-size: 0.5rem;
+								color: #5698FF;
+							}
+						}
+						.detele{
 							display: inline-block;
 							position: absolute;
 							top: -30px;
@@ -248,16 +264,8 @@
 							font-size: 0.5rem;
 							.ivu-icon {
 								font-size: 0.5rem;
-								color: #5698FF;
+								color: #5698FF;							
 							}
-						}
-						.Icons {
-							position: absolute;
-							top: 0;
-							left: 0;
-							right: 0;
-							bottom: 0;
-							font-size: 0.3rem;
 						}
 					}
 				}
@@ -267,12 +275,13 @@
 			position: absolute;
 			left: 0;
 			right: 0;
-			bottom: 0.9rem;
+			bottom: 0.3rem;
 			button {
-				width: 6rem;
-				height: 0.8rem;
-				background-color: #5698FF;
-				border-radius: 0.08rem;
+				width: 6.9rem;
+				height: 0.89rem;
+				background-color: #39f;
+				border-radius: 0.2rem;
+				font-size:0.36rem;
 				color: #ffffff;
 			}
 		}

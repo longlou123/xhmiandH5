@@ -3,7 +3,6 @@
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="doorCard">doorCard</router-link></Button>
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="management">management</router-link></Button>
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="project">project</router-link></Button>
-      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="management">management</router-link></Button>
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="activateCard">activateCard</router-link></Button>
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="callerInvite">访客邀请</router-link></Button>
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="callerNodepad">访客邀请记录</router-link></Button>

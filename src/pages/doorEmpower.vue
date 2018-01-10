@@ -1,55 +1,120 @@
 <template>
-	<div class="center">
-		<RadioGroup v-model="vertical" vertical>	
-			<Radio label="apple">
-            		<span>中海华庭东大门</span>
-            </Radio>		       
-	        <Radio label="android">
-	            <span>中海华庭西大门</span>
-	        </Radio>
-    </RadioGroup>
-    <div class="btn"  @click="sure">
-    		<button >确定</button>
+	<div class="entranceGuard">
+		<div class="entranceGuard_box" >
+        <Checkbox
+            :indeterminate="indeterminate"
+            :value="checkAll"
+            @click.prevent.native="handleCheckAll">全选</Checkbox>
     </div>
+    <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
+        <Checkbox label="中海华庭东小门"></Checkbox> 
+        <Checkbox label="中海华庭东大门"></Checkbox> 
+        <Checkbox label="中海华庭东中门"></Checkbox>
+        <Checkbox label="中海华庭东地门"></Checkbox>
+        <Checkbox label="中海华庭东天门"></Checkbox>
+    </CheckboxGroup>
+    <div class="next_btn">
+        <Button type="primary" shape="circle" :long="true"  @click="nextClick()">确定</Button>
+      </div>
 	</div>
-	 
 </template>
 <script >
-  export default {
-    data(){
-      return {
-      	   vertical: 'apple'
-                
+ export default {
+        data () {
+            return {
+                indeterminate: true,
+                checkAll: false,
+                checkAllGroup: []
+            }
+        },
+        methods: {
+            nextClick(){
+            		this.$store.commit('PROJECTDOOP',this.checkAllGroup);
+            		this.$router.push({path:"/callerInvite"})
+            },
+            handleCheckAll () {
+                if (this.indeterminate) {
+                    this.checkAll = false;
+                } else {
+                    this.checkAll = !this.checkAll;
+                }
+                this.indeterminate = false;
+
+                if (this.checkAll) {
+                    this.checkAllGroup = ['中海华庭东大门','中海华庭东小门','中海华庭东中门','中海华庭东地门','中海华庭东天门'];
+                } else {
+                    this.checkAllGroup = [];
+                }
+            },
+            checkAllGroupChange (data) {
+                if (data.length === 3) {
+                    this.indeterminate = false;
+                    this.checkAll = true;
+                } else if (data.length > 0) {
+                    this.indeterminate = true;
+                    this.checkAll = false;
+                } else {
+                    this.indeterminate = false;
+                    this.checkAll = false;
+                }
+            }
         }
-    },
-    methods:{
-	    sure(){
-	    		this.$router.push({path:"callerInvite"})
-	    }
-     }
-  }
+    }
+   
+
+
 
 </script>
 <style lang="scss" scoped>
-	.center{
-		width:7.5rem;
-	    	height: 13.34rem;
-	    	background-color:#EFf2f5;
-	    	padding-top:0.28rem;
-	    	.ivu-radio-group{
-	    		width:100%;
-	    	}
-		.btn{
-			position:absolute;
-			left:0;
-			right:0;
-			bottom:1.3rem;
-			button{
-				width: 6rem;
-				height: 0.8rem;
-				background-color:#5698FF;
-				border-radius:0.08rem;
+	.entranceGuard{
+        width: 90%;
+        height: 100%;
+    	background-color: #ffffff;
+        margin: 0rem 0.3rem 0 0.35rem ;
+        border-radius: 0.2rem;
+        box-shadow: 0px -5px 5px #E8EBF4, 0px 5px 5px #E8EBF4, 0px 5px 5px #E8EBF4, 0px 5px 5px #E8EBF4;
+        .entranceGuard_box{
+            border-bottom: 1px solid #e9e9e9;
+            height:0.86rem;
+            margin-top:0.2rem;
+            text-align:left;
+            line-height: 0.86rem;
+        }
+        .entranceGuard_box:hover{
+            // background-color:#DEE7F0;
+            border-radius: 0.1rem;
+        }
+    	.ivu-radio-group{
+    		width:100%;
+
+    	}
+    	.ivu-radio-group-vertical .ivu-radio-wrapper {
+    		height: 0.86rem;
+    		line-height: 0.86rem;
+   			width:100%;
+    		padding: 0 0.5rem;
+    		border-bottom:0.01rem solid #E5E7E9;
+        }
+        .ivu-radio-group-vertical .ivu-radio-wrapper:hover{
+        	background-color:#DEE7F0;
+        }
+    	.ivu-radio-group {
+    		display: inline-block;
+    		font-size: 12px;
+    		vertical-align: middle;
+    		float: left;
+    		text-align: left;
 			}
-		}
-	}
+		.next_btn{
+            position: fixed;
+            bottom: 0.3rem;
+            width: 6.92rem;
+            left: 50%;
+            transform: translateX(-50%);
+                span{
+                     font-size: 0.36rem;
+                        color: #fff;
+                }
+            }
+	    }
 </style>

@@ -12,7 +12,6 @@
 					<p></p>
 					<p></p>
 					<p>有效进出次数：</p>
-					<p>剩余进出次数：</p>
 				</div>
 				<div class="right">
 					<p>2017.07.01--11：11</p>
@@ -20,11 +19,7 @@
 					<p>至</p>
 					<p>2017.07.02--11：11</p>
 					<p>5次</p>
-					<p>5次</p>
 				</div>
-				<div class="next_btn">
-			        <Button type="primary" :long="true" class="btn" @click="nextClick()">{{btnText}}</Button>
-			    </div>
 			</div>
 		</div>
 	</div>
@@ -56,7 +51,7 @@ export default {
     	background-color:#EFf2f5;
     padding-top:0.20rem;
     .content{
-    		height: 10rem;
+    		height: 9.6rem;
     		width: 100%;
     		background-color: white;
     }
@@ -93,13 +88,6 @@ export default {
     			display: inline-block;
     		}
     }
-    .next_btn{
-            position: fixed;
-            bottom: 0.8rem;
-            width: 6.2rem;
-            left: 50%;
-            transform: translateX(-50%);
-       }
    }
 
 </style>
