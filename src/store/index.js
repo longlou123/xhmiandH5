@@ -5,7 +5,9 @@ import mutations from './mutations';
 Vue.use(Vuex)
 
 const state = {
-	
+	project:[],
+	projectDoop:[],
+	newUrl: 'https://xymind.net:3000',
 }
 
 export default new Vuex.Store({
