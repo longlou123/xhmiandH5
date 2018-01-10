@@ -104,8 +104,10 @@
           pickerValues:''
       }
     },
-    mounted(){
+    created(){
       this.getdata();
+    },
+    mounted(){     
       var d = new Date();
       this.formValidate.failure = d.getFullYear()+"-0"+(d.getMonth()+1)+"-0"+d.getDate();
     },
