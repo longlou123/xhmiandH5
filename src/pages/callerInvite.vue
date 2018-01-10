@@ -132,6 +132,8 @@
 
 		},
 		mounted() {
+			//console.log(this.projectInital)
+			 this.$store.commit('PROJECTINITAL',this.projectInital);//
 			if(this.project.length == 0){
 				this.projectPage = this.projectInital
 			}else{
