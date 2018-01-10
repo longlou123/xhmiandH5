@@ -47,44 +47,8 @@
    		<div class="door_stop">
    		 	<div class="text">授权门禁</div>
    		 	<div class="flex">
-   		 		<div class="door_box">
-   		 			<span>中海华庭东大门</span>
-   		 				<div class="Icon">
-   		 					<Icon  type="ios-close"></Icon>
-   		 				</div>
-   		 	 	 </div>
-   		 	 	 <div class="door_box">
-   		 			<span>中海华庭东大门</span>
-   		 				<div class="Icon">
-   		 					<Icon  type="ios-close"></Icon>
-   		 				</div>
-   		 	 	 </div>
-   		 	 	  <div class="door_box">
-   		 			<span>中海华庭东大门</span>
-   		 				<div class="Icon">
-   		 					<Icon  type="ios-close"></Icon>
-   		 				</div>
-   		 	 	 </div>
-   		 	 	  <div class="door_box">
-   		 			<span>中海华庭东大门</span>
-   		 				<div class="Icon">
-   		 					<Icon  type="ios-close"></Icon>
-   		 				</div>
-   		 	 	 </div>
-   		 	 	  <div class="door_box">
-   		 			<span>中海华庭东大门</span>
-   		 				<div class="Icon">
-   		 					<Icon  type="ios-close"></Icon>
-   		 				</div>
-   		 	 	 </div>
-   		 	 	 <div class="door_box">
-   		 			<span>中海华庭东大门</span>
-   		 				<div class="Icon">
-   		 					<Icon  type="ios-close"></Icon>
-   		 				</div>
-   		 	 	 </div>
-   		 	 	 <div class="door_box">
-   		 			<span>中海华庭东大门</span>
+   		 		<div class="door_box" v-for="item in doorName">
+   		 			<span>{{item.dName}}</span>
    		 				<div class="Icon">
    		 					<Icon  type="ios-close"></Icon>
    		 				</div>
@@ -108,6 +72,7 @@
     name:'test',
     data(){
       return {
+          doorName:[],
       	  formValidate: {
                     name: '',
                     name1: '',
@@ -140,6 +105,7 @@
       }
     },
     mounted(){
+      this.getdata();
       var d = new Date();
       this.formValidate.failure = d.getFullYear()+"-0"+(d.getMonth()+1)+"-0"+d.getDate();
     },
@@ -215,7 +181,26 @@
             },
       handleReset (name) {
                 this.$refs[name].resetFields();
-            }      
+            },
+      getdata(){
+          this.$post('/ssh/openDoor/getDoorByPhone', {
+            projectCode: "123",
+            userName:"伍健",
+            phone: "18312583532"
+          }).then(res=>{
+            console.log(res)
+            var CC=0;
+            var obj={};
+            for(var i=0; i<res.result.doorList.length;i++){   
+              obj.dName=res.result.doorList[i].doorName;
+              this.doorName[CC]=obj;  
+              CC++;           
+            }
+            console.log(JSON.stringify(this.doorName));
+          }).catch(function (error) {
+            console.log(error);
+          });
+      }     
           }
         }
 </script>
@@ -263,7 +248,7 @@ html,body{
     			         margin-right:0.35rem;
     			         margin-bottom:0.4rem;
     			         box-shadow: 0px -5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4;	
-                   border-radius:0.1rem;
+                   border-radius:0.15rem;
                       span{
                           font-size:0.24rem;
                            }
@@ -294,7 +279,7 @@ html,body{
 			                  position:absolute;
 			                  left:0;
 			                  right:0;
-			                  bottom:0.9rem;
+			                  bottom:0.3rem;
 			               button{
 				                width: 6.92rem;
 				                height: 0.89rem;

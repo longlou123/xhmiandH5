@@ -2,7 +2,7 @@
 		<div class="management">
 			<div class="visitors">
 				<div class="center_one">
-					<div class="center_two" @click="jump">
+					<div class="center_two" @click="getdata">
 						<span class="text_span">小五</span><span class="guest">访客</span>
 					    <div class="card">卡号：13738381438</div>
 					    <div class="time">有效期：2017-10-10至2017-10-11</div>
@@ -26,14 +26,30 @@
       	modal3: false,
       }
     },
-
+    mounted(){
+    },
     methods:{
     	jump(){
     		this.$router.push({path:"/details"});
     	},
         success(){
             this.MessageBox.confirm(message, title);
-        }    
+        },
+        getdata(){
+          this.$get('/ssh/grantCard/getGrantCardByUser', {
+            projectCode: "123",  
+            granterPhone: "18312583532",
+            pageSize:1,
+            pageNumber:1
+          }).then(res=>{
+            console.log(res)
+            if(res.result.cardList==0){
+                this.$router.push({path:"/authorization"})
+            }
+          }).catch(function (error) {
+            console.log(error);
+          });
+      }    
     }
   }
 </script>
@@ -49,7 +65,7 @@
     		overflow:hidden;
     		box-shadow: 0px 5px 5px #E8EBF4;
             margin:0 0.3rem;
-            border-radius:0.2rem;
+            border-radius:0.15rem;
             box-shadow: 0px -5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4;  
     		.center_one{
     			text-align:left;

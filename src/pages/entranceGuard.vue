@@ -69,7 +69,7 @@
         height: 100%;
     	background-color: #ffffff;
         margin: 0rem 0.3rem 0 0.35rem ;
-        border-radius: 0.2rem;
+        border-radius: 0.15rem;
         box-shadow: 0px -5px 5px #E8EBF4, 0px 5px 5px #E8EBF4, 0px 5px 5px #E8EBF4, 0px 5px 5px #E8EBF4;
         .entranceGuard_box{
             border-bottom: 1px solid #e9e9e9;
@@ -103,16 +103,22 @@
     		float: left;
     		text-align: left;
 			}
-		.next_btn{
-            position: fixed;
-            bottom: 0.8rem;
-            width: 6.92rem;
-            left: 50%;
-            transform: translateX(-50%);
-                span{
-                     font-size: 0.36rem;
-                        color: #fff;
-                }
+		.next_btn{            
+            position:absolute;
+            left:0;
+            right:0;
+            bottom:0.3rem;
+            .btn{
+                width: 6.92rem;
+                height: 0.89rem;   
+               span{                       
+                    background-color:#39f;
+                    border-radius:0.2rem;
+                    font-size:0.36rem;
+                    color:#ffffff;
+                } 
+            }
+            
             }
 	    }
 </style>
