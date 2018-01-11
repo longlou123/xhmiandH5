@@ -41,7 +41,7 @@
 				<div class="flex">
 					<ul class="door_box" v-for='(name,index) in projectPage'>
 						<li>
-							<span>{{name.doorName}}</span>
+							<span>{{name}}</span>
 							<div class="detele" @click="Delete(index)">
 								<Icon type="ios-close"></Icon>
 							</div>
@@ -82,6 +82,7 @@
 				test:[],
 				projectPage:[],//页面展示数据
 				projectInital:[],//初始化数据
+				seeproject:[],
 				ruleValidate: {
 					name: [{
 						required: true,
@@ -119,6 +120,7 @@
 				star:true,
 				end:false,
 				index:0,
+				sendData:[],
 			}
 		},
 		watch:{
@@ -149,12 +151,13 @@
 						list.doorID = res.result.doorList[i].doorID;
 						list.doorName = res.result.doorList[i].doorName;
 						_this.projectInital[i]=list;
+						_this.seeproject[i]=res.result.doorList[i].doorName;
 					}
 					if(this.project.length == 0) {
-						this.projectPage = this.projectInital
+						this.projectPage = this.seeproject
 						//this.projectPage = JSON.stringify(this.projectInital)
 					} else {
-						//将选取的门列表与保存在vuex的门列表对比删除相同的元素
+						//将从选取门列表页面的数据与保存在vuex的门列表数据对比删除相同的元素
 						for(var i = 0; i < this.projectDoop.length; i++) {
 							for(var j = 0; j < this.project.length; j++) {
 								if(this.projectDoop[i] === this.project[j]) {
@@ -168,7 +171,7 @@
 						}
 						this.projectPage = this.project//将合并后数组赋给展示数组
 					}
-					if(this.projectPage.length < this.projectInital.length) {
+					if(this.projectPage.length < this.seeproject.length) {
 						this.add = true;
 					}
 					//console.log(JSON.stringify(this.doorName));
@@ -214,10 +217,23 @@
 				}				
 			},
 			handleSubmit(name) {
+				console.log(formValidate)
+				console.log(this.projectPage.length);
+				//将当前选中授权的门列表与初始的门列表对比相同的元素
+						for(var i = 0; i < this.projectPage.length; i++) {
+							//console.log(this.projectPage)
+							for(var j = 0; j < this.projectInital.length; j++) {
+								if(this.projectPage[i] == this.projectInital[j].doorName) {
+									this.sendData[i]=this.projectInital[j];
+									console.log(this.sendData)
+								}
+							}
+						}
 				this.$refs[name].validate((valid) => {
 					if(valid) {
 						//this.$Message.success('Success!');
-						//console.log(this.formValidate)
+						console.log(this.projectPage);
+						
 						this.$router.push({path: "/callerDetail"})
 					} else {
 						// this.$Message.error('Fail!');
