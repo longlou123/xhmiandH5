@@ -20,7 +20,8 @@
 					<FormItem label="生效日期 :" prop="star_time" >
 						<Input  placeholder="请填写生效时间" v-model="formValidate.star_time" readonly='readonly'></Input>
 					</FormItem>
-				</div>	
+				</div>
+				
 				<div @click="endTime">
 					<FormItem label="失效日期 :" prop="end_time" ><!--prop="lose"-->
 						<Input placeholder="请填写失效时间"  v-model="formValidate.end_time" readonly='readonly'></Input>
@@ -79,7 +80,6 @@
 					data:''
 				},
 				add:false,
-				test:[],
 				projectPage:[],//页面展示数据
 				projectInital:[],//初始化数据
 				seeproject:[],
@@ -128,14 +128,12 @@
 		
 		},
 		computed:{
-			...mapState(['project','projectDoop'])//获取自己修改的数组和选取门列表数组
+			...mapState(['project','projectDoop'])
 		},
 		created() {
-
 		},
 		mounted() {
 			this.getdata();
-//			 this.$store.commit('PROJECTINITAL',this.projectInital);
 		},
 		methods: {
 			getdata() {
@@ -217,7 +215,7 @@
 				}				
 			},
 			handleSubmit(name) {
-				console.log(formValidate)
+			console.log(this.formValidate)
 				console.log(this.projectPage.length);
 				//将当前选中授权的门列表与初始的门列表对比相同的元素
 						for(var i = 0; i < this.projectPage.length; i++) {

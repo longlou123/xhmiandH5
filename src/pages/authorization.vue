@@ -47,9 +47,9 @@
    		<div class="door_stop">
    		 	<div class="text">授权门禁</div>
    		 	<div class="flex">
-   		 		<div class="door_box" v-for="item in doorName">
+   		 		<div class="door_box" v-for="(item,index) in saveDoor">
    		 			<span>{{item.dName}}</span>
-   		 				<div class="Icon">
+   		 				<div class="Icon" @click="removeTode(index)">
    		 					<Icon  type="ios-close"></Icon>
    		 				</div>
    		 	 	 </div>
@@ -68,11 +68,13 @@
 		 
 </template>
 <script >
+  import { mapState, mapMutations } from 'vuex';
   export default {
     name:'test',
     data(){
       return {
-          doorName:[],
+          doorName:[],//初始化数据
+          saveDoor:[],//页面展示的数据
       	  formValidate: {
                     name: '',
                     name1: '',
@@ -104,12 +106,51 @@
           pickerValues:''
       }
     },
-    created(){
-      this.getdata();
+    computed:{
+      ...mapState(['project','projectDoor'])
     },
-    mounted(){     
-      var d = new Date();
-      this.formValidate.failure = d.getFullYear()+"-0"+(d.getMonth()+1)+"-0"+d.getDate();
+    created(){
+
+    },
+    mounted(){    
+          var d = new Date();
+          this.formValidate.failure = d.getFullYear()+"-0"+(d.getMonth()+1)+"-0"+d.getDate();
+          this.$post('/ssh/openDoor/getDoorByPhone', {
+            projectCode: "123",
+            userName:"伍健",
+            phone: "18312583532"
+          }).then(res=>{
+            var CC=0;            
+            for(var i=0; i<res.result.doorList.length;i++){
+              // console.log(res.result.doorList);
+            var obj={};   
+            obj.dName=res.result.doorList[i].doorName;
+            this.doorName[CC]=obj;  
+            CC++;           
+            }  
+            this.$store.commit('PROJECTDOOR',this.doorName);
+            if(this.saveDoor.length==0){
+            this.saveDoor=this.doorName; 
+             console.log(this.saveDoor.length);          
+           }else{
+            for(var i=0;i<this.projectDoor.length;i++){
+              for(var j=0;j<this.project.length;j++){
+
+                if(this.projectDoor[i]===this.project[j]){
+                this.project.splice(j,1);
+                }
+              }
+            }
+            for(var i = 0; i <this.projectDoor.length; i++){
+          this.project.push(this.projectDoor[i]);
+        }
+        this.saveDoor = this.project
+
+          }          
+          }).catch(err=>{
+            console.log(err);
+          });
+          
     },
     watch:{
       pickerValuer(){
@@ -162,6 +203,11 @@
         }
     },
     methods:{
+      removeTode(index) {
+      this.saveDoor.splice(index, 1);
+      this.$store.commit('SAVEDOOR',this.saveDoor);
+      // 储存修改的数据
+     },
       show(){
         this.$refs.pickers.open();
       },
@@ -172,7 +218,7 @@
     	sure(){
     		this.$router.push({path:"/entranceGuard"})
     	},    	
-		  handleSubmit (name) {
+		   handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         this.$Message.success('Success!');
@@ -183,26 +229,7 @@
             },
       handleReset (name) {
                 this.$refs[name].resetFields();
-            },
-      getdata(){
-          this.$post('/ssh/openDoor/getDoorByPhone', {
-            projectCode: "123",
-            userName:"伍健",
-            phone: "18312583532"
-          }).then(res=>{
-            console.log(res)
-            var CC=0;
-            var obj={};
-            for(var i=0; i<res.result.doorList.length;i++){   
-              obj.dName=res.result.doorList[i].doorName;
-              this.doorName[CC]=obj;  
-              CC++;           
-            }
-            console.log(JSON.stringify(this.doorName));
-          }).catch(function (error) {
-            console.log(error);
-          });
-      }     
+            },   
           }
         }
 </script>
