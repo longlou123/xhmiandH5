@@ -19,7 +19,8 @@
 	</div>
 </template>
 <script >
- export default {
+	import { mapState, mapMutations } from 'vuex';
+ 	export default {
         data () {
             return {
                 indeterminate: true,
@@ -27,6 +28,13 @@
                 checkAllGroup: []
             }
         },
+        computed:{
+			...mapState(['projectInital'])
+		},
+		mounted() {
+//			this.checkAllGroup = this.projectInital;
+//			console.log(this.projectInital)
+		},
         methods: {
             nextClick(){
             		this.$store.commit('PROJECTDOOP',this.checkAllGroup);

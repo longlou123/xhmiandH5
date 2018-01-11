@@ -8,6 +8,8 @@ const state = {
 	project:[],
 	projectDoop:[],
 	projectDoor:[],
+	projectInital:[],
+	saveDoor:[],
 	newUrl: 'https://xymind.net:3000',
 }
 
