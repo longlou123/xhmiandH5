@@ -7,7 +7,7 @@
             @click.prevent.native="handleCheckAll">全选</Checkbox>
     </div>
     <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
-        <Checkbox :label="Data.doorName" v-for="Data in dataDoor"></Checkbox> 
+        <Checkbox :label="Data" v-for="Data in dataDoor"></Checkbox> 
     </CheckboxGroup>
     <div class="next_btn">
         <Button type="primary" shape="circle" :long="true"  @click="nextClick()">确定</Button>
@@ -40,14 +40,9 @@
 					userName: "龙楼",
 					phone: "13717135881"
 				}).then(res => {
-					//console.log(res.result.doorList)
 					for(var i=0;i<res.result.doorList.length;i++){
-						var list = {};
-						list.doorID = res.result.doorList[i].doorID;
-						list.doorName = res.result.doorList[i].doorName;
-						_this.dataDoor[i]=list;
-					}
-					
+						_this.dataDoor[i] = res.result.doorList[i].doorName;
+					}				
 					//console.log(JSON.stringify(this.doorName));
 				}).catch(function(error) {
 					console.log(error);
@@ -66,13 +61,13 @@
                 this.indeterminate = false;
 
                 if (this.checkAll) {
-                    this.checkAllGroup = ['中海华庭东大门','中海华庭东小门','中海华庭东中门','中海华庭东地门','中海华庭东天门'];
+                    this.checkAllGroup = this.dataDoor;
                 } else {
                     this.checkAllGroup = [];
                 }
             },
             checkAllGroupChange (data) {
-                if (data.length === 3) {
+                if (data.length === this.dataDoor.length) {
                     this.indeterminate = false;
                     this.checkAll = true;
                 } else if (data.length > 0) {
