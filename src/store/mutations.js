@@ -1,7 +1,8 @@
 import{
 	GET_ID,
 	PROJECT,
-	PROJECTDOOP
+	PROJECTDOOP,
+	PROJECTDOOR
 	
 } from './mutation-types.js'
 
@@ -14,5 +15,9 @@ export default{
 	},
 	[PROJECTDOOP](state,project){
 		state.projectDoop = project
+	},
+	[PROJECTDOOR](state,project){
+		state.projectDoor = project
+		console.log(state.projectDoor);
 	}
 }

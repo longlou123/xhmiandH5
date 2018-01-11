@@ -7,6 +7,7 @@ Vue.use(Vuex)
 const state = {
 	project:[],
 	projectDoop:[],
+	projectDoor:[],
 	newUrl: 'https://xymind.net:3000',
 }
 

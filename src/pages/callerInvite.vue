@@ -129,7 +129,6 @@
 			...mapState(['project','projectDoop'])
 		},
 		created() {
-
 		},
 		mounted() {
 			if(this.project.length == 0){
