@@ -147,6 +147,7 @@
 				  this.project.push(this.projectDoop[i]);
 				}
 				this.projectPage = this.project
+				console.log(this.project);
 			}
 			if(this.projectPage.length<this.projectInital.length){
 				this.add = true;

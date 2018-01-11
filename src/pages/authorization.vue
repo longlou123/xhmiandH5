@@ -129,13 +129,12 @@
             CC++;           
             }  
             this.$store.commit('PROJECTDOOR',this.doorName);
-            if(this.saveDoor.length==0){
+            if(this.project.length==0){
             this.saveDoor=this.doorName; 
              console.log(this.saveDoor.length);          
            }else{
             for(var i=0;i<this.projectDoor.length;i++){
               for(var j=0;j<this.project.length;j++){
-
                 if(this.projectDoor[i]===this.project[j]){
                 this.project.splice(j,1);
                 }
