@@ -7,11 +7,7 @@
             @click.prevent.native="handleCheckAll">全选</Checkbox>
     </div>
     <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
-        <Checkbox label="中海华庭东小门"></Checkbox> 
-        <Checkbox label="中海华庭东大门"></Checkbox> 
-        <Checkbox label="中海华庭东中门"></Checkbox>
-        <Checkbox label="中海华庭东地门"></Checkbox>
-        <Checkbox label="中海华庭东天门"></Checkbox>
+        <Checkbox :label="item.doorName" v-for="item in dataDoor" :key="item.id"></Checkbox> 
     </CheckboxGroup>
     <div class="next_btn">
         <Button type="primary" shape="circle" :long="true"  @click="nextClick()">确定</Button>
@@ -25,17 +21,33 @@
             return {
                 indeterminate: true,
                 checkAll: false,
-                checkAllGroup: []
+                checkAllGroup: [],
+                dataDoor:[],
             }
         },
         computed:{
-			...mapState(['projectInital'])
+			...mapState(['project'])
 		},
 		mounted() {
-//			this.checkAllGroup = this.projectInital;
-//			console.log(this.projectInital)
+			this.getdata();
+			this.checkAllGroup = this.project;			
 		},
         methods: {
+		    	getdata(){
+				var _this = this;
+				this.$post('/ssh/openDoor/getDoorByPhone', {
+					projectCode: "123",
+					userName: "龙楼",
+					phone: "13717135881"
+				}).then(res => {
+					for(var i=0;i<res.result.doorList.length;i++){
+						_this.dataDoor[i] = res.result.doorList[i].doorName;
+					}				
+					//console.log(JSON.stringify(this.doorName));
+				}).catch(function(error) {
+					console.log(error);
+				});
+			},
             nextClick(){
             		this.$store.commit('PROJECTDOOP',this.checkAllGroup);
             		this.$router.push({path:"/callerInvite"})
@@ -49,13 +61,13 @@
                 this.indeterminate = false;
 
                 if (this.checkAll) {
-                    this.checkAllGroup = ['中海华庭东大门','中海华庭东小门','中海华庭东中门','中海华庭东地门','中海华庭东天门'];
+                    this.checkAllGroup = this.dataDoor;
                 } else {
                     this.checkAllGroup = [];
                 }
             },
             checkAllGroupChange (data) {
-                if (data.length === 3) {
+                if (data.length === this.dataDoor.length) {
                     this.indeterminate = false;
                     this.checkAll = true;
                 } else if (data.length > 0) {

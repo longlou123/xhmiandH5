@@ -11,13 +11,17 @@
 export default {
 	data() {
 		return {
-			vertical: 'apple'
+			vertical: 'apple',
+			name:'大哥',
 
 		}
 	},
+	computed: {
+		
+		},
 	methods: {
 		sure() {	
-			//alert(222)
+			 this.$store.commit('USERNAME',this.name);//储存修改的数据
 			this.$router.push({path: "callerDetail"})
 		}
 	}

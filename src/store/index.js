@@ -11,6 +11,8 @@ const state = {
 	projectInital:[],
 	saveDoor:[],
 	newUrl: 'https://xymind.net:3000',
+	userName:'大哥',
+	//projectInital:[],
 }
 
 export default new Vuex.Store({

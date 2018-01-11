@@ -4,21 +4,20 @@ import{
 	PROJECTDOOP,
 	PROJECTDOOR,
 	PROJECTINITAL,
-	SAVEDOOR
+	SAVEDOOR,
+	USERNAME
+	
 } from './mutation-types.js'
 
 export default{
 	[GET_ID](state,value){
 		
 	},
-	[PROJECT](state,proxxxx){
-		state.project = proxxxx
+	[PROJECT](state,project){
+		state.project = project
 	},
 	[PROJECTDOOR](state,project1){
 		state.projectDoor = project1
-	},
-	[PROJECTDOOP](state,two){
-		state.projectDoop = two
 	},
 	[PROJECTINITAL](state,project3){
 		state.projectInital = project3
@@ -26,6 +25,14 @@ export default{
 	[SAVEDOOR](state,door){
 		state.saveDoor=door
 		console.log(state.saveDoor);
-	}
-
+	},
+	[PROJECTDOOP](state,twoproject){
+		state.projectDoop = twoproject
+	},
+	[USERNAME](state,name){
+		state.userName = name
+	},
+//	[PROJECTINITAL](state,project3){
+//		state.projectInital = project3
+//	}
 }

@@ -3,7 +3,7 @@
 		<div class="center_box">
 			<section>
 				<span>姓名 :</span>
-				<i>林达浪</i>
+				<i>{{userName}}</i>
 			</section>
 			<section>
 				<span>手机 :</span>
@@ -43,6 +43,7 @@
 	</div>
 </template>
 <script>
+	import { mapState, mapMutations } from 'vuex';
 	export default {
 		name: "test",
 		data() {
@@ -50,6 +51,9 @@
 				input: '',
 
 			}
+		},
+		computed: {
+			...mapState(['userName'])
 		},
 		methods: {
 			again() {
