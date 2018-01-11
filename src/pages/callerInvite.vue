@@ -5,10 +5,11 @@
 				<FormItem label="姓名 :" prop="name">
 					<Input v-model="formValidate.name" placeholder=""></Input>
 				</FormItem>
-				<FormItem label="类型 :" prop="type">
+				<FormItem label="类型 :" prop="useCount">
 					<Select v-model="formValidate.type" placeholder="请选择">
-						<Option value="shanghai">London</Option>
-						<Option value="shenzhen">Sydney</Option>
+						<Option value="1">1</Option>
+						<Option value="2">2</Option>
+						<Option value="3">3</Option>
 					</Select>
 				</FormItem>
 				<FormItem label="手机 :" prop="phone">
@@ -16,18 +17,18 @@
 				</FormItem>
 				<mt-datetime-picker v-model="pickerValue" type="date" ref="picker" year-format=" {value} 年" month-format=" {value} 月" date-format=" {value} 日" :startDate="this.time" @confirm="nowTis">
 				</mt-datetime-picker>
-				<div @click="starTime">
-					<FormItem label="生效日期 :" prop="star_time" >
+				<div @click="starTime_">
+					<FormItem label="生效日期 :" prop="startTime" >
 						<Input  placeholder="请填写生效时间" v-model="formValidate.star_time" readonly='readonly'></Input>
 					</FormItem>
 				</div>
 				
-				<div @click="endTime">
-					<FormItem label="失效日期 :" prop="end_time" ><!--prop="lose"-->
+				<div @click="endTime_">
+					<FormItem label="失效日期 :" prop="endTime" ><!--prop="lose"-->
 						<Input placeholder="请填写失效时间"  v-model="formValidate.end_time" readonly='readonly'></Input>
 					</FormItem>
 				</div>		
-				 <FormItem label="有效次数 :" prop="data">
+				 <FormItem label="有效次数 :" prop="useCount">
 					<Select v-model="formValidate.data" placeholder="请选择">
 						<Option value="one">1次</Option>
 						<Option value="two">2次</Option>
@@ -72,12 +73,12 @@
 		data() {
 			return {
 				formValidate: {
-					name: '',
-					type:'',
-					phone: '',
-					star_time: '',
-					end_time: '',
-					data:''
+					name: null,
+					type: 1,
+					phone: '13717135881',
+					startTime: '2018-01-11 15:00:00',
+					endTime: '2018-01-18 23:59:59',
+					useCount: 5,
 				},
 				add:false,
 				projectPage:[],//页面展示数据
@@ -156,18 +157,34 @@
 						//this.projectPage = JSON.stringify(this.projectInital)
 					} else {
 						//将从选取门列表页面的数据与保存在vuex的门列表数据对比删除相同的元素
-						for(var i = 0; i < this.projectDoop.length; i++) {
-							for(var j = 0; j < this.project.length; j++) {
-								if(this.projectDoop[i] === this.project[j]) {
-									this.project.splice(j, 1);
-								}
+//						for(var i = 0; i < this.projectDoop.length; i++) {
+//							for(var j = 0; j < this.project.length; j++) {
+//								if(this.projectDoop[i] === this.project[j]) {
+//									this.project.splice(j, 1);
+//								}
+//							}
+//						}
+						var a = [];
+						for(var i = 0; i < this.project.length; i++){
+							a[i] = this.project[i];
+						}
+						var b = [];
+						for(var i = 0; i < this.projectDoop.length; i++){
+							b[i] = this.projectDoop[i];
+						}
+						for(var i=0;i<b.length;i++){						
+							for(var j=0;j<a.length;j++){
+								if(b[i]===a[j]){								
+									b.splice(i,1);
+								}							
 							}
-						}
+						}											
 						//合并两个数组
-						for(var i = 0; i < this.projectDoop.length; i++) {
-							this.project.push(this.projectDoop[i]);
-						}
-						this.projectPage = this.project//将合并后数组赋给展示数组
+						for(var i=0;i<b.length;i++){
+							this.project.push(b[i])
+							}
+						//将合并后数组赋给展示数组
+						this.projectPage = this.project;					
 					}
 					if(this.projectPage.length < this.seeproject.length) {
 						this.add = true;
@@ -197,12 +214,12 @@
 					this.formValidate.end_time = Year+'-'+Month+'-'+Date;
 				}		
 			},
-			starTime() {
+			starTime_() {
 				this.$refs.picker.open();
 				this.end = false;
 				this.star =true;			 
 			},
-			endTime() {
+			endTime_() {
 				this.$refs.picker.open();
 				this.star =false;
 				this.end = true;
@@ -214,25 +231,27 @@
 					})
 				}				
 			},
-			handleSubmit(name) {
-			console.log(this.formValidate)
-				console.log(this.projectPage.length);
-				//将当前选中授权的门列表与初始的门列表对比相同的元素
+			handleSubmit(name) {	
+				this.$refs[name].validate((valid) => {
+					if(valid) {
+						//this.$Message.success('Success!');
+						//将当前选中授权的门列表与初始的门列表对比相同的元素
 						for(var i = 0; i < this.projectPage.length; i++) {
 							//console.log(this.projectPage)
 							for(var j = 0; j < this.projectInital.length; j++) {
 								if(this.projectPage[i] == this.projectInital[j].doorName) {
-									this.sendData[i]=this.projectInital[j];
-									console.log(this.sendData)
+									this.sendData[i]=this.projectInital[j];								
 								}
 							}
 						}
-				this.$refs[name].validate((valid) => {
-					if(valid) {
-						//this.$Message.success('Success!');
-						console.log(this.projectPage);
-						
-						this.$router.push({path: "/callerDetail"})
+						this.formValidate.granterPhone = '18320489492';
+						this.formValidate.projectCode = '123';
+						this.formValidate.doors = JSON.stringify(this.sendData);
+						console.log(this.formValidate)
+						this.$post('/ssh/grantCard/grantQREvent',this.formValidate).then(res => {
+							console.log(res);
+							this.$router.push({path: "/callerDetail"})
+						})						
 					} else {
 						// this.$Message.error('Fail!');
 					}
@@ -284,8 +303,13 @@
 						position: relative;
 						margin: 0.2rem 0.15rem;
 						box-shadow: 5px 5px 5px #E8EBF4;
-						border-radius: 0.1rem;
+						border-radius: 0.1rem;						
 						span {
+							display: inline-block;
+							width: 100%;
+							overflow:hidden; 
+							white-space:nowrap; 
+							text-overflow:ellipsis;
 							font-size: 0.24rem;
 						}
 						.Icon {						

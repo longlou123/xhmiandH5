@@ -21,7 +21,7 @@
             return {
                 indeterminate: true,
                 checkAll: false,
-                checkAllGroup: [],
+                checkAllGroup:[],
                 dataDoor:[],
                 hasData: false,
             }
@@ -56,6 +56,8 @@
 				});
 			},
             nextClick(){
+          		//this.checkAllGroup.push('报错');
+//          		console.log(this.checkAllGroup)
             		this.$store.commit('PROJECTDOOP',this.checkAllGroup);
             		this.$router.push({path:"/callerInvite"})
             },
