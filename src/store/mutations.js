@@ -26,8 +26,9 @@ export default{
 		state.saveDoor=door
 		console.log(state.saveDoor);
 	},
-	[PROJECTDOOP](state,twoproject){
+	[PROJECTDOOP](state,twoproject){	
 		state.projectDoop = twoproject
+		//console.log(state.projectDoop)
 	},
 	[USERNAME](state,name){
 		state.userName = name
