@@ -81,7 +81,8 @@
 				},
 				add:false,
 				projectPage:[],//页面展示数据
-				projectInital:['中海华庭东大门','中海华庭东小门','中海华庭东中门','中海华庭东地门','中海华庭东天门'],//初始化数据
+				projectInital:[],//初始化数据
+				seeproject:[],
 				ruleValidate: {
 					name: [{
 						required: true,
@@ -119,6 +120,7 @@
 				star:true,
 				end:false,
 				index:0,
+				sendData:[],
 			}
 		},
 		watch:{
@@ -131,33 +133,55 @@
 		created() {
 		},
 		mounted() {
-			//console.log(this.projectInital)
-			 this.$store.commit('PROJECTINITAL',this.projectInital);//
-			if(this.project.length == 0){
-				this.projectPage = this.projectInital
-			}else{
-				for(var i=0;i<this.projectDoop.length;i++){
-					for(var j=0;j<this.project.length;j++){
-						if(this.projectDoop[i]===this.project[j]){
-							this.project.splice(j,1);
-						}					
-					}					
-				}
-				for(var i = 0; i <this.projectDoop.length; i++){
-				  this.project.push(this.projectDoop[i]);
-				}
-				this.projectPage = this.project
-				console.log(this.project);
-			}
-			if(this.projectPage.length<this.projectInital.length){
-				this.add = true;
-			}
+			this.getdata();
 		},
 		methods: {
-			Delete(index){
-				 this.projectPage.splice(index,1);
-				 this.add = true;
-				 this.$store.commit('PROJECT',this.projectPage);//储存修改的数据
+			getdata() {
+				var _this = this;
+				this.$post('/ssh/openDoor/getDoorByPhone', {
+					projectCode: "123",
+					userName: "龙楼",
+					phone: "13717135881"
+				}).then(res => {
+					//console.log(res.result.doorList)
+					for(var i=0;i<res.result.doorList.length;i++){
+						var list = {};
+						list.doorID = res.result.doorList[i].doorID;
+						list.doorName = res.result.doorList[i].doorName;
+						_this.projectInital[i]=list;
+						_this.seeproject[i]=res.result.doorList[i].doorName;
+					}
+					if(this.project.length == 0) {
+						this.projectPage = this.seeproject
+						//this.projectPage = JSON.stringify(this.projectInital)
+					} else {
+						//将从选取门列表页面的数据与保存在vuex的门列表数据对比删除相同的元素
+						for(var i = 0; i < this.projectDoop.length; i++) {
+							for(var j = 0; j < this.project.length; j++) {
+								if(this.projectDoop[i] === this.project[j]) {
+									this.project.splice(j, 1);
+								}
+							}
+						}
+						//合并两个数组
+						for(var i = 0; i < this.projectDoop.length; i++) {
+							this.project.push(this.projectDoop[i]);
+						}
+						this.projectPage = this.project//将合并后数组赋给展示数组
+					}
+					if(this.projectPage.length < this.seeproject.length) {
+						this.add = true;
+					}
+					//console.log(JSON.stringify(this.doorName));
+				}).catch(function(error) {
+					console.log(error);
+				});
+			},
+			Delete(index) {
+				this.projectPage.splice(index, 1);
+				this.add = true;
+				this.$store.commit('PROJECT',this.projectPage);//储存修改的数据
+				//将修改过的门列表保存到vuex
 			},
 			nowTis(){
 				if(this.star){
@@ -191,10 +215,23 @@
 				}				
 			},
 			handleSubmit(name) {
+			console.log(this.formValidate)
+				console.log(this.projectPage.length);
+				//将当前选中授权的门列表与初始的门列表对比相同的元素
+						for(var i = 0; i < this.projectPage.length; i++) {
+							//console.log(this.projectPage)
+							for(var j = 0; j < this.projectInital.length; j++) {
+								if(this.projectPage[i] == this.projectInital[j].doorName) {
+									this.sendData[i]=this.projectInital[j];
+									console.log(this.sendData)
+								}
+							}
+						}
 				this.$refs[name].validate((valid) => {
 					if(valid) {
 						//this.$Message.success('Success!');
-						//console.log(this.formValidate)
+						console.log(this.projectPage);
+						
 						this.$router.push({path: "/callerDetail"})
 					} else {
 						// this.$Message.error('Fail!');

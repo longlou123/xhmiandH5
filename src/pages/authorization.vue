@@ -47,13 +47,13 @@
    		<div class="door_stop">
    		 	<div class="text">授权门禁</div>
    		 	<div class="flex">
-   		 		<div class="door_box" v-for="(item,index) in saveDoor">
-   		 			<span>{{item.dName}}</span>
-   		 				<div class="Icon" @click="removeTode(index)">
+   		 		<div class="door_box" v-for="(item,index) in saveDoordata">
+   		 			<span>{{item}}</span>
+   		 				<div class="Icon" @click="removeTode(index)" >
    		 					<Icon  type="ios-close"></Icon>
    		 				</div>
    		 	 	 </div>
-   		 	 	 	<div class="door_box"  @click="sure">
+   		 	 	 	<div class="door_box"  @click="sure"  v-if="delet">
    		 				<div class="Icon Icons">
    		 					<Icon type="ios-plus-outline"></Icon>
    		 				</div>
@@ -73,8 +73,9 @@
     name:'test',
     data(){
       return {
+          delet:false,
           doorName:[],//初始化数据
-          saveDoor:[],//页面展示的数据
+          saveDoordata:[],//页面展示的数据
       	  formValidate: {
                     name: '',
                     name1: '',
@@ -107,49 +108,16 @@
       }
     },
     computed:{
-      ...mapState(['project','projectDoor'])
+      ...mapState(['saveDoor','projectDoor'])
     },
     created(){
 
     },
-    mounted(){    
+    mounted(){  
+          this.getdata();
           var d = new Date();
           this.formValidate.failure = d.getFullYear()+"-0"+(d.getMonth()+1)+"-0"+d.getDate();
-          this.$post('/ssh/openDoor/getDoorByPhone', {
-            projectCode: "123",
-            userName:"伍健",
-            phone: "18312583532"
-          }).then(res=>{
-            var CC=0;            
-            for(var i=0; i<res.result.doorList.length;i++){
-              // console.log(res.result.doorList);
-            var obj={};   
-            obj.dName=res.result.doorList[i].doorName;
-            this.doorName[CC]=obj;  
-            CC++;           
-            }  
-            this.$store.commit('PROJECTDOOR',this.doorName);
-            if(this.project.length==0){
-            this.saveDoor=this.doorName; 
-             console.log(this.saveDoor.length);          
-           }else{
-            for(var i=0;i<this.projectDoor.length;i++){
-              for(var j=0;j<this.project.length;j++){
-                if(this.projectDoor[i]===this.project[j]){
-                this.project.splice(j,1);
-                }
-              }
-            }
-            for(var i = 0; i <this.projectDoor.length; i++){
-          this.project.push(this.projectDoor[i]);
-        }
-        this.saveDoor = this.project
-
-          }          
-          }).catch(err=>{
-            console.log(err);
-          });
-          
+         
     },
     watch:{
       pickerValuer(){
@@ -198,13 +166,38 @@
                 return fmt;
             }
             this.formValidate.effect= this.pickerValues.format("yyyy-MM-dd");
-            console.log("我进来了")
         }
     },
     methods:{
+      getdata(){
+         this.$post('/ssh/openDoor/getDoorByPhone', {
+            projectCode: "123",
+            userName:"伍健",
+            phone: "18312583532"
+          }).then(res=>{
+            var CC=0;            
+            for(var i=0; i<res.result.doorList.length;i++){
+            this.doorName[i]=res.result.doorList[i].doorName;          
+            }  
+            this.$store.commit('PROJECTDOOR',this.doorName);
+            if(this.saveDoor.length==0){
+            this.saveDoordata=this.doorName;        
+            }else {
+            if (this.saveDoordata<this.projectDoor){
+            this.delet=true;
+            }
+            this.saveDoordata = this.saveDoor;
+          }          
+          }).catch(err=>{
+            console.log(err);
+          });
+          
+      },
       removeTode(index) {
-      this.saveDoor.splice(index, 1);
-      this.$store.commit('SAVEDOOR',this.saveDoor);
+      this.saveDoordata.splice(index, 1);
+      this.delet=true;
+      this.$store.commit('SAVEDOOR',this.saveDoordata);
+      console.log(this.saveDoor)
       // 储存修改的数据
      },
       show(){

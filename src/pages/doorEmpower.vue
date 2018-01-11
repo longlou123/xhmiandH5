@@ -1,13 +1,13 @@
 <template>
 	<div class="entranceGuard">
 		<div class="entranceGuard_box" >
-        <Checkbox
+        <Checkbox v-if="hasData"
             :indeterminate="indeterminate"
             :value="checkAll"
             @click.prevent.native="handleCheckAll">全选</Checkbox>
     </div>
     <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
-        <Checkbox :label="item.doorName" v-for="item in dataDoor" :key="item.id"></Checkbox> 
+        <Checkbox :label="item" v-for="item in dataDoor" :key="item.id"></Checkbox> 
     </CheckboxGroup>
     <div class="next_btn">
         <Button type="primary" shape="circle" :long="true"  @click="nextClick()">确定</Button>
@@ -23,16 +23,21 @@
                 checkAll: false,
                 checkAllGroup: [],
                 dataDoor:[],
+                hasData: false,
             }
         },
         computed:{
 			...mapState(['project'])
 		},
 		mounted() {
+			this.getProject();
 			this.getdata();
-			this.checkAllGroup = this.project;			
+						
 		},
         methods: {
+		    	getProject(){
+		    		this.checkAllGroup = this.project
+		    	},
 		    	getdata(){
 				var _this = this;
 				this.$post('/ssh/openDoor/getDoorByPhone', {
@@ -42,7 +47,9 @@
 				}).then(res => {
 					for(var i=0;i<res.result.doorList.length;i++){
 						_this.dataDoor[i] = res.result.doorList[i].doorName;
-					}				
+						//console.log(_this.dataDoor)
+					}
+					this.hasData = true;
 					//console.log(JSON.stringify(this.doorName));
 				}).catch(function(error) {
 					console.log(error);

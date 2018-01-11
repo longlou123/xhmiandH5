@@ -7,9 +7,7 @@
             @click.prevent.native="handleCheckAll">全选</Checkbox>
     </div>
     <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
-        <Checkbox label="千灯湖"></Checkbox> 
-        <Checkbox label="中海华庭东大门"></Checkbox> 
-        <Checkbox label="中海华庭西大门"></Checkbox>     
+        <Checkbox :label="item" v-for="(item,index) in dataDoor" :key="item"></Checkbox>      
     </CheckboxGroup>
     <div class="next_btn">
         <Button type="primary" shape="circle" :long="true" class="btn" @click="nextClick()">确定</Button>
@@ -17,16 +15,31 @@
 	</div>
 </template>
 <script >
+import { mapState, mapMutations } from 'vuex';
  export default {
         data () {
             return {
                 indeterminate: true,
                 checkAll: false,
-                checkAllGroup: ['千灯湖', '中海华庭东大门']
+                checkAllGroup: [],
+                dataDoor:[]
             }
         },
-        methods: {
+
+         computed:{
+            ...mapState(['projectDoor','saveDoor'])
+         },
+         mounted(){
+            this.checkAllGroup=this.saveDoor;
+            this.getdata();
+
+         },
+         methods: {
+            getdata(){
+                this.dataDoor=this.projectDoor;  
+            },
             nextClick(){
+            this.$store.commit('SAVEDOOR',this.checkAllGroup);
             this.$router.push({path:"/authorization"})
                 },
 
@@ -58,10 +71,6 @@
             }
         }
     }
-   
-
-
-
 </script>
 <style lang="scss" scoped>
 	.entranceGuard{
