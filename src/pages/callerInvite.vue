@@ -20,7 +20,8 @@
 					<FormItem label="生效日期 :" prop="star_time" >
 						<Input  placeholder="请填写生效时间" v-model="formValidate.star_time" readonly='readonly'></Input>
 					</FormItem>
-				</div>	
+				</div>
+				
 				<div @click="endTime">
 					<FormItem label="失效日期 :" prop="end_time" ><!--prop="lose"-->
 						<Input placeholder="请填写失效时间"  v-model="formValidate.end_time" readonly='readonly'></Input>
@@ -41,7 +42,7 @@
 				<div class="flex">
 					<ul class="door_box" v-for='(name,index) in projectPage'>
 						<li>
-							<span>{{name.doorName}}</span>
+							<span>{{name}}</span>
 							<div class="detele" @click="Delete(index)">
 								<Icon type="ios-close"></Icon>
 							</div>
@@ -79,9 +80,8 @@
 					data:''
 				},
 				add:false,
-				test:[],
 				projectPage:[],//页面展示数据
-				projectInital:[],//初始化数据
+				projectInital:['中海华庭东大门','中海华庭东小门','中海华庭东中门','中海华庭东地门','中海华庭东天门'],//初始化数据
 				ruleValidate: {
 					name: [{
 						required: true,
@@ -126,61 +126,38 @@
 		
 		},
 		computed:{
-			...mapState(['project','projectDoop'])//获取自己修改的数组和选取门列表数组
+			...mapState(['project','projectDoop'])
 		},
 		created() {
 
 		},
 		mounted() {
-			this.getdata();
-//			 this.$store.commit('PROJECTINITAL',this.projectInital);
+			//console.log(this.projectInital)
+			 this.$store.commit('PROJECTINITAL',this.projectInital);//
+			if(this.project.length == 0){
+				this.projectPage = this.projectInital
+			}else{
+				for(var i=0;i<this.projectDoop.length;i++){
+					for(var j=0;j<this.project.length;j++){
+						if(this.projectDoop[i]===this.project[j]){
+							this.project.splice(j,1);
+						}					
+					}					
+				}
+				for(var i = 0; i <this.projectDoop.length; i++){
+				  this.project.push(this.projectDoop[i]);
+				}
+				this.projectPage = this.project
+			}
+			if(this.projectPage.length<this.projectInital.length){
+				this.add = true;
+			}
 		},
 		methods: {
-			getdata() {
-				var _this = this;
-				this.$post('/ssh/openDoor/getDoorByPhone', {
-					projectCode: "123",
-					userName: "龙楼",
-					phone: "13717135881"
-				}).then(res => {
-					//console.log(res.result.doorList)
-					for(var i=0;i<res.result.doorList.length;i++){
-						var list = {};
-						list.doorID = res.result.doorList[i].doorID;
-						list.doorName = res.result.doorList[i].doorName;
-						_this.projectInital[i]=list;
-					}
-					if(this.project.length == 0) {
-						this.projectPage = this.projectInital
-						//this.projectPage = JSON.stringify(this.projectInital)
-					} else {
-						//将选取的门列表与保存在vuex的门列表对比删除相同的元素
-						for(var i = 0; i < this.projectDoop.length; i++) {
-							for(var j = 0; j < this.project.length; j++) {
-								if(this.projectDoop[i] === this.project[j]) {
-									this.project.splice(j, 1);
-								}
-							}
-						}
-						//合并两个数组
-						for(var i = 0; i < this.projectDoop.length; i++) {
-							this.project.push(this.projectDoop[i]);
-						}
-						this.projectPage = this.project//将合并后数组赋给展示数组
-					}
-					if(this.projectPage.length < this.projectInital.length) {
-						this.add = true;
-					}
-					//console.log(JSON.stringify(this.doorName));
-				}).catch(function(error) {
-					console.log(error);
-				});
-			},
-			Delete(index) {
-				this.projectPage.splice(index, 1);
-				this.add = true;
-				this.$store.commit('PROJECT',this.projectPage);//储存修改的数据
-				//将修改过的门列表保存到vuex
+			Delete(index){
+				 this.projectPage.splice(index,1);
+				 this.add = true;
+				 this.$store.commit('PROJECT',this.projectPage);//储存修改的数据
 			},
 			nowTis(){
 				if(this.star){

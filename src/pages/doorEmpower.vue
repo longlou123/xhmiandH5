@@ -7,7 +7,7 @@
             @click.prevent.native="handleCheckAll">全选</Checkbox>
     </div>
     <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
-        <Checkbox :label="Data.doorName" v-for="Data in dataDoor"></Checkbox> 
+        <Checkbox :label="item.doorName" v-for="item in dataDoor" :key="item.id"></Checkbox> 
     </CheckboxGroup>
     <div class="next_btn">
         <Button type="primary" shape="circle" :long="true"  @click="nextClick()">确定</Button>
