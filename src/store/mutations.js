@@ -2,7 +2,8 @@ import{
 	GET_ID,
 	PROJECT,
 	PROJECTDOOP,
-	PROJECTINITAL
+	PROJECTINITAL,
+	USERNAME
 	
 } from './mutation-types.js'
 
@@ -10,13 +11,16 @@ export default{
 	[GET_ID](state,value){
 		
 	},
-	[PROJECT](state,proxxxx){
-		state.project = proxxxx
+	[PROJECT](state,project){
+		state.project = project
 	},
-	[PROJECTDOOP](state,two){
-		state.projectDoop = two
+	[PROJECTDOOP](state,twoproject){
+		state.projectDoop = twoproject
 	},
-	[PROJECTINITAL](state,project3){
-		state.projectInital = project3
-	}
+	[USERNAME](state,name){
+		state.userName = name
+	},
+//	[PROJECTINITAL](state,project3){
+//		state.projectInital = project3
+//	}
 }

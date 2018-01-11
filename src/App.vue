@@ -5,18 +5,16 @@
 </template>
 
 <script>
-	import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 export default {
-	
-  name: 'app',
-  computed:{
+	name: 'app',
+	computed: {
 		...mapState(['projectInital'])
 	},
-  watch:{
-  	projectInital:function(){
-  		//console.log(this.projectInital)
-  	}
-  },
+	watch: {
+		projectInital: function() {
+		}
+	},
 }
 </script>
 
