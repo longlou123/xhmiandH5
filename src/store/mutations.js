@@ -5,7 +5,8 @@ import{
 	PROJECTDOOR,
 	PROJECTINITAL,
 	SAVEDOOR,
-	USERNAME
+	USERNAME,
+	MASSAGESAVE
 	
 } from './mutation-types.js'
 
@@ -34,6 +35,9 @@ export default{
 	[USERNAME](state,name){
 		state.userName = name
 	},
+	[MASSAGESAVE](state,massage){
+		state.massageSave=massage
+	}
 //	[PROJECTINITAL](state,project3){
 //		state.projectInital = project3
 //	}

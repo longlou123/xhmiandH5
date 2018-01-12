@@ -7,7 +7,7 @@
         	</FormItem>
         	<FormItem label="类型 :" prop="city">
             <Select v-model="formValidate.city" placeholder="请选择">
-                <Option value="beijing">请选择</Option>
+                <Option value="beijing">家属</Option>
                 <Option value="shanghai">London</Option>
                 <Option value="shenzhen">Sydney</Option>
             </Select>
@@ -76,6 +76,8 @@
           delet:false,
           doorName:[],//初始化数据
           saveDoordata:[],//页面展示的数据
+          seeproject:[],
+          sendData:[],
       	  formValidate: {
                     name: '',
                     name1: '',
@@ -116,7 +118,8 @@
     mounted(){  
           this.getdata();
           var d = new Date();
-          this.formValidate.failure = d.getFullYear()+"-0"+(d.getMonth()+1)+"-0"+d.getDate();
+          this.formValidate.failure = d.getFullYear()+"-0"+(d.getMonth()+1)+"-"+d.getDate();
+          console.log(this.formValidate.failure);
          
     },
     watch:{
@@ -170,20 +173,25 @@
     },
     methods:{
       getdata(){
+          var _this=this;
          this.$post('/ssh/openDoor/getDoorByPhone', {
             projectCode: "123",
             userName:"伍健",
             phone: "18312583532"
-          }).then(res=>{
-            var CC=0;            
+          }).then(res=>{       
+              console.log(res);     
             for(var i=0; i<res.result.doorList.length;i++){
-            this.doorName[i]=res.result.doorList[i].doorName;          
+            var obj={}; 
+            obj.doorID=res.result.doorList[i].doorID; 
+            obj.doorName = res.result.doorList[i].doorName; 
+            _this.doorName[i]=obj;  
+            _this.seeproject[i]=res.result.doorList[i].doorName;     
             }  
             this.$store.commit('PROJECTDOOR',this.doorName);
             if(this.saveDoor.length==0){
-            this.saveDoordata=this.doorName;        
+            this.saveDoordata=this.seeproject;        
             }else {
-            if (this.saveDoordata<this.projectDoor){
+            if (this.saveDoordata.length < this.projectDoor.length){
             this.delet=true;
             }
             this.saveDoordata = this.saveDoor;
@@ -208,12 +216,33 @@
         // console.log(this.pickerValue);
       },
     	sure(){
-    		this.$router.push({path:"/entranceGuard"})
+            if(this.delet){
+					this.$router.push({
+						path: "/entranceGuard"
+					})
+				}	
     	},    	
 		   handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        this.$Message.success('Success!');
+                        // this.$Message.success('Success!');
+                        for(var i = 0; i < this.saveDoordata.length; i++) {
+							//console.log(this.projectPage)
+							for(var j = 0; j < this.doorName.length; j++) {
+								if(this.saveDoordata[i] == this.doorName[j].doorName) {
+									this.sendData[i]=this.doorName[j];								
+								}
+							}
+						}
+						this.formValidate.granterPhone = '18312583532';
+						this.formValidate.projectCode = '123';
+						this.formValidate.doors = JSON.stringify(this.sendData);
+						console.log(this.formValidate)
+                        this.$store.commit('MASSAGESAVE',this.formValidate);
+						this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
+							console.log(res);
+							this.$router.push({path: "/activateCard"})
+						})			
                     } else {
                         // this.$Message.error('Fail!');
                     }
@@ -271,7 +300,13 @@ html,body{
     			         box-shadow: 0px -5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4;	
                    border-radius:0.15rem;
                       span{
-                          font-size:0.24rem;
+                           display: inline-block;
+							width: 100%;
+							overflow:hidden; 
+							white-space:nowrap; 
+							text-overflow:ellipsis;
+							font-size: 0.24rem;
+                            font-size:0.24rem;
                            }
     			           .Icon{
     				              display:inline-block;

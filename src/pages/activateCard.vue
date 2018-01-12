@@ -36,7 +36,7 @@
     </div>
 </template>
 <script >
-
+import { mapState, mapMutations } from 'vuex';
   export default {
     name:'test',
     data(){
@@ -81,8 +81,19 @@
         ],
       }
     },
+     computed:{
+      ...mapState(['massageSave'])
+    },
     methods:{
       nextClick(){
+        this.$post('/ssh/grantCard/registerCardEvent', {
+            doorName:"伍健",
+            doorID: "18312583532"
+          }).then(res=>{
+            console.log
+          }).catch(err=>{
+            console.log(err)
+          })
         this.currents++;
         this.stepStatus++;
         clearInterval(this.timer);
@@ -108,6 +119,7 @@
     },
     mounted() {
       this.stepStatus = 0;
+      
     },
     watch: {
       stepStatus: function(){
