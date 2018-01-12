@@ -5,19 +5,19 @@
         	<FormItem label="姓名 :" prop="name">
             	<Input v-model="formValidate.name" placeholder=""></Input>
         	</FormItem>
-        	<FormItem label="类型 :" prop="city">
-            <Select v-model="formValidate.city" placeholder="请选择">
-                <Option value="beijing">家属</Option>
-                <Option value="shanghai">London</Option>
-                <Option value="shenzhen">Sydney</Option>
+        	<FormItem label="类型 :" prop="type">
+            <Select v-model="formValidate.type" placeholder="请选择">
+                <Option value="1">家属</Option>
+                <Option value="2">租客</Option>
+                <Option value="3">访客</Option>
             </Select>
         	</FormItem>
-        	<FormItem label="手机 :" prop="name1">
-            	<Input v-model="formValidate.name1" placeholder=""></Input>
+        	<FormItem label="手机 :" prop="phone">
+            	<Input v-model="formValidate.phone" placeholder=""></Input>
        		 </FormItem>
         	 <div  @click="show">
-             <FormItem label="生效日期 :"  prop="failure">
-              <Input v-model="formValidate.failure" placeholder=""  readonly ></Input>
+             <FormItem label="生效日期 :"  prop="startTime">
+              <Input v-model="formValidate.startTime" placeholder=""  readonly ></Input>
           </FormItem>
            </div>
           <mt-datetime-picker
@@ -27,6 +27,7 @@
             year-format=" {value} 年"
             month-format=" {value} 月"
             date-format=" {value} 日"
+            :startDate="this.time"
             >
           </mt-datetime-picker>
           <mt-datetime-picker
@@ -36,11 +37,12 @@
             year-format=" {value} 年"
             month-format=" {value} 月"
             date-format=" {value} 日"
+            :startDate="this.time"
             >
           </mt-datetime-picker>
           <div  @click="show_box">
-            <FormItem label="失效日期 :" prop="effect" >
-               <Input v-model="formValidate.effect" placeholder=""  readonly></Input>
+            <FormItem label="失效日期 :" prop="endTime" >
+               <Input v-model="formValidate.endTime" placeholder=""  readonly></Input>
           </FormItem>
           </div>  
    		 </Form>
@@ -78,35 +80,35 @@
           saveDoordata:[],//页面展示的数据
           seeproject:[],
           sendData:[],
+          time: new Date(),
+          pickerValuer: '',
+          pickerValues:'',
       	  formValidate: {
                     name: '',
-                    name1: '',
-                    name2: '',
-                    name3: '',
-                    city: '',
-                    effect:'',
-                    failure:''
+                    phone: '',
+                    type: '',
+                    endTime:'',
+                    startTime:''
                 },
           ruleValidate: {
                     name: [
                         { required: true, message: '请填写使用人', trigger: 'blur' }
                     ],
-                    name1: [
+                    phone: [
                         { required: true, message: '请填写手机号', trigger: 'blur' }
                     ],
-                    city: [
+                    type: [
                         { required: true, message: 'Please select the type', trigger: 'change' }
                     ],
-                    effect:[
+                    endTime:[
                         { required: true, message: '请选择失效时间', trigger: 'change' }
                     ],
-                    failure:[
+                    startTime:[
                         { required: true, message: '请选择生效时间', trigger: 'change' }
                     ]
 
                 },
-          pickerValuer: '',
-          pickerValues:''
+          
       }
     },
     computed:{
@@ -118,8 +120,8 @@
     mounted(){  
           this.getdata();
           var d = new Date();
-          this.formValidate.failure = d.getFullYear()+"-0"+(d.getMonth()+1)+"-"+d.getDate();
-          console.log(this.formValidate.failure);
+          this.formValidate.startTime = d.getFullYear()+"-0"+(d.getMonth()+1)+"-"+d.getDate();
+          // console.log(this.formValidate.failure);
          
     },
     watch:{
@@ -144,7 +146,7 @@
                 }
                 return fmt;
             }
-            this.formValidate.failure = this.pickerValuer.format("yyyy-MM-dd");
+            this.formValidate.startTime = this.pickerValuer.format("yyyy-MM-dd");
             // this.failure= this.pickerValue.format("yyyy-MM-dd");
         },
       pickerValues(){
@@ -168,24 +170,24 @@
                 }
                 return fmt;
             }
-            this.formValidate.effect= this.pickerValues.format("yyyy-MM-dd");
+            this.formValidate.endTime= this.pickerValues.format("yyyy-MM-dd");
         }
     },
     methods:{
       getdata(){
           var _this=this;
          this.$post('/ssh/openDoor/getDoorByPhone', {
-            projectCode: "123",
-            userName:"伍健",
-            phone: "18312583532"
+              projectCode: "123",
+              userName:"伍健",
+              phone: "18312583532"
           }).then(res=>{       
               console.log(res);     
             for(var i=0; i<res.result.doorList.length;i++){
-            var obj={}; 
-            obj.doorID=res.result.doorList[i].doorID; 
-            obj.doorName = res.result.doorList[i].doorName; 
-            _this.doorName[i]=obj;  
-            _this.seeproject[i]=res.result.doorList[i].doorName;     
+              var obj={}; 
+              obj.doorID=res.result.doorList[i].doorID; 
+              obj.doorName = res.result.doorList[i].doorName; 
+              _this.doorName[i]=obj;  
+              _this.seeproject[i]=res.result.doorList[i].doorName;     
             }  
             this.$store.commit('PROJECTDOOR',this.doorName);
             if(this.saveDoor.length==0){
@@ -205,7 +207,7 @@
       this.saveDoordata.splice(index, 1);
       this.delet=true;
       this.$store.commit('SAVEDOOR',this.saveDoordata);
-      console.log(this.saveDoor)
+      // console.log(this.saveDoor)
       // 储存修改的数据
      },
       show(){
@@ -224,11 +226,9 @@
     	},    	
 		   handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
-                    if (valid) {
-                        // this.$Message.success('Success!');
-                        for(var i = 0; i < this.saveDoordata.length; i++) {
-							//console.log(this.projectPage)
-							for(var j = 0; j < this.doorName.length; j++) {
+                if (valid) {
+                for(var i = 0; i < this.saveDoordata.length; i++) {
+							  for(var j = 0; j < this.doorName.length; j++) {
 								if(this.saveDoordata[i] == this.doorName[j].doorName) {
 									this.sendData[i]=this.doorName[j];								
 								}

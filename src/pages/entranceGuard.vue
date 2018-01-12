@@ -20,28 +20,27 @@ import { mapState, mapMutations } from 'vuex';
  export default {
         data () {
             return {
-                indeterminate: true,
-                checkAll: false,
-                checkAllGroup: [],
-                dataDoor:[],
-                hasData: false,
+            indeterminate: true,
+            checkAll: false,
+            checkAllGroup: [],
+            dataDoor:[],
+            hasData: false,
             }
         },
-
          computed:{
             ...mapState(['projectDoor','saveDoor'])
          },
          mounted(){
-             this.getProject();
+            this.getProject();
             this.getdata();
             
             
          },
          methods: {
-             getProject(){
-		     this.checkAllGroup=this.saveDoor;
-             console.log(this.saveDoor);
-		    	},
+            getProject(){
+		    this.checkAllGroup=this.saveDoor;
+            // console.log(this.saveDoor);
+		  },
             getdata(){
             var _this=this
             this.$post('/ssh/openDoor/getDoorByPhone', {

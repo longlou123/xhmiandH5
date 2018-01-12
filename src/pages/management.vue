@@ -1,11 +1,11 @@
 <template>	
 		<div class="management">
-			<div class="visitors">
-				<div class="center_one">
-					<div class="center_two" @click="getdata">
-						<span class="text_span">小五</span><span class="guest">访客</span>
-					    <div class="card">卡号：13738381438</div>
-					    <div class="time">有效期：2017-10-10至2017-10-11</div>
+			<div class="visitors"  @click="getnow(item,index)" v-for="(item, index) in doorList" >
+				<div class="center_one" >
+					<div class="center_two"   >
+						<span class="text_span" >{{item.name}}</span><span class="guest">{{item.type}}</span>
+					    <div class="card">卡号：{{item.doorList}}</div>
+					    <div class="time">有效期：{{item.startTime}}至{{item.endTime}}</div>
 					</div>
 					<button class="btn" @click="modal3 = true">注销</button>
 				</div>
@@ -16,36 +16,76 @@
                         <p>请确定是否进行删除</p>
                 </Modal>
             </div>										
-		    </div>
+	    </div>
 </template>
 <script >
+import Vue from 'vue'
+import {saveStore} from '@/script/util'
   export default {
-    name:'test',
     data(){
       return {
       	modal3: false,
+        doorList:[],
+        modifyvue:null,
+        detailsList: false,
+        value:[]
+
       }
     },
     mounted(){
+       this.getdata();
+    },
+    created() {
+        
     },
     methods:{
-    	jump(){
-    		this.$router.push({path:"/details"});
-    	},
+    	// jump(){
+    	// 	this.$router.push({path:"/details"});
+    	// },
+        getnow(d,index){   
+            this.modifyvue = d;
+            saveStore('userData',this.modifyvue);
+            this.$router.push({
+                path: "/details",
+                query: {
+                    value: index
+                }
+            });
+            console.log(JSON.stringify(this.modifyvue));
+        },
+
         success(){
             this.MessageBox.confirm(message, title);
         },
         getdata(){
-          this.$get('/ssh/grantCard/getGrantCardByUser', {
+            var _this=this
+           this.$post('/ssh/grantCard/getGrantCardByUser', {
             projectCode: "123",  
-            granterPhone: "18312583532",
-            pageSize:1,
+            granterPhone: "18320489492",
+            pageSize:3,
             pageNumber:1
           }).then(res=>{
-            console.log(res)
-            if(res.result.cardList==0){
-                this.$router.push({path:"/authorization"})
+            for(var i=0; i<res.result.cardList.length; i++){
+                var obj={};
+                obj.cardNumber=res.result.cardList[i].cardNumber;
+                obj.granterPhone=res.result.cardList[i].endTime;
+                obj.name=res.result.cardList[i].name;
+                obj.type=res.result.cardList[i].type;
+                obj.phone=res.result.cardList[i].phone;
+                obj.startTime=res.result.cardList[i].startTime;
+                obj.endTime=res.result.cardList[i].endTime;
+                obj.isCancel=res.result.cardList[i].isCancel;
+                if(res.result.cardList[i].type===1){
+                    obj.type="家属";
+                }else if(res.result.cardList[i].type===2){
+                    obj.type="租客";
+                }else{
+                    obj.type="访客";
+                }
+                _this.doorList[i] = obj;
+                Vue.set(_this.doorList, i, obj);
             }
+            
           }).catch(function (error) {
             console.log(error);
           });
@@ -64,7 +104,8 @@
     		background-color:#ffffff;
     		overflow:hidden;
     		box-shadow: 0px 5px 5px #E8EBF4;
-            margin:0 0.3rem;
+            margin:0  0.3rem;
+            margin-bottom:0.4rem;
             border-radius:0.15rem;
             box-shadow: 0px -5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4;  
     		.center_one{
@@ -103,7 +144,7 @@
     				border:none;
     				background-color:#5698FF;
     				border-radius:0.2rem;
-    				margin-top:0.12rem;
+    				margin-top:0.15rem;
     				margin-right:0.2rem;
     			}
     		}

@@ -86,42 +86,51 @@ import { mapState, mapMutations } from 'vuex';
     },
     methods:{
       nextClick(){
-        this.$post('/ssh/grantCard/registerCardEvent', {
-            doorName:"伍健",
-            doorID: "18312583532"
-          }).then(res=>{
-            console.log
-          }).catch(err=>{
-            console.log(err)
-          })
-        this.currents++;
-        this.stepStatus++;
-        clearInterval(this.timer);
+        switch (this.stepStatus){
+          case 0:
+          	this.$post('/ssh/grantCard/registerCardEvent', {
+            carId: '1515745715132',
+            doorID: "83886383",	// 正门
+	          }).then(res=>{
+	            console.log(res);
+	            this.currents++;
+		        	this.stepStatus++;
+	          }).catch(err=>{
+	            console.log(err)
+	            this.stepStatus = 10;
+	          })
+	          break;
+	        case 1:
+	        	alert(2)
+        }
       },
+      // 计时
       count(num){
         this.countTime = num;
         var _this = this;
         this.timer = setInterval(function(){
-          parseInt(_this.countTime);
+          _this.countTime = parseInt(_this.countTime);
           _this.countTime--;
-          if(_this.countTime<10){
+          if(_this.countTime<10 && _this.countTime >= 0){
             _this.countTime = '0' + _this.countTime;
           }
-          if(_this.countTime == 0){
-            clearInterval(_this.timer)
+          if(_this.countTime <= 0){
+            window.clearInterval(_this.timer)
           }
         }, 1000)
       },
-      //轮询
+      // 轮询
       longAsk(num){
 
       },
     },
     mounted() {
+      // carId: "1515727475565"
       this.stepStatus = 0;
       
     },
     watch: {
+    	// stepStatus 只关注tips
       stepStatus: function(){
         console.log(this.stepStatus);
         switch (this.stepStatus){
@@ -131,29 +140,35 @@ import { mapState, mapMutations } from 'vuex';
             this.btnText = '下一步';
             break
           case 1:
+          	document.getElementsByClassName('btn')[0].setAttribute('disabled', 'disabled');
             this.tipsText1 = '第一次读卡';
             this.tipsText2 = '请将IC卡放置需要授权的门禁读头';
             this.btnText = '下一步';
-            this.count(30);
+            this.count(5);
             this.longAsk(30);
             break
           case 2:
-            this.tipsText1 = '';
-            this.tipsText2 = '';
-            this.btnText = '完成';
-            break
-          case 3:
             this.tipsText1 = '第二次读卡';
             this.tipsText2 = '请再次将IC卡防止门禁读头上';
             this.btnText = '下一步';
+            break
+          case 3:
+          	document.getElementsByClassName('btn')[0].setAttribute('disabled', 'disabled');
+            this.tipsText1 = '';
+            this.tipsText2 = '';
+            this.btnText = '完成';
             break
           case 9:
             this.tipsText1 = '读卡失败';
             this.tipsText2 = '请重新将IC卡放置需要授权的门禁读头上';
             break
+          case 10:
+            this.tipsText1 = '发生错误';
+            this.tipsText2 = '';
+            break
         }
       },
-      //监听选择器的值变化
+      // 监听选择器的值变化
       selectValue: function(){
         
       }
