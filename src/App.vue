@@ -5,8 +5,16 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
 export default {
-  name: 'app'
+	name: 'app',
+	computed: {
+		...mapState(['projectInital'])
+	},
+	watch: {
+		projectInital: function() {
+		}
+	},
 }
 </script>
 

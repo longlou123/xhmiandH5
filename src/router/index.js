@@ -5,14 +5,15 @@ import test1 from '@/pages/test1'
 import doorCard from '@/pages/doorCard'
 import management from '@/pages/management'
 import authorization from '@/pages/authorization'
-import project from '@/pages/project'
+// import project from '@/pages/project'
 import entranceGuard from '@/pages/entranceGuard'
 import activateCard from '@/pages/activateCard'
-import projectEmpower from '@/pages/projectEmpower'
 import callerInvite from '@/pages/callerInvite'
 import doorEmpower from '@/pages/doorEmpower'
 import callerNodepad from '@/pages/callerNodepad'
 import details from '@/pages/details'
+import twoDimension from '@/pages/twoDimension'
+import callerDetail from '@/pages/callerDetail'
 Vue.use(Router)
 
 export default new Router({
@@ -37,11 +38,11 @@ export default new Router({
       name: 'authorization',
       component: authorization
     },
-    {
-      path: '/project',
-      name: 'project',
-      component: project
-    },
+    // {
+    //   path: '/project',
+    //   name: 'project',
+    //   component: project
+    // },
     {
       path: '/entranceGuard',
       name: 'entranceGuard',
@@ -56,11 +57,7 @@ export default new Router({
       component: details
     },
     //二维码访客邀请
-    {
-      path: '/projectEmpower',
-      name: 'projectEmpower',
-      component: projectEmpower
-    },
+    
     {
       path: '/callerInvite',
       name: 'callerInvite',
@@ -75,6 +72,16 @@ export default new Router({
       path: '/callerNodepad',
       name: 'callerNodepad',
       component: callerNodepad
+    },
+    {
+      path: '/callerDetail',
+      name: 'callerDetail',
+      component: callerDetail
+    },
+    {
+      path: '/twoDimension',
+      name: 'twoDimension',
+      component: twoDimension
     },
   ]
 })

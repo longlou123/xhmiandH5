@@ -11,14 +11,18 @@
 export default {
 	data() {
 		return {
-			vertical: 'apple'
+			vertical: 'apple',
+			name:'大哥',
 
 		}
 	},
+	computed: {
+		
+		},
 	methods: {
 		sure() {	
-			alert(222)
-			this.$router.push({path: ""})
+			 this.$store.commit('USERNAME',this.name);//储存修改的数据
+			this.$router.push({path: "callerDetail"})
 		}
 	}
 }
@@ -26,22 +30,20 @@ export default {
 
 <style lang="scss" scoped>
 .center{
-	width:7.5rem;
-    	height: 13.34rem;
+	width:100%;
     	background-color:#EFf2f5;
-    	padding-top:0.28rem;
-    	.list_ul{
-    		
+    //padding-top:0.28rem;
+    	.list_ul{		
     		li{
     			position: relative;
     			padding: 0 0.4rem;
     			height: 1.16rem;
     			width: 100%;
     			text-align: left;
-    			border-bottom: 0.02rem solid lightgray;
+    			border-bottom: 0.02rem solid #E5E7E9;
     			p{
-    				height: 0.62rem;
-    				line-height: 0.62rem;
+    				height: 0.6rem;
+    				line-height: 0.6rem;
     				z-index: 1;
     			}
     			.time{

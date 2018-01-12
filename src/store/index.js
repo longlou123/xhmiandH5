@@ -5,7 +5,14 @@ import mutations from './mutations';
 Vue.use(Vuex)
 
 const state = {
-	
+	project:[],
+	projectDoop:[],
+	projectDoor:[],
+	projectInital:[],
+	saveDoor:[],
+	newUrl: 'https://xymind.net:3000',
+	userName:'大哥',
+	//projectInital:[],
 }
 
 export default new Vuex.Store({

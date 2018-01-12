@@ -9419,7 +9419,9 @@ span.ivu-radio+* {
 }
 
 .ivu-checkbox-group-item {
-    display: inline-block
+    display: inline-block;
+    width:100%;
+
 }
 
 .ivu-switch {
@@ -10960,7 +10962,7 @@ textarea.ivu-page-options-elevator input {
     margin: 0 auto;
     position: relative;
     outline: 0;
-    top: 100px
+    top: 100px;
 }
 
 .ivu-modal-hidden {
@@ -11056,8 +11058,8 @@ textarea.ivu-page-options-elevator input {
 
 .ivu-modal-footer {
     border-top: 1px solid #e3e8ee;
-    padding: 12px 18px 12px 18px;
-    text-align: right
+    padding: 0.05rem  0;
+    /*text-align: right*/
 }
 
 .ivu-modal-footer button+button {
@@ -11940,7 +11942,7 @@ textarea.ivu-input {
 }
 
 .ivu-input-icon+.ivu-input {
-    padding-right: 32px
+    padding-right: 3px
 }
 
 .ivu-input-wrapper-large .ivu-input-icon {
@@ -14138,7 +14140,7 @@ span.ivu-date-picker-cells-cell-disabled.ivu-date-picker-cells-cell-selected em 
 }
 
 .ivu-form-item {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     vertical-align: top;
     zoom: 1
 }
@@ -14673,3 +14675,112 @@ a {
 .ivu-btn {
     border-radius: 0.2rem;
 }
+/*自定义弹出删除页面样式*/
+.ivu-modal-body P{
+    color:#8DB9FE;
+}
+/*.ivu-btn-text span{
+    color:#C0C0C1;
+}*/
+.ivu-btn-primary {
+    color:#C0C0C1;
+    background-color:#39f;
+    border-color:#39f;
+}
+/*.ivu-btn-primary span{
+    color:#C0C0C1;
+}*/
+.ivu-modal-content{
+    position: relative;
+    left:1.3rem;
+    top:2rem;
+    background-color: #fff;
+    border: 0;
+    border-radius: 6px;
+    background-clip: padding-box;
+    width: 4.5rem;
+    height: 2.3rem;
+    text-align: center;
+}
+.ivu-modal-footer{
+    text-align:none;
+    padding:none;
+}
+/*自定义详情页样式*/
+.ivu-form .ivu-form-item-label{
+    font-size:0.3rem;
+    color:#5A575F;
+}
+/*.ivu-input{
+    text-align:right;
+    border:none;
+}*/
+.ivu-modal-body{
+    color:#5698FF;
+    
+}
+  button.ivu-btn.ivu-btn-text.ivu-btn-large span{
+    color:#C0C0C1;
+
+  }
+  button.ivu-btn.ivu-btn-primary.ivu-btn-large span{
+    color:#C0C0C1;
+    border-left:0.01rem solid #C0C0C1;
+    padding-left:0.75rem;
+    }
+  button.ivu-btn.ivu-btn-primary.ivu-btn-large{
+    background-color:transparent;
+    border-color:transparent;
+  }
+/*门禁选择自定义样式修改*/
+.entranceGuard .ivu-checkbox-group{
+    text-align: left;
+    font-size: 14px;
+    line-height: 0.86rem;
+    /*border-bottom:0.01rem solid #E5E7E9;*/
+    background-color:#ffffff;
+    border-radius:0.2rem;
+}
+.entranceGuard .ivu-checkbox-group:hover{
+    /*background-color:#DEE7F0;*/
+}
+ .authorization .ivu-form-item-error-tip{
+    font-size:0.24rem;
+ }
+ .project .ivu-radio-group{
+            width:90%;
+            display: inline-block;
+            font-size: 12px;
+            vertical-align: middle;
+            float: left;
+            text-align: left;
+            margin: 0 0.35rem;
+            background-color: #ffffff;
+            border-radius: 0.2rem;
+            box-shadow: -5px -5px 5px #E8EBF4, 5px 5px 5px #E8EBF4, 5px 5px 5px #E8EBF4, 5px 5px 5px #E8EBF4;
+        }
+ .ivu-radio-group-vertical .ivu-radio-wrapper:hover{
+            background-color:#DEE7F0;
+            border-radius: 0.1rem;
+        }
+        [type=reset], [type=submit], button, html [type=button]{
+            height:0.89rem;
+        }
+        .project button span{
+            font-size:0.36rem;
+        }
+        .entranceGuard .ivu-checkbox-wrapper{
+            font-size:0.3rem;
+            width:100%;
+            border-radius:0.2rem;
+        }
+.entranceGuard .ivu-checkbox-wrapper:hover{
+            background-color:#DEE7F0;
+        }
+
+        .entranceGuard  button span{
+            font-size:0.36rem;
+        }
+        .entranceGuard .ivu-checkbox{
+            margin-left:0.3rem;
+        }
