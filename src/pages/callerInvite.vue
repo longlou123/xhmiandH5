@@ -74,7 +74,7 @@
 			return {
 				formValidate: {
 					name: null,
-					type: 1,
+					type: null,
 					phone: '13717135881',
 					startTime: '2018-01-11 15:00:00',
 					endTime: '2018-01-18 23:59:59',

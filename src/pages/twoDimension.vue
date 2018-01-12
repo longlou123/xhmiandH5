@@ -2,7 +2,8 @@
 	<div class="center">
 		<div class="content">
 			<div class="img">
-				<img src="../images/8888.jpg" alt="" />
+				<div id="imgBox"></div>
+				<!--<img src="../images/8888.jpg" alt="" />-->
 			</div>
 			<p class="name">big楼</p>
 			<div class="message">
@@ -26,21 +27,39 @@
 </template>
 
 <script>
+	import QRCode from 'qrcodejs2'
 export default {
 	data() {
 		return {
 			vertical: 'apple',
 			btnText: '分享',
+			qrcode:null,
+			imgBox:null,
+			elText:'1234567800'
 
 		}
+	},
+	mounted() {
+		this.imgBox = document.getElementById("imgBox");
+		this.qrcode = new QRCode(this.imgBox, {
+			width : 274,
+			height :250
+		});
+		this.makeCode();
 	},
 	methods: {
 		sure() {	
 			this.$router.push({path: ""})
 		},
-		nextClick(){
+		makeCode () {			
+			if (!this.elText) {
+				//alert("Input a text");
+				this.elText.focus();
+				return;
+			}	
+			this.qrcode.makeCode(this.elText);
+		}
 	    
-	    },
 	}
 }
 </script>
@@ -59,7 +78,7 @@ export default {
     		width: 100%;
     		height: 5.8rem;
     		padding: 0.45rem 1rem;
-    		img{
+    		#qrcode{
     			width: 100%;
     			height: 4.8rem;
     			border: 0.02rem solid #000000;
