@@ -86,18 +86,25 @@ import { mapState, mapMutations } from 'vuex';
     },
     methods:{
       nextClick(){
-        this.$post('/ssh/grantCard/registerCardEvent', {
+        switch (this.stepStatus){
+          case 0:
+          	this.$post('/ssh/grantCard/registerCardEvent', {
             doorName:"伍健",
-            doorID: "18312583532"
-          }).then(res=>{
-            console.log
-          }).catch(err=>{
-            console.log(err)
-          })
-        this.currents++;
-        this.stepStatus++;
-        clearInterval(this.timer);
+            doorID: "18312583532",
+	          }).then(res=>{
+	            console.log(res);
+	            this.currents++;
+		        	this.stepStatus++;
+		        	count(30);
+		        	// clearInterval(this.timer);
+	          }).catch(err=>{
+	            console.log(err)
+	          })
+	          break;
+	          
+        }
       },
+      //计时
       count(num){
         this.countTime = num;
         var _this = this;
@@ -118,6 +125,7 @@ import { mapState, mapMutations } from 'vuex';
       },
     },
     mounted() {
+      //carId: 1515724887250
       this.stepStatus = 0;
       
     },
@@ -138,14 +146,14 @@ import { mapState, mapMutations } from 'vuex';
             this.longAsk(30);
             break
           case 2:
-            this.tipsText1 = '';
-            this.tipsText2 = '';
-            this.btnText = '完成';
-            break
-          case 3:
             this.tipsText1 = '第二次读卡';
             this.tipsText2 = '请再次将IC卡防止门禁读头上';
             this.btnText = '下一步';
+            break
+          case 3:
+            this.tipsText1 = '';
+            this.tipsText2 = '';
+            this.btnText = '完成';
             break
           case 9:
             this.tipsText1 = '读卡失败';
