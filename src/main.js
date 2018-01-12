@@ -10,7 +10,6 @@ import MintUI from 'mint-ui'
 import qs from 'qs'
 import 'mint-ui/lib/style.css'
 
-
 import {post,get,patch,put} from '@/script/http'
 import {delCookie,getCookie, setSession, getSession} from '@/script/util'
 Vue.prototype.$post = post;
