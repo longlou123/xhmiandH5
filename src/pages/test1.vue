@@ -6,9 +6,7 @@
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="activateCard">activateCard</router-link></Button>
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="callerInvite">访客邀请</router-link></Button>
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="callerNodepad">访客邀请记录</router-link></Button>
-      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="callerDetail">访客邀请记录-详情</router-link></Button>
-      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="doorEmpower">访客邀请授权门禁</router-link></Button>
-      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="twoDimension">访客邀请二维码</router-link></Button>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="twoDimension?id=2">访客邀请二维码</router-link></Button>
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="authorization">授权门卡</router-link></Button>
       <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="details">门卡详情</router-link></Button>
       <a href="tel:18312583532">一键拨打号码</a>
