@@ -21,16 +21,9 @@ export default{
 		state.projectDoor = project1
 
 	},
-	[PROJECTINITAL](state,project3){
-		state.projectInital = project3
-	},
 	[SAVEDOOR](state,door){
 		state.saveDoor=door
 		console.log(state.saveDoor)
-	},
-	[PROJECTDOOP](state,twoproject){	
-		state.projectDoop = twoproject
-		//console.log(state.projectDoop)
 	},
 	[USERNAME](state,name){
 		state.userName = name
@@ -38,7 +31,4 @@ export default{
 	[MASSAGESAVE](state,massage){
 		state.massageSave=massage
 	}
-//	[PROJECTINITAL](state,project3){
-//		state.projectInital = project3
-//	}
 }
