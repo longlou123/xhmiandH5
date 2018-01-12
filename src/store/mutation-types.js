@@ -5,4 +5,6 @@ export const PROJECTDOOR = 'PROJECTDOOR'
 export const USERNAME = 'USERNAME'
 export const PROJECTINITAL = 'PROJECTINITAL'
 export const SAVEDOOR = 'SAVEDOOR'
+export const MASSAGESAVE = 'MASSAGESAVE'
+
 

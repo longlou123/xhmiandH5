@@ -7,7 +7,7 @@
         	</FormItem>
         	<FormItem label="类型 :" prop="city">
             <Select v-model="formValidate.city" placeholder="请选择">
-                <Option value="beijing">请选择</Option>
+                <Option value="beijing">家属</Option>
                 <Option value="shanghai">London</Option>
                 <Option value="shenzhen">Sydney</Option>
             </Select>
@@ -47,13 +47,13 @@
    		<div class="door_stop">
    		 	<div class="text">授权门禁</div>
    		 	<div class="flex">
-   		 		<div class="door_box" v-for="(item,index) in saveDoor">
-   		 			<span>{{item.dName}}</span>
-   		 				<div class="Icon" @click="removeTode(index)">
+   		 		<div class="door_box" v-for="(item,index) in saveDoordata">
+   		 			<span>{{item}}</span>
+   		 				<div class="Icon" @click="removeTode(index)" >
    		 					<Icon  type="ios-close"></Icon>
    		 				</div>
    		 	 	 </div>
-   		 	 	 	<div class="door_box"  @click="sure">
+   		 	 	 	<div class="door_box"  @click="sure"  v-if="delet">
    		 				<div class="Icon Icons">
    		 					<Icon type="ios-plus-outline"></Icon>
    		 				</div>
@@ -73,8 +73,11 @@
     name:'test',
     data(){
       return {
+          delet:false,
           doorName:[],//初始化数据
-          saveDoor:[],//页面展示的数据
+          saveDoordata:[],//页面展示的数据
+          seeproject:[],
+          sendData:[],
       	  formValidate: {
                     name: '',
                     name1: '',
@@ -107,50 +110,17 @@
       }
     },
     computed:{
-      ...mapState(['project','projectDoor'])
+      ...mapState(['saveDoor','projectDoor'])
     },
     created(){
 
     },
-    mounted(){    
+    mounted(){  
+          this.getdata();
           var d = new Date();
-          this.formValidate.failure = d.getFullYear()+"-0"+(d.getMonth()+1)+"-0"+d.getDate();
-          this.$post('/ssh/openDoor/getDoorByPhone', {
-            projectCode: "123",
-            userName:"伍健",
-            phone: "18312583532"
-          }).then(res=>{
-            var CC=0;            
-            for(var i=0; i<res.result.doorList.length;i++){
-              // console.log(res.result.doorList);
-            var obj={};   
-            obj.dName=res.result.doorList[i].doorName;
-            this.doorName[CC]=obj;  
-            CC++;           
-            }  
-            this.$store.commit('PROJECTDOOR',this.doorName);
-            if(this.saveDoor.length==0){
-            this.saveDoor=this.doorName; 
-             console.log(this.saveDoor.length);          
-           }else{
-            for(var i=0;i<this.projectDoor.length;i++){
-              for(var j=0;j<this.project.length;j++){
-
-                if(this.projectDoor[i]===this.project[j]){
-                this.project.splice(j,1);
-                }
-              }
-            }
-            for(var i = 0; i <this.projectDoor.length; i++){
-          this.project.push(this.projectDoor[i]);
-        }
-        this.saveDoor = this.project
-
-          }          
-          }).catch(err=>{
-            console.log(err);
-          });
-          
+          this.formValidate.failure = d.getFullYear()+"-0"+(d.getMonth()+1)+"-"+d.getDate();
+          console.log(this.formValidate.failure);
+         
     },
     watch:{
       pickerValuer(){
@@ -199,13 +169,43 @@
                 return fmt;
             }
             this.formValidate.effect= this.pickerValues.format("yyyy-MM-dd");
-            console.log("我进来了")
         }
     },
     methods:{
+      getdata(){
+          var _this=this;
+         this.$post('/ssh/openDoor/getDoorByPhone', {
+            projectCode: "123",
+            userName:"伍健",
+            phone: "18312583532"
+          }).then(res=>{       
+              console.log(res);     
+            for(var i=0; i<res.result.doorList.length;i++){
+            var obj={}; 
+            obj.doorID=res.result.doorList[i].doorID; 
+            obj.doorName = res.result.doorList[i].doorName; 
+            _this.doorName[i]=obj;  
+            _this.seeproject[i]=res.result.doorList[i].doorName;     
+            }  
+            this.$store.commit('PROJECTDOOR',this.doorName);
+            if(this.saveDoor.length==0){
+            this.saveDoordata=this.seeproject;        
+            }else {
+            if (this.saveDoordata.length < this.projectDoor.length){
+            this.delet=true;
+            }
+            this.saveDoordata = this.saveDoor;
+          }          
+          }).catch(err=>{
+            console.log(err);
+          });
+          
+      },
       removeTode(index) {
-      this.saveDoor.splice(index, 1);
-      this.$store.commit('SAVEDOOR',this.saveDoor);
+      this.saveDoordata.splice(index, 1);
+      this.delet=true;
+      this.$store.commit('SAVEDOOR',this.saveDoordata);
+      console.log(this.saveDoor)
       // 储存修改的数据
      },
       show(){
@@ -216,12 +216,33 @@
         // console.log(this.pickerValue);
       },
     	sure(){
-    		this.$router.push({path:"/entranceGuard"})
+            if(this.delet){
+					this.$router.push({
+						path: "/entranceGuard"
+					})
+				}	
     	},    	
 		   handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        this.$Message.success('Success!');
+                        // this.$Message.success('Success!');
+                        for(var i = 0; i < this.saveDoordata.length; i++) {
+							//console.log(this.projectPage)
+							for(var j = 0; j < this.doorName.length; j++) {
+								if(this.saveDoordata[i] == this.doorName[j].doorName) {
+									this.sendData[i]=this.doorName[j];								
+								}
+							}
+						}
+						this.formValidate.granterPhone = '18312583532';
+						this.formValidate.projectCode = '123';
+						this.formValidate.doors = JSON.stringify(this.sendData);
+						console.log(this.formValidate)
+                        this.$store.commit('MASSAGESAVE',this.formValidate);
+						this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
+							console.log(res);
+							this.$router.push({path: "/activateCard"})
+						})			
                     } else {
                         // this.$Message.error('Fail!');
                     }
@@ -279,7 +300,13 @@ html,body{
     			         box-shadow: 0px -5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4;	
                    border-radius:0.15rem;
                       span{
-                          font-size:0.24rem;
+                           display: inline-block;
+							width: 100%;
+							overflow:hidden; 
+							white-space:nowrap; 
+							text-overflow:ellipsis;
+							font-size: 0.24rem;
+                            font-size:0.24rem;
                            }
     			           .Icon{
     				              display:inline-block;

@@ -5,7 +5,8 @@ import{
 	PROJECTDOOR,
 	PROJECTINITAL,
 	SAVEDOOR,
-	USERNAME
+	USERNAME,
+	MASSAGESAVE
 	
 } from './mutation-types.js'
 
@@ -18,13 +19,14 @@ export default{
 	},
 	[PROJECTDOOR](state,project1){
 		state.projectDoor = project1
+
 	},
 	[PROJECTINITAL](state,project3){
 		state.projectInital = project3
 	},
 	[SAVEDOOR](state,door){
 		state.saveDoor=door
-		console.log(state.saveDoor);
+		console.log(state.saveDoor)
 	},
 	[PROJECTDOOP](state,twoproject){	
 		state.projectDoop = twoproject
@@ -33,6 +35,9 @@ export default{
 	[USERNAME](state,name){
 		state.userName = name
 	},
+	[MASSAGESAVE](state,massage){
+		state.massageSave=massage
+	}
 //	[PROJECTINITAL](state,project3){
 //		state.projectInital = project3
 //	}

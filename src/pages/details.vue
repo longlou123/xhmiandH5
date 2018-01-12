@@ -64,7 +64,6 @@
 				this.$router.push({path:"/authorization"})
 			}
 		}
-
 	}
 </script>
 <style lang="scss" scoped>

@@ -2,14 +2,13 @@
 	<div class="entranceGuard">
 		<div class="entranceGuard_box" >
         <Checkbox
+            v-if="hasData"
             :indeterminate="indeterminate"
             :value="checkAll"
             @click.prevent.native="handleCheckAll">全选</Checkbox>
     </div>
     <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
-        <Checkbox label="千灯湖"></Checkbox> 
-        <Checkbox label="中海华庭东大门"></Checkbox> 
-        <Checkbox label="中海华庭西大门"></Checkbox>     
+        <Checkbox :label="item" v-for="(item,index) in dataDoor" :key="item.id"></Checkbox>      
     </CheckboxGroup>
     <div class="next_btn">
         <Button type="primary" shape="circle" :long="true" class="btn" @click="nextClick()">确定</Button>
@@ -17,16 +16,50 @@
 	</div>
 </template>
 <script >
+import { mapState, mapMutations } from 'vuex';
  export default {
         data () {
             return {
                 indeterminate: true,
                 checkAll: false,
-                checkAllGroup: ['千灯湖', '中海华庭东大门']
+                checkAllGroup: [],
+                dataDoor:[],
+                hasData: false,
             }
         },
-        methods: {
+
+         computed:{
+            ...mapState(['projectDoor','saveDoor'])
+         },
+         mounted(){
+             this.getProject();
+            this.getdata();
+            
+            
+         },
+         methods: {
+             getProject(){
+		     this.checkAllGroup=this.saveDoor;
+             console.log(this.saveDoor);
+		    	},
+            getdata(){
+            var _this=this
+            this.$post('/ssh/openDoor/getDoorByPhone', {
+            projectCode: "123",
+            userName:"伍健",
+            phone: "18312583532"
+          }).then(res=>{   
+              console.log(res)        
+            for(var i=0; i<res.result.doorList.length;i++){
+            _this.dataDoor[i]=res.result.doorList[i].doorName;           
+            }  
+             this.hasData = true;         
+          }).catch(err=>{
+            console.log(err);
+          }); 
+            },
             nextClick(){
+            this.$store.commit('SAVEDOOR',this.checkAllGroup);
             this.$router.push({path:"/authorization"})
                 },
 
@@ -39,7 +72,7 @@
                 this.indeterminate = false;
 
                 if (this.checkAll) {
-                    this.checkAllGroup = ['千灯湖', '中海华庭东大门', '中海华庭西大门'];
+                    this.checkAllGroup = this.dataDoor;
                 } else {
                     this.checkAllGroup = [];
                 }
@@ -58,10 +91,6 @@
             }
         }
     }
-   
-
-
-
 </script>
 <style lang="scss" scoped>
 	.entranceGuard{
