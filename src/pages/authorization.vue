@@ -27,6 +27,7 @@
             year-format=" {value} 年"
             month-format=" {value} 月"
             date-format=" {value} 日"
+            :startDate="this.time"
             >
           </mt-datetime-picker>
           <mt-datetime-picker
@@ -36,6 +37,7 @@
             year-format=" {value} 年"
             month-format=" {value} 月"
             date-format=" {value} 日"
+            :startDate="this.time"
             >
           </mt-datetime-picker>
           <div  @click="show_box">
@@ -78,6 +80,9 @@
           saveDoordata:[],//页面展示的数据
           seeproject:[],
           sendData:[],
+          time: new Date(),
+          pickerValuer: '',
+          pickerValues:'',
       	  formValidate: {
                     name: '',
                     phone: '',
@@ -101,21 +106,23 @@
                     startTime:[
                         { required: true, message: '请选择生效时间', trigger: 'change' }
                     ]
+
                 },
-          pickerValuer: '',
-          pickerValues:''
+          
       }
     },
     computed:{
       ...mapState(['saveDoor','projectDoor'])
     },
     created(){
+
     },
     mounted(){  
           this.getdata();
           var d = new Date();
           this.formValidate.startTime = d.getFullYear()+"-0"+(d.getMonth()+1)+"-"+d.getDate();
-          // console.log(this.formValidate.failure);  
+          // console.log(this.formValidate.failure);
+         
     },
     watch:{
       pickerValuer(){

@@ -1,37 +1,36 @@
 <template>
 	<div class="center">
 		<div class="center_box">
-			<section >
+			  <section>
 				<span>使用人 :</span>
-				<input type="text"  name="" value="林达浪">
+				<i>{{datas.name}}</i>
 			</section>
 			<section>
 				<span>类型 :</span>
-				<input type="text" name="" value="业主">
+				<i>{{datas.type}}</i>
 			</section>
 			<section>
 				<span>手机 :</span>
-				<input type="text"  name="" value="13838381438">
+				<i>{{datas.phone}}</i>
 			</section>
 			<section>
 				<span>生效日期 :</span>
-				<input type="text" name="" value="2017 08-08 14:32">
+				<i>{{datas.startTime}}</i>
 			</section>
 			<section>
 				<span>失效日期 :</span>
-				<input type="text" name="" value="2017 08-08 16:32">
+				<i>{{datas.endTime}}</i>
 			</section>
 			<section>
 				<span>授权门禁 :</span>
-				<input type="text"  name="" value="中海华庭">
+				<i>中海华庭东大门</i>
 				<span></span>
-				<input type="text"  name="" value="中海华庭东大门">
+				<i>中海华庭东大门</i>
 			</section>
 			<section>
 				<span>门卡状态 :</span>
-				<input type="text" name="" value="失效">
+				<i>失效</i>
 			</section>
-			 
     		 <div class="next_btn">
         		<Button type="primary" @click="again">重新发卡</Button>
         		<Button type="primary"  @click="modal3 = true">删除信息</Button>
@@ -44,6 +43,8 @@
 	</div>	 
 </template>
 <script >
+import Vue from 'vue'
+
 	export default {
 		name:"test",
 		data(){
@@ -57,12 +58,24 @@
 				input6:'',
 				input7:'',
 				modal3:false,
+				datas:{},
 			}
+		},
+		mounted(){
+			this.add();
 		},
 		methods:{
 			again(){
 				this.$router.push({path:"/authorization"})
-			}
+			},
+			add() {
+			// this.datas = this.$route.query.value;
+			// console.log();
+			// JSON.stringify(this.$route.query.value)
+			this.datas =this.$route.query.value;
+			console.log(this.datas)
+			alert(JSON.stringify(this.datas))
+		},
 		}
 	}
 </script>
@@ -75,17 +88,23 @@
 			height:8.76rem;
 			background-color:#ffffff;
 			padding:0.6rem  0 ;
-			section{
-				margin-bottom:0.7rem;
+			section {
+				margin-bottom: 0.6rem;
 				span{
-					display:inline-block;
-					width: 1.5rem;
+					display: inline-block;
+					width: 2.4rem;
+					text-align: left;
 				}
-				input{
-				text-align:right;
-				margin-left: 1.5rem;
-				color:#BBBEC2;
-			}
+				i{
+					display: inline-block;
+					text-align: right;
+					width: 3.2rem;
+					margin-left: 0.7rem;
+					color: darkgrey;
+				}
+				.ivu-icon-share:before{
+					font-size: 0.7rem;
+				}
 			}
 		}
 		.next_btn{
