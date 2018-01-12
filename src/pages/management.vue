@@ -1,21 +1,22 @@
 <template>	
 		<div class="management">
-			<div class="visitors"  @click="getnow(item,index)" v-for="(item, index) in doorList" >
+			<div class="visitors"  v-for="(item, index) in doorList" >
 				<div class="center_one" >
-					<div class="center_two"   >
+					<div class="center_two"    @click="getnow(item,index)">
 						<span class="text_span" >{{item.name}}</span><span class="guest">{{item.type}}</span>
-					    <div class="card">卡号：{{item.doorList}}</div>
+					    <div class="card" :value="item.cardNumber">卡号：{{item.cardNumber}}</div>
 					    <div class="time">有效期：{{item.startTime}}至{{item.endTime}}</div>
 					</div>
 					<button class="btn" @click="modal3 = true">注销</button>
 				</div>
-			</div>			
-            <div class="deletes" >
-                <Modal  v-model="modal3">
+                <div class="deletes" >
+                <Modal  v-model="modal3" @on-ok="cancellation(item)">
                         <p>注销将会无法使用门卡</p>
                         <p>请确定是否进行删除</p>
                 </Modal>
-            </div>										
+            </div>
+			</div>			
+            										
 	    </div>
 </template>
 <script >
@@ -28,7 +29,10 @@ import {saveStore} from '@/script/util'
         doorList:[],
         modifyvue:null,
         detailsList: false,
-        value:[]
+        value:[],
+        doors:[],
+        cardNumber:[]
+
 
       }
     },
@@ -42,8 +46,16 @@ import {saveStore} from '@/script/util'
     	// jump(){
     	// 	this.$router.push({path:"/details"});
     	// },
-        getnow(d,index){   
-            this.modifyvue = d;
+        cancellation(item){
+           var cardN=item.cardNumber.toString();
+             this.$post('/ssh/grantCard/cancelGrantCard', {
+              cardNumber:cardN
+             }).then(res=>{
+                console.log(res)
+             })
+        },
+        getnow(d,index){
+            this.modifyvue = d ;
             saveStore('userData',this.modifyvue);
             this.$router.push({
                 path: "/details",
@@ -51,7 +63,7 @@ import {saveStore} from '@/script/util'
                     value: index
                 }
             });
-            console.log(JSON.stringify(this.modifyvue));
+            // console.log(JSON.stringify(this.modifyvue));
         },
 
         success(){
@@ -65,6 +77,8 @@ import {saveStore} from '@/script/util'
             pageSize:3,
             pageNumber:1
           }).then(res=>{
+            var doorArr=[]
+            var nameArr=[]
             for(var i=0; i<res.result.cardList.length; i++){
                 var obj={};
                 obj.cardNumber=res.result.cardList[i].cardNumber;
@@ -75,6 +89,7 @@ import {saveStore} from '@/script/util'
                 obj.startTime=res.result.cardList[i].startTime;
                 obj.endTime=res.result.cardList[i].endTime;
                 obj.isCancel=res.result.cardList[i].isCancel;
+                nameArr[i]=res.result.cardList[i].cardNumber;
                 if(res.result.cardList[i].type===1){
                     obj.type="家属";
                 }else if(res.result.cardList[i].type===2){
@@ -82,10 +97,13 @@ import {saveStore} from '@/script/util'
                 }else{
                     obj.type="访客";
                 }
+                doorArr[i]=res.result.cardList[i].doors;
                 _this.doorList[i] = obj;
                 Vue.set(_this.doorList, i, obj);
             }
-            
+            this.doors=doorArr;
+            this.cardNumber=nameArr;
+            console.log(this.cardNumber);
           }).catch(function (error) {
             console.log(error);
           });

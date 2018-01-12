@@ -3,23 +3,23 @@
 		<div class="center_box">
 			  <section>
 				<span>使用人 :</span>
-				<i>{{datas.name}}</i>
+				<i>{{data.name}}</i>
 			</section>
 			<section>
 				<span>类型 :</span>
-				<i>{{datas.type}}</i>
+				<i>{{data.type}}</i>
 			</section>
 			<section>
 				<span>手机 :</span>
-				<i>{{datas.phone}}</i>
+				<i>{{data.phone}}</i>
 			</section>
 			<section>
 				<span>生效日期 :</span>
-				<i>{{datas.startTime}}</i>
+				<i>{{data.startTime}}</i>
 			</section>
 			<section>
 				<span>失效日期 :</span>
-				<i>{{datas.endTime}}</i>
+				<i>{{data.endTime}}</i>
 			</section>
 			<section>
 				<span>授权门禁 :</span>
@@ -44,7 +44,7 @@
 </template>
 <script >
 import Vue from 'vue'
-
+import {getStore} from '@/script/util'
 	export default {
 		name:"test",
 		data(){
@@ -59,6 +59,7 @@ import Vue from 'vue'
 				input7:'',
 				modal3:false,
 				datas:{},
+				data:{}
 			}
 		},
 		mounted(){
@@ -72,9 +73,10 @@ import Vue from 'vue'
 			// this.datas = this.$route.query.value;
 			// console.log();
 			// JSON.stringify(this.$route.query.value)
-			this.datas =this.$route.query.value;
+			this.datas =getStore('userData');
 			console.log(this.datas)
-			alert(JSON.stringify(this.datas))
+			this.data=JSON.parse(this.datas);
+			console.log(this.data);
 		},
 		}
 	}
