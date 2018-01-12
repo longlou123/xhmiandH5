@@ -37,18 +37,18 @@
 	    	background-color:#EFf2f5;
 	    	padding-top:0.28rem;
 	    	.ivu-radio-group{
-	    		width:100%;
+	    	width:100%;
 	    	}
 		.btn{
 			position:absolute;
 			left:0;
 			right:0;
 			bottom:1.3rem;
-			button{
-				width: 6rem;
-				height: 0.8rem;
-				background-color:#5698FF;
-				border-radius:0.08rem;
+				button{
+					width: 6rem;
+					height: 0.8rem;
+					background-color:#5698FF;
+					border-radius:0.08rem;
 			}
 		}
 	}

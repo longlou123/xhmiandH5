@@ -6,11 +6,10 @@
 		</div>
 	</div>
 </template>
-<script type="text/ecmascript-6">
-  
+<script> 
   export default {
     name:'test',
-    data(){
+    data() {
       return {
       }
     },
@@ -28,11 +27,10 @@ html,body{
 	width:7.5rem;
 	height:13.34rem;
 	.center{
-		width:7.5rem;
+			width:7.5rem;
 	    height:13.34rem;
-		background-color:#EFf2f5;
+			background-color:#EFf2f5;
 	    padding-top:2.3rem;
-
 		.door_text{
 			width:2.96rem;
 			height:0.29rem;
