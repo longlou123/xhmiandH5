@@ -88,7 +88,7 @@
       	  formValidate: {
               name: '',
               phone: '',
-              type: '',
+              type: '2',
               endTime:'',
               startTime:''
           },

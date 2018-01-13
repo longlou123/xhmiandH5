@@ -51,7 +51,7 @@ import { mapState, mapMutations } from 'vuex';
         btnText: '下一步',
         tipsText2: '请选择一个方便您授权发卡的门禁读头',
         currents: 0, //步骤条的步骤数
-        countTime: 30, 
+        countTime: 30,
         selectValue: '',
         countTimer: null,
         longAskTimer: null,
@@ -182,16 +182,19 @@ import { mapState, mapMutations } from 'vuex';
             cardId: _this.cardID,
 	          }).then(res=>{
 	            console.log(res.result);
-	            if(res.result.number === 1 && res.result.registerNumber === 1){
-	            	_this.stepStatus = 2;
-	            	clearInterval(_this.longAskTimer);
-	            }
-	            if(res.result.number === 2 && res.result.registerNumber === 2){
-	            	clearInterval(_this.longAskTimer);
-	            	_this.grantCard();
-	            } else {
-	            	// _this.allRestart();
-	            }
+                if(res.errorCode){
+                    if(res.result.number === 1 && res.result.registerNumber === 1){
+                        _this.stepStatus = 2;
+                        clearInterval(_this.longAskTimer);
+                    }
+                    if(res.result.number === 2 && res.result.registerNumber === 2){
+                        clearInterval(_this.longAskTimer);
+                        _this.grantCard();
+                    }
+                } else {
+                        _this.allRestart();
+                }
+
 	          }).catch(err=>{
 	            console.log(err)
 	            _this.allRestart();
@@ -202,7 +205,7 @@ import { mapState, mapMutations } from 'vuex';
     mounted() {
       // carId: "1515727475565"
       this.stepStatus = 0;
-      
+
     },
     destroyed(){
     	clearInterval(this.countTimer);
@@ -230,7 +233,7 @@ import { mapState, mapMutations } from 'vuex';
             this.tipsText1 = '第二次读卡';
             this.tipsText2 = '请再次将IC卡防止门禁读头上';
             this.btnText = '下一步';
-            clearInterval(this.countTimer); 
+            clearInterval(this.countTimer);
             this.count(this.secondCount);
             this.registerSec();
             break
@@ -249,12 +252,15 @@ import { mapState, mapMutations } from 'vuex';
             this.tipsText1 = '发生错误';
             this.tipsText2 = '';
             this.currents = 0;
+            setTimeout(function(){
+                this.stepStatus = 0;
+            }, 2000)
             break
         }
       },
       // 监听选择器的值变化
       selectValue: function(){
-        
+
       }
     }
   }
@@ -305,7 +311,7 @@ import { mapState, mapMutations } from 'vuex';
         position: absolute;
         left: 0.5rem;
         top: 0.15rem;
-        
+
       }
       .picker_div{
         margin-top: 2rem;
