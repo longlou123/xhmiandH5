@@ -78,6 +78,7 @@
 			},
 			newData(){			
 				this.data = JSON.parse(getStore("userData"));
+				console.log(this.data);
 				this.num=this.$route.query.value;
 				this.codeData = this.data[this.num].codeData //要分享的id
 				this.name= this.data[this.num].name;

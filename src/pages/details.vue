@@ -3,33 +3,31 @@
 		<div class="center_box">
 			  <section>
 				<span>使用人 :</span>
-				<i>{{data.name}}</i>
+				<i>{{name}}</i>
 			</section>
 			<section>
 				<span>类型 :</span>
-				<i>{{data.type}}</i>
+				<i>{{type}}</i>
 			</section>
 			<section>
 				<span>手机 :</span>
-				<i>{{data.phone}}</i>
+				<i>{{phone}}</i>
 			</section>
 			<section>
 				<span>生效日期 :</span>
-				<i>{{data.startTime}}</i>
+				<i>{{startTime}}</i>
 			</section>
 			<section>
 				<span>失效日期 :</span>
-				<i>{{data.endTime}}</i>
+				<i>{{endTime}}</i>
 			</section>
 			<section>
 				<span>授权门禁 :</span>
-				<i>中海华庭东大门</i>
-				<span></span>
-				<i>中海华庭东大门</i>
+				<i  v-for="item in doors">{{item.doorName}}</i>
 			</section>
 			<section>
 				<span>门卡状态 :</span>
-				<i>失效</i>
+				<i>{{isCancel}}</i>
 			</section>
     		 <div class="next_btn">
         		<Button type="primary" @click="again">重新发卡</Button>
@@ -46,20 +44,22 @@
 import Vue from 'vue'
 import {getStore} from '@/script/util'
 	export default {
-		name:"test",
+		// name:"test",
 		data(){
 			return{
-				input:'',
-				input1:'',
-				input2:'',
-				input3:'',
-				input4:'',
-				input5:'',
-				input6:'',
-				input7:'',
 				modal3:false,
 				datas:{},
-				data:{}
+				data:{},
+				doors:null,
+				newData:{},
+				name:null,
+				type:null,
+				phone:null,
+				startTime:null,
+				endTime:null,
+				isCancel:null,
+				num:null,
+				door:null
 			}
 		},
 		mounted(){
@@ -73,10 +73,23 @@ import {getStore} from '@/script/util'
 			// this.datas = this.$route.query.value;
 			// console.log();
 			// JSON.stringify(this.$route.query.value)
-			this.datas =getStore('userData');
-			console.log(this.datas)
-			this.data=JSON.parse(this.datas);
+			// this.datas =getStore("userData");
+			this.num=this.$route.query.value;
+			this.data=JSON.parse(getStore("userData"));
 			console.log(this.data);
+			this.name=this.data[this.num].name;
+			console.log(this.data[this.num].type);
+		
+			this.phone=this.data[this.num].phone;
+			this.startTime=this.data[this.num].startTime;
+			this.endTime=this.data[this.num].endTime;
+			this.doors= JSON.parse(this.data[this.num].doors)
+			console.log(this.data[this.num].isCancel)
+			if(this.data[this.num].isCancel){
+				this.isCancel="有效"
+			}else{
+				this.isCancel="失效"
+			}
 		},
 		}
 	}
