@@ -22,7 +22,7 @@
            </div>
           <mt-datetime-picker
             v-model="pickerValuer"
-            type="date"
+            type="datetime"
             ref="pickers" 
             year-format=" {value} 年"
             month-format=" {value} 月"
@@ -32,11 +32,13 @@
           </mt-datetime-picker>
           <mt-datetime-picker
             v-model="pickerValues"
-            type="date"
+            type="datetime"
             ref="picker" 
             year-format=" {value} 年"
             month-format=" {value} 月"
             date-format=" {value} 日"
+            minute-format=" {value} 分"
+            hour-format=" {value} 时"
             :startDate="this.time"
             >
           </mt-datetime-picker>
@@ -84,31 +86,29 @@
           pickerValuer: '',
           pickerValues:'',
       	  formValidate: {
-                    name: '',
-                    phone: '',
-                    type: '',
-                    endTime:'',
-                    startTime:''
-                },
+              name: '',
+              phone: '',
+              type: '',
+              endTime:'',
+              startTime:''
+          },
           ruleValidate: {
-                    name: [
-                        { required: true, message: '请填写使用人', trigger: 'blur' }
-                    ],
-                    phone: [
-                        { required: true, message: '请填写手机号', trigger: 'blur' }
-                    ],
-                    type: [
-                        { required: true, message: 'Please select the type', trigger: 'change' }
-                    ],
-                    endTime:[
-                        { required: true, message: '请选择失效时间', trigger: 'change' }
-                    ],
-                    startTime:[
-                        { required: true, message: '请选择生效时间', trigger: 'change' }
-                    ]
-
-                },
-          
+              name: [
+                  { required: true, message: '请填写使用人', trigger: 'blur' }
+              ],
+              phone: [
+                  { required: true, message: '请填写手机号', trigger: 'blur' }
+              ],
+              type: [
+                  { required: true, message: 'Please select the type', trigger: 'change' }
+              ],
+              endTime:[
+                  { required: true, message: '请选择失效时间', trigger: 'change' }
+              ],
+              startTime:[
+                  { required: true, message: '请选择生效时间', trigger: 'change' }
+              ]
+          },
       }
     },
     computed:{
@@ -120,63 +120,22 @@
     mounted(){  
           this.getdata();
           var d = new Date();
-          this.formValidate.startTime = d.getFullYear()+"-0"+(d.getMonth()+1)+"-"+d.getDate();
-          // console.log(this.formValidate.failure);
-         
+          this.formValidate.startTime = d.format("yyyy-MM-dd hh:mm");
+          this.formValidate.endTime = d.format("yyyy-MM-dd hh:mm");
     },
     watch:{
       pickerValuer(){
-          Date.prototype.format = function(fmt) {
-                var o = {
-                    "M+": this.getMonth() + 1,               //月份 
-                    "d+": this.getDate(),                    //日 
-                    "h+": this.getHours(),                   //小时 
-                    "m+": this.getMinutes(),                 //分 
-                    "s+": this.getSeconds(),                 //秒 
-                    "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-                    "S": this.getMilliseconds()             //毫秒 
-                };
-                if (/(y+)/.test(fmt)) {
-                    fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-                }
-                for (var k in o) {
-                    if (new RegExp("(" + k + ")").test(fmt)) {
-                        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-                    }
-                }
-                return fmt;
-            }
-            this.formValidate.startTime = this.pickerValuer.format("yyyy-MM-dd");
+            this.formValidate.startTime = this.pickerValuer.format("yyyy-MM-dd hh:mm");
             // this.failure= this.pickerValue.format("yyyy-MM-dd");
         },
       pickerValues(){
-          Date.prototype.format = function(fmt) {
-                var o = {
-                    "M+": this.getMonth() + 1,               //月份 
-                    "d+": this.getDate(),                    //日 
-                    "h+": this.getHours(),                   //小时 
-                    "m+": this.getMinutes(),                 //分 
-                    "s+": this.getSeconds(),                 //秒 
-                    "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-                    "S": this.getMilliseconds()             //毫秒 
-                };
-                if (/(y+)/.test(fmt)) {
-                    fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-                }
-                for (var k in o) {
-                    if (new RegExp("(" + k + ")").test(fmt)) {
-                        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-                    }
-                }
-                return fmt;
-            }
-            this.formValidate.endTime= this.pickerValues.format("yyyy-MM-dd");
+            this.formValidate.endTime= this.pickerValues.format("yyyy-MM-dd hh:mm");
         }
     },
     methods:{
       getdata(){
           var _this=this;
-         this.$post('/ssh/openDoor/getDoorByPhone', {
+          this.$post('/ssh/openDoor/getDoorByPhone', {
               projectCode: "123",
               userName:"伍健",
               phone: "18312583532"
@@ -201,7 +160,6 @@
           }).catch(err=>{
             console.log(err);
           });
-          
       },
       removeTode(index) {
       this.saveDoordata.splice(index, 1);
@@ -224,35 +182,35 @@
 					})
 				}	
     	},    	
-		   handleSubmit (name) {
-                this.$refs[name].validate((valid) => {
-                if (valid) {
-                for(var i = 0; i < this.saveDoordata.length; i++) {
-							  for(var j = 0; j < this.doorName.length; j++) {
-								if(this.saveDoordata[i] == this.doorName[j].doorName) {
-									this.sendData[i]=this.doorName[j];								
-								}
-							}
-						}
-						this.formValidate.granterPhone = '18312583532';
-						this.formValidate.projectCode = '123';
-						this.formValidate.doors = JSON.stringify(this.sendData);
-						console.log(this.formValidate)
-                        this.$store.commit('MASSAGESAVE',this.formValidate);
-						this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
-							console.log(res);
-							this.$router.push({path: "/activateCard"})
-						})			
-                    } else {
-                        // this.$Message.error('Fail!');
-                    }
-                })
-            },
+		  handleSubmit (name) {
+          this.$refs[name].validate((valid) => {
+          if (valid) {
+          for(var i = 0; i < this.saveDoordata.length; i++) {
+				  for(var j = 0; j < this.doorName.length; j++) {
+					if(this.saveDoordata[i] == this.doorName[j].doorName) {
+						this.sendData[i]=this.doorName[j];								
+					}
+				}
+			}
+			this.formValidate.granterPhone = '18312583532';
+			this.formValidate.projectCode = '123';
+			this.formValidate.doors = JSON.stringify(this.sendData);
+			console.log(this.formValidate)
+      this.$store.commit('MASSAGESAVE',this.formValidate);
+			this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
+				console.log(res);
+				this.$router.push({path: "/activateCard"})
+			})			
+              } else {
+                  // this.$Message.error('Fail!');
+              }
+          })
+      },
       handleReset (name) {
                 this.$refs[name].resetFields();
-            },   
-          }
-        }
+    },   
+  }
+}
 </script>
 <style lang="scss" scoped>
 html,body{

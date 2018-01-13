@@ -6,7 +6,7 @@
           <div class="tips_one">{{tipsText1}}</div>
           <div class="tips_two">{{tipsText2}}</div>
         </div>
-        <div class="circle_time" v-if="stepStatus==1">
+        <div class="circle_time" v-if="stepStatus==1||stepStatus==2">
           <span>00:{{countTime}}</span>
         </div>
         <div class="select" v-if="stepStatus==0">
@@ -17,7 +17,7 @@
             </Select>
           </div>
         </div>
-        <div class="succese" v-if="stepStatus==2">
+        <div class="succese" v-if="stepStatus==3">
           <div class="succese_text">成功</div>
           <span>该门卡已经可以使用了哟~</span>
           <div class="smile"></div>
@@ -53,6 +53,12 @@ import { mapState, mapMutations } from 'vuex';
         currents: 0, //步骤条的步骤数
         countTime: 30, 
         selectValue: '',
+        countTimer: null,
+        longAskTimer: null,
+        firstCount: 30,
+        secondCount: 15,
+        cardID: "1515814061373",
+        doorID: 83886807,
         cityList: [
           {
               value: 'New York',
@@ -81,47 +87,116 @@ import { mapState, mapMutations } from 'vuex';
         ],
       }
     },
-     computed:{
+   	computed:{
       ...mapState(['massageSave'])
     },
     methods:{
       nextClick(){
-        switch (this.stepStatus){
-          case 0:
-          	this.$post('/ssh/grantCard/registerCardEvent', {
-            carId: '1515745715132',
-            doorID: "83886383",	// 正门
-	          }).then(res=>{
-	            console.log(res);
-	            this.currents++;
-		        	this.stepStatus++;
-	          }).catch(err=>{
-	            console.log(err)
-	            this.stepStatus = 10;
-	          })
-	          break;
-	        case 1:
-	        	alert(2)
-        }
+      	if(this.stepStatus === 0){
+      		this.registerFirst();
+      	}
+      },
+      // 第一次注册
+      registerFirst(){
+      	this.$post('/ssh/grantCard/registerCardEvent', {
+          cardId: this.cardID,
+          doorID: this.doorID,	// 测试们
+        }).then(res=>{
+          console.log(res.errorCode);
+     			if(res.errorCode === 200){
+     				this.stepStatus = 1;
+     			}
+        }).catch(err=>{
+          console.log(err)
+          this.stepStatus = 10;
+        })
+      },
+      // 第二次注册
+      registerSec(){
+      	this.$post('/ssh/grantCard/registerCardEventSecound', {
+        	cardId: this.cardID,
+        }).then(res=>{
+          console.log(res);
+          if (res.state){
+          	this.longAsk();
+          }
+        }).catch(err=>{
+          console.log(err)
+          this.stepStatus = 10;
+        })
+      },
+      // 最终授权卡
+      grantCard(){
+      	this.$post('/ssh/grantCard/grantCardEvent', {
+        	cardId: this.cardID,
+        }).then(res=>{
+          if (res.errorCode === 200){
+          	this.stepStatus = 3;
+          	clearInterval(this.countTimer);
+        		clearInterval(this.longAskTimer);
+          	console.log('最终成功');
+          } else {
+          	this.allRestart();
+          }
+        }).catch(err=>{
+          console.log(err)
+          this.allRestart();
+        })
+      },
+      allRestart(){
+      	clearInterval(this.countTimer);
+        clearInterval(this.longAskTimer);
+        this.stepStatus = 10;
+        document.getElementsByClassName('btn')[0].removeAttribute('disabled');
       },
       // 计时
       count(num){
         this.countTime = num;
         var _this = this;
-        this.timer = setInterval(function(){
+        clearInterval(_this.longAskTimer);
+        this.countTimer = setInterval(function(){
           _this.countTime = parseInt(_this.countTime);
           _this.countTime--;
           if(_this.countTime<10 && _this.countTime >= 0){
             _this.countTime = '0' + _this.countTime;
           }
           if(_this.countTime <= 0){
-            window.clearInterval(_this.timer)
+          	clearInterval(_this.longAskTimer)
+          	if(num === _this.firstCount){
+          		_this.registerFirst();
+          	}
+          	if(num ===  _this.secondCount){
+          		_this.registerSec();
+          	}
+            _this.countTime = num;
+
           }
         }, 1000)
       },
       // 轮询
-      longAsk(num){
-
+      longAsk(){
+      	var _this = this;
+      	clearInterval(_this.longAskTimer);
+      	this.longAskTimer = setInterval(function(){
+      		_this.$post('/ssh/grantCard/checkCallBack', {
+            cardId: _this.cardID,
+	          }).then(res=>{
+	            console.log(res.result);
+	            if(res.result.number === 1 && res.result.registerNumber === 1){
+	            	_this.stepStatus = 2;
+	            	clearInterval(_this.longAskTimer);
+	            }
+	            if(res.result.number === 2 && res.result.registerNumber === 2){
+	            	clearInterval(_this.longAskTimer);
+	            	_this.grantCard();
+	            } else {
+	            	// _this.allRestart();
+	            }
+	          }).catch(err=>{
+	            console.log(err)
+	            _this.allRestart();
+	          })
+      	}, 2000)
       },
     },
     mounted() {
@@ -129,10 +204,13 @@ import { mapState, mapMutations } from 'vuex';
       this.stepStatus = 0;
       
     },
+    destroyed(){
+    	clearInterval(this.countTimer);
+      clearInterval(this.longAskTimer);
+    },
     watch: {
     	// stepStatus 只关注tips
       stepStatus: function(){
-        console.log(this.stepStatus);
         switch (this.stepStatus){
           case 0:
             this.tipsText1 = '';
@@ -144,18 +222,23 @@ import { mapState, mapMutations } from 'vuex';
             this.tipsText1 = '第一次读卡';
             this.tipsText2 = '请将IC卡放置需要授权的门禁读头';
             this.btnText = '下一步';
-            this.count(5);
-            this.longAsk(30);
+            this.count(this.firstCount);
+            this.currents = 1;
+            this.longAsk();
             break
           case 2:
             this.tipsText1 = '第二次读卡';
             this.tipsText2 = '请再次将IC卡防止门禁读头上';
             this.btnText = '下一步';
+            clearInterval(this.countTimer); 
+            this.count(this.secondCount);
+            this.registerSec();
             break
           case 3:
           	document.getElementsByClassName('btn')[0].setAttribute('disabled', 'disabled');
             this.tipsText1 = '';
             this.tipsText2 = '';
+            this.currents = 2;
             this.btnText = '完成';
             break
           case 9:
@@ -165,6 +248,7 @@ import { mapState, mapMutations } from 'vuex';
           case 10:
             this.tipsText1 = '发生错误';
             this.tipsText2 = '';
+            this.currents = 0;
             break
         }
       },
