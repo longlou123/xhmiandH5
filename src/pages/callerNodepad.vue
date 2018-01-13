@@ -1,24 +1,59 @@
 <template>
 	<div class="center">
-		<ul class="list_ul">
-			<li><p>徐柳飞</p><i class="time">12.12.12-12:12</i><span @click="sure"><Icon  type="chevron-right"></Icon></span></li>
-			<li><p>徐飞飞</p><i class="time">12.12.13-12:12</i><span @click="sure"><Icon  type="chevron-right"></Icon></span></li>
+		<ul class="list_ul" v-for="(data,index) in userData">
+			<li><p>{{data.name}}</p><i class="time" >{{data.createTime}}</i><span @click="sure(index)"><Icon  type="chevron-right"></Icon></span></li>
 		</ul>
 	</div>
 </template>
 
 <script>
+	import {saveStore} from '@/script/util'
 export default {
 	data() {
 		return {
-			vertical: 'apple'
-
+			vertical: 'apple',
+			userData:null,
+			time:[],
+			transformTime:null,
 		}
 	},
+	mounted() {
+		this.getData();
+	},
 	methods: {
-		sure() {	
-			alert(222)
-			this.$router.push({path: ""})
+		getData() {
+			this.$get('/ssh/grantCard/getGrantQRByUser', {
+				"projectCode": "123",
+				"pageSize": "20",
+				"granterPhone": "18320489492",
+				"pageNumber":'1'
+			}).then(res => {
+				//console.log(res.result);
+				var _this= this;
+				_this.userData = res.result.cardList;
+				saveStore('userData',this.userData);
+				for(var i=0;i<this.userData.length;i++){
+					var date = new Date(_this.userData[i].createTime);
+					var Y = date.getFullYear();
+					var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) ;
+					var D = date.getDate() ;
+					var h = date.getHours() ;
+					if(h<10){h = "0"+ h;}
+					var m = date.getMinutes()
+					if(m<10){m = "0"+ m;}
+					var s = date.getSeconds(); 
+					if(s<10){s = "0"+ s;}
+					_this.transformTime = Y+'-'+M+'-'+D+' '+h+':'+m+':'+s;
+					_this.time.push(this.transformTime)  
+				    _this.userData[i].createTime = _this.time[i];
+				}
+			}).catch(function(error) {
+				console.log(error);
+			});
+		},
+		sure(num	) {
+			var _this = this
+			this.$router.push({path: "/callerDetail", query: {value: num}});
 		}
 	}
 }

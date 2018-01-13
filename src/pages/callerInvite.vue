@@ -5,7 +5,7 @@
 				<FormItem label="姓名 :" prop="name">
 					<Input v-model="formValidate.name" placeholder=""></Input>
 				</FormItem>
-				<FormItem label="类型 :" prop="useCount">
+				<FormItem label="类型 :" prop="type">
 					<Select v-model="formValidate.type" placeholder="请选择">
 						<Option value="1">1</Option>
 						<Option value="2">2</Option>
@@ -15,26 +15,39 @@
 				<FormItem label="手机 :" prop="phone">
 					<Input v-model="formValidate.phone" placeholder=""></Input>
 				</FormItem>
-				<mt-datetime-picker v-model="pickerValue" type="date" ref="picker" year-format=" {value} 年" month-format=" {value} 月" date-format=" {value} 日" :startDate="this.time" @confirm="nowTis">
-				</mt-datetime-picker>
 				<div @click="starTime_">
 					<FormItem label="生效日期 :" prop="startTime" >
-						<Input  placeholder="请填写生效时间" v-model="formValidate.star_time" readonly='readonly'></Input>
+						<Input  placeholder="请填写生效时间" v-model="formValidate.startTime" readonly='readonly'></Input>
 					</FormItem>
 				</div>
-				
+				<mt-datetime-picker  v-model="selectTimeStar" type="datetime" ref="pickerSrtar" 
+					year-format=" {value} 年" 
+					month-format=" {value} 月"
+					 date-format=" {value} 日" 
+					 hour-format=" {value}时"
+					 minute-format="{value}分"
+					 :startDate="this.time">
+				</mt-datetime-picker>
 				<div @click="endTime_">
 					<FormItem label="失效日期 :" prop="endTime" ><!--prop="lose"-->
-						<Input placeholder="请填写失效时间"  v-model="formValidate.end_time" readonly='readonly'></Input>
+						<Input placeholder="请填写失效时间"  v-model="formValidate.endTime" readonly='readonly'></Input>
 					</FormItem>
-				</div>		
+				</div>
+				<mt-datetime-picker v-model="selectTimeEnd" type="datetime" ref="pickerEnd" 
+					year-format=" {value} 年" 
+					month-format=" {value} 月"
+					 date-format=" {value} 日" 
+					 hour-format=" {value}时"
+					 minute-format="{value}分"
+					 :startDate="this.time" >
+				</mt-datetime-picker>
 				 <FormItem label="有效次数 :" prop="useCount">
-					<Select v-model="formValidate.data" placeholder="请选择">
-						<Option value="one">1次</Option>
-						<Option value="two">2次</Option>
-						<Option value="three">3次</Option>
-						<Option value="four">4次</Option>
-						<Option value="fift">5次</Option>
+					<Select v-model="formValidate.useCount" placeholder="请选择">
+						<Option value="1">1次</Option>
+						<Option value="2">2次</Option>
+						<Option value="3">3次</Option>
+						<Option value="4">4次</Option>
+						<Option value="5">5次</Option>
 					</Select>
 				</FormItem>
 			</Form>
@@ -67,6 +80,7 @@
 
 </template>
 <script>
+	import {saveStore} from '@/script/util'
 	import { mapState, mapMutations } from 'vuex';
 	export default {
 		name: 'test',
@@ -75,15 +89,15 @@
 				formValidate: {
 					name: null,
 					type: null,
-					phone: '13717135881',
-					startTime: '2018-01-11 15:00:00',
-					endTime: '2018-01-18 23:59:59',
-					useCount: 5,
+					phone: '',
+					startTime: null,
+					endTime: null,
+					useCount: null,
 				},
 				add:false,
 				projectPage:[],//页面展示数据
-				projectInital:[],//初始化数据
-				seeproject:[],
+				projectInital:[],//初始化存储全部数据
+				projectDoor:[],//存储门列表数据
 				ruleValidate: {
 					name: [{
 						required: true,
@@ -100,36 +114,41 @@
 						message: '请填写手机号',
 						trigger: 'blur'
 					}],
-					star_time: [{
+					startTime: [{
 						required: true,
 						message: '请填写生效时间',
 						trigger: 'change'
 					}],
-					end_time: [{
+					endTime: [{
 						required: true,
 						message: '请填写失效时间',
 						trigger: 'change'
 					}],
-					data: [{
+					useCount: [{
 						required: true,
 						message: '请选择有效次数',
 						trigger: 'change'
 					}],
 				},
-				pickerValue: new Date(),
-				time: new Date(),
-				star:true,
-				end:false,
+				selectTimeStar:new Date() ,
+				selectTimeEnd:new Date() ,
+				time: new Date(), //选择生效的最早起始时间
 				index:0,
-				sendData:[],
+				sendData:[], //发送后台的数据
 			}
 		},
 		watch:{
 		//数据变化时
+		selectTimeStar:function(){
+			this.starTime_();
+		},
+		selectTimeEnd:function(){
+			this.endTime_();
+		}
 		
 		},
 		computed:{
-			...mapState(['project','projectDoop'])
+			...mapState(['project'])
 		},
 		created() {
 		},
@@ -150,44 +169,16 @@
 						list.doorID = res.result.doorList[i].doorID;
 						list.doorName = res.result.doorList[i].doorName;
 						_this.projectInital[i]=list;
-						_this.seeproject[i]=res.result.doorList[i].doorName;
+						_this.projectDoor[i]=res.result.doorList[i].doorName;
 					}
 					if(this.project.length == 0) {
-						this.projectPage = this.seeproject
+						this.projectPage = this.projectDoor
 						//this.projectPage = JSON.stringify(this.projectInital)
-					} else {
-						//将从选取门列表页面的数据与保存在vuex的门列表数据对比删除相同的元素
-//						for(var i = 0; i < this.projectDoop.length; i++) {
-//							for(var j = 0; j < this.project.length; j++) {
-//								if(this.projectDoop[i] === this.project[j]) {
-//									this.project.splice(j, 1);
-//								}
-//							}
-//						}
-						var a = [];
-						for(var i = 0; i < this.project.length; i++){
-							a[i] = this.project[i];
+					} else {			
+						this.projectPage = this.project;
+						if(this.projectPage.length < this.projectDoor.length) {
+							this.add = true;
 						}
-						var b = [];
-						for(var i = 0; i < this.projectDoop.length; i++){
-							b[i] = this.projectDoop[i];
-						}
-						for(var i=0;i<b.length;i++){						
-							for(var j=0;j<a.length;j++){
-								if(b[i]===a[j]){								
-									b.splice(i,1);
-								}							
-							}
-						}											
-						//合并两个数组
-						for(var i=0;i<b.length;i++){
-							this.project.push(b[i])
-							}
-						//将合并后数组赋给展示数组
-						this.projectPage = this.project;					
-					}
-					if(this.projectPage.length < this.seeproject.length) {
-						this.add = true;
 					}
 					//console.log(JSON.stringify(this.doorName));
 				}).catch(function(error) {
@@ -200,29 +191,33 @@
 				this.$store.commit('PROJECT',this.projectPage);//储存修改的数据
 				//将修改过的门列表保存到vuex
 			},
-			nowTis(){
-				if(this.star){
-					var Year = this.pickerValue.getFullYear();
-					var Month = this.pickerValue.getMonth()+1;
-					var Date = this.pickerValue.getDate();
-					this.formValidate.star_time = Year+'-'+Month+'-'+Date;
-				}
-				if(this.end){
-					var Year = this.pickerValue.getFullYear();
-					var Month = this.pickerValue.getMonth()+1;
-					var Date = this.pickerValue.getDate();
-					this.formValidate.end_time = Year+'-'+Month+'-'+Date;
-				}		
-			},
 			starTime_() {
-				this.$refs.picker.open();
-				this.end = false;
-				this.star =true;			 
+				this.$refs.pickerSrtar.open();	
+					var Year = this.selectTimeStar.getFullYear();
+					var Month = this.selectTimeStar.getMonth()+1;
+					if(Month<10){Month = '0'+Month;}
+					var Date = this.selectTimeStar.getDate();
+					var hour = this.selectTimeStar.getHours();
+					if(hour<10){hour = '0'+hour;}
+					var minute = this.selectTimeStar.getMinutes();
+					if(minute<10){minute = '0'+minute;}
+					this.formValidate.startTime = Year+'-'+Month+'-'+Date+' '+hour+':'+minute;		
 			},
 			endTime_() {
-				this.$refs.picker.open();
-				this.star =false;
-				this.end = true;
+				this.$refs.pickerEnd.open();
+					var Year = this.selectTimeEnd.getFullYear();
+					var Month = this.selectTimeEnd.getMonth()+1;
+					if(Month<10){Month = '0'+Month;}
+					var Date = this.selectTimeEnd.getDate();
+					var hour = this.selectTimeEnd.getHours();
+					if(hour<10){
+						hour = '0'+hour;
+					}
+					var minute = this.selectTimeEnd.getMinutes();
+					if(minute<10){
+						minute = '0'+minute;
+					}
+					this.formValidate.endTime = Year+'-'+Month+'-'+Date+' '+hour+':'+minute;
 			},
 			sure() {
 				if(this.add){
@@ -237,7 +232,6 @@
 						//this.$Message.success('Success!');
 						//将当前选中授权的门列表与初始的门列表对比相同的元素
 						for(var i = 0; i < this.projectPage.length; i++) {
-							//console.log(this.projectPage)
 							for(var j = 0; j < this.projectInital.length; j++) {
 								if(this.projectPage[i] == this.projectInital[j].doorName) {
 									this.sendData[i]=this.projectInital[j];								
@@ -250,12 +244,26 @@
 						console.log(this.formValidate)
 						this.$post('/ssh/grantCard/grantQREvent',this.formValidate).then(res => {
 							console.log(res);
-							this.$router.push({path: "/callerDetail"})
+							this.saveData();
 						})						
 					} else {
 						// this.$Message.error('Fail!');
 					}
 				})
+			},
+			saveData(){
+				this.$get('/ssh/grantCard/getGrantQRByUser', {
+					"projectCode": "123",    //项目id
+					"pageSize": "2",
+					"granterPhone": "18320489492",  //使用人的手机号
+					"pageNumber":'1'
+				}).then(res => {
+					this.userData = res.result.cardList;
+					saveStore('userData',this.userData);
+					this.$router.push({path: "/callerDetail",query: {value: 0}})
+				}).catch(function(error) {
+					console.log(error);
+				});
 			},
 			handleReset(name) {
 				this.$refs[name].resetFields();

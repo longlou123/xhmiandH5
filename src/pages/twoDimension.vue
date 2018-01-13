@@ -5,7 +5,7 @@
 				<div id="imgBox"></div>
 				<!--<img src="../images/8888.jpg" alt="" />-->
 			</div>
-			<p class="name">big楼</p>
+			<p class="name">{{name}}</p>
 			<div class="message">
 				<div class="left">
 					<p>二维码生成时间:</p>
@@ -15,11 +15,11 @@
 					<p>有效进出次数：</p>
 				</div>
 				<div class="right">
-					<p>2017.07.01--11：11</p>
-					<p>2017.07.01--11：11</p>
+					<p>{{createTime}}</p>
+					<p>{{startTime}}</p>
 					<p>至</p>
-					<p>2017.07.02--11：11</p>
-					<p>5次</p>
+					<p>{{endTime}}</p>
+					<p>{{useCount}}</p>
 				</div>
 			</div>
 		</div>
@@ -35,29 +35,52 @@ export default {
 			btnText: '分享',
 			qrcode:null,
 			imgBox:null,
-			elText:'1234567800'
-
+			name:null,
+			codeData:'',
+			startTime:null,
+			endTime:null,
+			createTime:null,
+			useCount:null,
 		}
 	},
 	mounted() {
+		this.gitData(this.$route.query.id)
 		this.imgBox = document.getElementById("imgBox");
 		this.qrcode = new QRCode(this.imgBox, {
 			width : 274,
 			height :250
 		});
-		this.makeCode();
 	},
 	methods: {
-		sure() {	
-			this.$router.push({path: ""})
+		gitData(id) {	
+			this.$get('/ssh/grantCard/getGrantQRById', {
+				"id": id,
+			}).then(res => {
+				console.log(res.result);
+				this.name = res.result.name;
+				this.codeData = res.result.codeData;
+				this.qrcode.makeCode(this.codeData);
+				this.startTime = res.result.startTime;
+				this.endTime = res.result.endTime;
+				this.useCount = res.result.useCount
+				var date = new Date(res.result.createTime);
+				var Y = date.getFullYear();
+				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) ;
+				var D = date.getDate() ;
+				var h = date.getHours() ;
+				if(h<10){h = "0"+ h;}
+				var m = date.getMinutes()
+				if(m<10){m = "0"+ m;}
+				var s = date.getSeconds(); 
+				if(s<10){s = "0"+ s;}
+				this.createTime = Y+'-'+M+'-'+D+' '+h+':'+m+':'+s;
+			}).catch(function(error) {
+				console.log(error);
+			});
 		},
 		makeCode () {			
-			if (!this.elText) {
-				//alert("Input a text");
-				this.elText.focus();
-				return;
-			}	
-			this.qrcode.makeCode(this.elText);
+			
+			
 		}
 	    
 	}
