@@ -13,7 +13,7 @@
           <span class="label">读卡门禁：</span>
           <div class="picker_div">
             <Select v-model="selectValue" class="select_div">
-                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                <Option v-for="item in doorList" :value="item.doorID" :key="item.doorID">{{ item.doorName }}</Option>
             </Select>
           </div>
         </div>
@@ -37,6 +37,7 @@
 </template>
 <script >
 import { mapState, mapMutations } from 'vuex';
+import { getStore } from '@/script/util'
   export default {
     name:'test',
     data(){
@@ -57,40 +58,24 @@ import { mapState, mapMutations } from 'vuex';
         longAskTimer: null,
         firstCount: 30,
         secondCount: 15,
-        cardID: "1515814061373",
-        doorID: 83886807,
-        cityList: [
-          {
-              value: 'New York',
-              label: 'New York'
-          },
-          {
-              value: 'London',
-              label: 'London'
-          },
-          {
-              value: 'Sydney',
-              label: 'Sydney'
-          },
-          {
-              value: 'Ottawa',
-              label: 'Ottawa'
-          },
-          {
-              value: 'Paris',
-              label: 'Paris'
-          },
-          {
-              value: 'Canberra',
-              label: 'Canberra'
-          }
-        ],
+        cardID: null,
+        doorID: null,
+        doorList: [],
       }
     },
    	computed:{
       ...mapState(['massageSave'])
     },
+    mounted() {
+      this.stepStatus = 0;
+      this.initData();
+    },
     methods:{
+      initData(){
+        this.cardID = this.$route.query.cardID;
+        this.doorList = JSON.parse(getStore('choisedDoorList')).doors;
+        this.doorList = JSON.parse(this.doorList)
+      },
       nextClick(){
       	if(this.stepStatus === 0){
       		this.registerFirst();
@@ -143,6 +128,7 @@ import { mapState, mapMutations } from 'vuex';
           this.allRestart();
         })
       },
+      // 全部清除重新开始
       allRestart(){
       	clearInterval(this.countTimer);
         clearInterval(this.longAskTimer);
@@ -202,11 +188,6 @@ import { mapState, mapMutations } from 'vuex';
       	}, 2000)
       },
     },
-    mounted() {
-      // carId: "1515727475565"
-      this.stepStatus = 0;
-
-    },
     destroyed(){
     	clearInterval(this.countTimer);
       clearInterval(this.longAskTimer);
@@ -252,15 +233,16 @@ import { mapState, mapMutations } from 'vuex';
             this.tipsText1 = '发生错误';
             this.tipsText2 = '';
             this.currents = 0;
+            var _this = this;
             setTimeout(function(){
-                this.stepStatus = 0;
+                _this.stepStatus = 0;
             }, 2000)
             break
         }
       },
       // 监听选择器的值变化
       selectValue: function(){
-
+        this.doorID = this.selectValue;
       }
     }
   }
