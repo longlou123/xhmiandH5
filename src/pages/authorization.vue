@@ -73,7 +73,7 @@
 </template>
 <script >
   import { mapState, mapMutations } from 'vuex';
-  import {getStore} from '@/script/util'
+  import { getStore, saveStore } from '@/script/util'
   export default {
     name:'test',
     data(){
@@ -137,89 +137,99 @@
         }
     },
     methods:{
-      getdata(){
-         this.num=this.$route.query.value;
-         this.detailsData=JSON.parse(getStore("userData"));
-         console.log(JSON.stringify(this.detailsData));
-         this.formValidate.name=this.detailsData[this.num].name;
-         this.formValidate.phone=this.detailsData[this.num].phone;
-         this.formValidate.type=2;
-         this.hasData = true;
-         this.$post('/ssh/openDoor/getDoorByPhone', {
-         projectCode: "123",
-         userName:"伍健",
-         phone: "18312583532"
-          }).then(res=>{
-              console.log(res);
-            for(var i=0; i<res.result.doorList.length;i++){
-              var obj={};
-              obj.doorID=res.result.doorList[i].doorID;
-              obj.doorName = res.result.doorList[i].doorName;
-              this.doorName[i]=obj;
-              this.seeproject[i]=res.result.doorList[i].doorName;
+        // 获取query的值
+        getQuery(){
+          var _this=this;
+          _this.num=_this.$route.query.value;
+          _this.detailsData=JSON.parse(getStore("userData"));
+          // console.log(JSON.stringify(_this.detailsData));
+          _this.formValidate.name=_this.detailsData[_this.num].name;
+          _this.formValidate.phone=_this.detailsData[_this.num].phone;
+          // _this.formValidate.type=_this.detailsData[_this.num].type;
+        },
+        getdata(){
+            var _this=this;
+            if(this.$route.query.value){
+                this.getQuery();
             }
-            this.$store.commit('PROJECTDOOR',this.doorName);
-            if(this.saveDoor.length==0){
-            this.saveDoordata=this.seeproject;
-            }else {
-            if (this.saveDoordata.length < this.projectDoor.length){
-            this.delet=true;
-            }
-            this.saveDoordata = this.saveDoor;
-          }
-          }).catch(err=>{
-            console.log(err);
-          });
-      },
-      removeTode(index) {
-      this.saveDoordata.splice(index, 1);
-      this.delet=true;
-      this.$store.commit('SAVEDOOR',this.saveDoordata);
-      // console.log(this.saveDoor)
-      // 储存修改的数据
-     },
-      show(){
-        this.$refs.pickers.open();
-      },
-      show_box(){
-        this.$refs.picker.open();
-        // console.log(this.pickerValue);
-      },
-    	sure(){
-            if(this.delet){
-					this.$router.push({
-						path: "/entranceGuard"
-					})
-				}
-    	},
-		  handleSubmit (name) {
-          this.$refs[name].validate((valid) => {
-          if (valid) {
-          for(var i = 0; i < this.saveDoordata.length; i++) {
-				  for(var j = 0; j < this.doorName.length; j++) {
-					if(this.saveDoordata[i] == this.doorName[j].doorName) {
-						this.sendData[i]=this.doorName[j];
-					}
-				}
-			}
-			this.formValidate.granterPhone = '18312583532';
-			this.formValidate.projectCode = '123';
-			this.formValidate.doors = JSON.stringify(this.sendData);
-			console.log(this.formValidate)
-      this.$store.commit('MASSAGESAVE',this.formValidate);
-			this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
-				console.log(res);
-				this.$router.push({path: "/activateCard"})
-			}).catch(err=>{
-                console.log(err)
-            })
-              } else {
-                  // this.$Message.error('Fail!');
+            this.$post('/ssh/openDoor/getDoorByPhone', {
+                projectCode: "123",
+                userName:"伍健",
+                phone: "18312583532"
+            }).then(res=>{
+              if(res.errorCode === 200){
+                // console.log(res);
+                for(var i=0; i<res.result.doorList.length;i++){
+                    var obj={};
+                    obj.doorID=res.result.doorList[i].doorID;
+                    obj.doorName = res.result.doorList[i].doorName;
+                    _this.doorName[i]=obj;
+                    _this.seeproject[i]=res.result.doorList[i].doorName;
+                }
+                this.$store.commit('PROJECTDOOR',this.doorName);
+                if(this.saveDoor.length==0){
+                    this.saveDoordata=this.seeproject;
+                }else {
+                    if (this.saveDoordata.length < this.projectDoor.length){
+                        this.delet=true;
+                    }
+                    this.saveDoordata = this.saveDoor;
+                }
               }
-          })
-      },
+            }).catch(err=>{
+                console.log(err);
+            });
+        },
+        removeTode(index) {
+            this.saveDoordata.splice(index, 1);
+            this.delet=true;
+            this.$store.commit('SAVEDOOR',this.saveDoordata);
+            // console.log(this.saveDoor)
+            // 储存修改的数据
+        },
+        show(){
+            this.$refs.pickers.open();
+        },
+            show_box(){
+            this.$refs.picker.open();
+            // console.log(this.pickerValue);
+        },
+        sure(){
+            if(this.delet){
+            	this.$router.push({
+            		path: "/entranceGuard"
+            	})
+            }
+        },
+        handleSubmit (name) {
+            this.$refs[name].validate((valid) => {
+                if (valid) {
+                    for(var i = 0; i < this.saveDoordata.length; i++) {
+                    	  for(var j = 0; j < this.doorName.length; j++) {
+                    		if(this.saveDoordata[i] == this.doorName[j].doorName) {
+                    			this.sendData[i]=this.doorName[j];
+                    		}
+                    	}
+                    }
+                    this.formValidate.granterPhone = '18312583532';
+                    this.formValidate.projectCode = '123';
+                    this.formValidate.doors = JSON.stringify(this.sendData);
+                    console.log(this.formValidate)
+                    this.$store.commit('MASSAGESAVE',this.formValidate);
+                    saveStore( 'choisedDoorList', this.formValidate);
+                    this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
+                      console.log(res);
+                    	if(res.errorCode === 200){
+                        this.$router.push({path: "/activateCard", query: { cardID: res.result.cardId }})
+                      }
+                    })
+                } else {
+                      // this.$Message.error('Fail!');
+                }
+            })
+        },
       handleReset (name) {
-                this.$refs[name].resetFields();
+        this.$refs[name].resetFields();
     },
   }
 }

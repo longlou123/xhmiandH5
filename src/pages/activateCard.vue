@@ -13,7 +13,7 @@
           <span class="label">读卡门禁：</span>
           <div class="picker_div">
             <Select v-model="selectValue" class="select_div">
-                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                <Option v-for="item in doorList" :value="item.doorID" :key="item.doorID">{{ item.doorName }}</Option>
             </Select>
           </div>
         </div>
@@ -37,6 +37,7 @@
 </template>
 <script >
 import { mapState, mapMutations } from 'vuex';
+import { getStore } from '@/script/util'
   export default {
     name:'test',
     data(){
@@ -51,46 +52,30 @@ import { mapState, mapMutations } from 'vuex';
         btnText: '下一步',
         tipsText2: '请选择一个方便您授权发卡的门禁读头',
         currents: 0, //步骤条的步骤数
-        countTime: 30, 
+        countTime: 30,
         selectValue: '',
         countTimer: null,
         longAskTimer: null,
         firstCount: 30,
         secondCount: 15,
-        cardID: "1515814061373",
-        doorID: 83886807,
-        cityList: [
-          {
-              value: 'New York',
-              label: 'New York'
-          },
-          {
-              value: 'London',
-              label: 'London'
-          },
-          {
-              value: 'Sydney',
-              label: 'Sydney'
-          },
-          {
-              value: 'Ottawa',
-              label: 'Ottawa'
-          },
-          {
-              value: 'Paris',
-              label: 'Paris'
-          },
-          {
-              value: 'Canberra',
-              label: 'Canberra'
-          }
-        ],
+        cardID: null,
+        doorID: null,
+        doorList: [],
       }
     },
    	computed:{
       ...mapState(['massageSave'])
     },
+    mounted() {
+      this.stepStatus = 0;
+      this.initData();
+    },
     methods:{
+      initData(){
+        this.cardID = this.$route.query.cardID;
+        this.doorList = JSON.parse(getStore('choisedDoorList')).doors;
+        this.doorList = JSON.parse(this.doorList)
+      },
       nextClick(){
       	if(this.stepStatus === 0){
       		this.registerFirst();
@@ -143,6 +128,7 @@ import { mapState, mapMutations } from 'vuex';
           this.allRestart();
         })
       },
+      // 全部清除重新开始
       allRestart(){
       	clearInterval(this.countTimer);
         clearInterval(this.longAskTimer);
@@ -182,27 +168,25 @@ import { mapState, mapMutations } from 'vuex';
             cardId: _this.cardID,
 	          }).then(res=>{
 	            console.log(res.result);
-	            if(res.result.number === 1 && res.result.registerNumber === 1){
-	            	_this.stepStatus = 2;
-	            	clearInterval(_this.longAskTimer);
-	            }
-	            if(res.result.number === 2 && res.result.registerNumber === 2){
-	            	clearInterval(_this.longAskTimer);
-	            	_this.grantCard();
-	            } else {
-	            	// _this.allRestart();
-	            }
+                if(res.errorCode){
+                    if(res.result.number === 1 && res.result.registerNumber === 1){
+                        _this.stepStatus = 2;
+                        clearInterval(_this.longAskTimer);
+                    }
+                    if(res.result.number === 2 && res.result.registerNumber === 2){
+                        clearInterval(_this.longAskTimer);
+                        _this.grantCard();
+                    }
+                } else {
+                        _this.allRestart();
+                }
+
 	          }).catch(err=>{
 	            console.log(err)
 	            _this.allRestart();
 	          })
       	}, 2000)
       },
-    },
-    mounted() {
-      // carId: "1515727475565"
-      this.stepStatus = 0;
-      
     },
     destroyed(){
     	clearInterval(this.countTimer);
@@ -230,7 +214,7 @@ import { mapState, mapMutations } from 'vuex';
             this.tipsText1 = '第二次读卡';
             this.tipsText2 = '请再次将IC卡防止门禁读头上';
             this.btnText = '下一步';
-            clearInterval(this.countTimer); 
+            clearInterval(this.countTimer);
             this.count(this.secondCount);
             this.registerSec();
             break
@@ -249,12 +233,16 @@ import { mapState, mapMutations } from 'vuex';
             this.tipsText1 = '发生错误';
             this.tipsText2 = '';
             this.currents = 0;
+            var _this = this;
+            setTimeout(function(){
+                _this.stepStatus = 0;
+            }, 2000)
             break
         }
       },
       // 监听选择器的值变化
       selectValue: function(){
-        
+        this.doorID = this.selectValue;
       }
     }
   }
@@ -305,7 +293,7 @@ import { mapState, mapMutations } from 'vuex';
         position: absolute;
         left: 0.5rem;
         top: 0.15rem;
-        
+
       }
       .picker_div{
         margin-top: 2rem;
