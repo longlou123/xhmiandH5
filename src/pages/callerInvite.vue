@@ -195,21 +195,19 @@
 				this.$refs.pickerSrtar.open();	
 					var Year = this.selectTimeStar.getFullYear();
 					var Month = this.selectTimeStar.getMonth()+1;
+					if(Month<10){Month = '0'+Month;}
 					var Date = this.selectTimeStar.getDate();
 					var hour = this.selectTimeStar.getHours();
-					if(hour<10){
-						hour = '0'+hour;
-					}
+					if(hour<10){hour = '0'+hour;}
 					var minute = this.selectTimeStar.getMinutes();
-					if(minute<10){
-						minute = '0'+minute;
-					}
+					if(minute<10){minute = '0'+minute;}
 					this.formValidate.startTime = Year+'-'+Month+'-'+Date+' '+hour+':'+minute;		
 			},
 			endTime_() {
 				this.$refs.pickerEnd.open();
 					var Year = this.selectTimeEnd.getFullYear();
 					var Month = this.selectTimeEnd.getMonth()+1;
+					if(Month<10){Month = '0'+Month;}
 					var Date = this.selectTimeEnd.getDate();
 					var hour = this.selectTimeEnd.getHours();
 					if(hour<10){

@@ -19,7 +19,7 @@
 					<p>{{startTime}}</p>
 					<p>至</p>
 					<p>{{endTime}}</p>
-					<p>5次</p>
+					<p>{{useCount}}</p>
 				</div>
 			</div>
 		</div>
@@ -40,6 +40,7 @@ export default {
 			startTime:null,
 			endTime:null,
 			createTime:null,
+			useCount:null,
 		}
 	},
 	mounted() {
@@ -61,22 +62,17 @@ export default {
 				this.qrcode.makeCode(this.codeData);
 				this.startTime = res.result.startTime;
 				this.endTime = res.result.endTime;
+				this.useCount = res.result.useCount
 				var date = new Date(res.result.createTime);
 				var Y = date.getFullYear();
 				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) ;
 				var D = date.getDate() ;
 				var h = date.getHours() ;
-				if(h<10){
-					h = "0"+ h;
-				}
+				if(h<10){h = "0"+ h;}
 				var m = date.getMinutes()
-				if(m<10){
-					m = "0"+ m;
-				}
+				if(m<10){m = "0"+ m;}
 				var s = date.getSeconds(); 
-				if(s<10){
-					s = "0"+ s;
-				}
+				if(s<10){s = "0"+ s;}
 				this.createTime = Y+'-'+M+'-'+D+' '+h+':'+m+':'+s;
 			}).catch(function(error) {
 				console.log(error);
