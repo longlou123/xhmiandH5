@@ -3,10 +3,10 @@
 		<div class="scoll">
 			<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
         	<FormItem label="姓名 :" prop="name">
-            	<Input v-model="formValidate.name" placeholder=""></Input>
+            	<Input v-model="formValidate.name" placeholder="请选择"></Input>
         	</FormItem>
         	<FormItem label="类型 :" prop="type">
-            <Select v-model="formValidate.type" placeholder="请选择">
+            <Select v-model="formValidate.type" placeholder="">
                 <Option value="1">家属</Option>
                 <Option value="2">租客</Option>
                 <Option value="3">访客</Option>
@@ -73,6 +73,7 @@
 </template>
 <script >
   import { mapState, mapMutations } from 'vuex';
+  import {getStore} from '@/script/util'
   export default {
     name:'test',
     data(){
@@ -85,6 +86,8 @@
           time: new Date(),
           pickerValuer: '',
           pickerValues:'',
+          num:null,
+          detailsData:null,
       	  formValidate: {
               name: '',
               phone: '',
@@ -100,7 +103,7 @@
                   { required: true, message: '请填写手机号', trigger: 'blur' }
               ],
               type: [
-                  { required: true, message: 'Please select the type', trigger: 'change' }
+                  { required: true, message: '请选择类型', trigger: 'change' }
               ],
               endTime:[
                   { required: true, message: '请选择失效时间', trigger: 'change' }
@@ -135,6 +138,23 @@
     methods:{
       getdata(){
           var _this=this;
+          _this.num=_this.$route.query.value;
+          _this.detailsData=JSON.parse(getStore("userData"));
+          console.log(JSON.stringify(_this.detailsData));
+          _this.formValidate.name=_this.detailsData[_this.num].name;
+          _this.formValidate.phone=_this.detailsData[_this.num].phone;
+          _this.formValidate.type=_this.detailsData[_this.num].type;
+          //   switch(_this.formValidate.type)
+          //   {
+          //    case 1:
+          //     _this.formValidate.type="家属"
+          //     break;
+          //   case 2:
+          //     _this.formValidate.type="租客"
+          //     break;
+          //   case 3:
+          //     _this.formValidate.type="访客"
+          //   }
           this.$post('/ssh/openDoor/getDoorByPhone', {
               projectCode: "123",
               userName:"伍健",
