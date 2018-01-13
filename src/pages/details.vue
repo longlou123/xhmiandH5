@@ -37,8 +37,8 @@
         				  <p>删除将会删除账号信息</p>
         				  <p>请确定是否进行删除</p>
     			</Modal>
-		</div>		
-	</div>	 
+		</div>
+	</div>
 </template>
 <script >
 import Vue from 'vue'
@@ -96,23 +96,28 @@ import {saveStore} from '@/script/util'
               this.type="访客"
             }
 			if(this.data[this.num].isCancel){
-				this.isCancel="有效"
+				this.isCancel="无效"
 			}else{
-				this.isCancel="失效"
+				this.isCancel="有效"
 			}
 
 		},
 		delet(){
 			 var cardN=this.cardNumber.toString();
 			 console.log(cardN)
-             // this.$post('/ssh/grantCard/deleteGrantCard', {
-             //  cardNumber:cardN
-             // }).then(res=>{
-             //    console.log(res)
-             //    this.$router.push({path:"/management"})
-             // }).catch(err=>{
-             // 	console.log("删除失败");
-             // })
+             this.$post('/ssh/grantCard/deleteGrantCard', {
+              cardNumber:cardN
+             }).then(res=>{
+                if(res.state){
+                  this.$router.push({path:"/management"})
+                }else{
+                  console.log("删除失败");
+                }
+
+
+             }).catch(err=>{
+             	console.log("删除失败");
+             })
 		}
 		}
 	}
@@ -151,7 +156,7 @@ import {saveStore} from '@/script/util'
             width: 6.2rem;
             left: 60%;
             transform: translateX(-50%);
-            margin-left:-0.2rem;	
+            margin-left:-0.2rem;
                 span{
                      font-size: 0.3rem;
                         color: #fff;

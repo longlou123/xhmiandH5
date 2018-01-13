@@ -1,7 +1,7 @@
-<template>	
+<template>
 	<div class="authorization">
 		<div class="scoll">
-			<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
+			<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100" v-if="hasData">
         	<FormItem label="姓名 :" prop="name">
             	<Input v-model="formValidate.name" placeholder="请选择"></Input>
         	</FormItem>
@@ -23,7 +23,7 @@
           <mt-datetime-picker
             v-model="pickerValuer"
             type="datetime"
-            ref="pickers" 
+            ref="pickers"
             year-format=" {value} 年"
             month-format=" {value} 月"
             date-format=" {value} 日"
@@ -33,7 +33,7 @@
           <mt-datetime-picker
             v-model="pickerValues"
             type="datetime"
-            ref="picker" 
+            ref="picker"
             year-format=" {value} 年"
             month-format=" {value} 月"
             date-format=" {value} 日"
@@ -46,7 +46,7 @@
             <FormItem label="失效日期 :" prop="endTime" >
                <Input v-model="formValidate.endTime" placeholder=""  readonly></Input>
           </FormItem>
-          </div>  
+          </div>
    		 </Form>
    		<div class="door_stop">
    		 	<div class="text">授权门禁</div>
@@ -62,14 +62,14 @@
    		 					<Icon type="ios-plus-outline"></Icon>
    		 				</div>
    		 	 	 </div>
-   		 	</div>  		 	
+   		 	</div>
    		 </div>
-		</div>	 
+		</div>
    		 <div class="btn" @click="handleSubmit('formValidate')">
     		<button type="primary" >下一步</button>
     	</div>
 	</div>
-		 
+
 </template>
 <script >
   import { mapState, mapMutations } from 'vuex';
@@ -88,10 +88,11 @@
           pickerValues:'',
           num:null,
           detailsData:null,
+          hasData: false,
       	  formValidate: {
               name: '',
               phone: '',
-              type: '',
+              type: '2',
               endTime:'',
               startTime:''
           },
@@ -103,7 +104,7 @@
                   { required: true, message: '请填写手机号', trigger: 'blur' }
               ],
               type: [
-                  { required: true, message: '请选择类型', trigger: 'change' }
+                  { required:true, message: '请选择类型', trigger: 'change' }
               ],
               endTime:[
                   { required: true, message: '请选择失效时间', trigger: 'change' }
@@ -120,7 +121,7 @@
     created(){
 
     },
-    mounted(){  
+    mounted(){
           this.getdata();
           var d = new Date();
           this.formValidate.startTime = d.format("yyyy-MM-dd hh:mm");
@@ -128,55 +129,44 @@
     },
     watch:{
       pickerValuer(){
-            this.formValidate.startTime = this.pickerValuer.format("yyyy-MM-dd hh:mm");
+          this.formValidate.startTime = this.pickerValuer.format("yyyy-MM-dd hh:mm");
             // this.failure= this.pickerValue.format("yyyy-MM-dd");
         },
       pickerValues(){
-            this.formValidate.endTime= this.pickerValues.format("yyyy-MM-dd hh:mm");
+          this.formValidate.endTime= this.pickerValues.format("yyyy-MM-dd hh:mm");
         }
     },
     methods:{
       getdata(){
-          var _this=this;
-          _this.num=_this.$route.query.value;
-          _this.detailsData=JSON.parse(getStore("userData"));
-          console.log(JSON.stringify(_this.detailsData));
-          _this.formValidate.name=_this.detailsData[_this.num].name;
-          _this.formValidate.phone=_this.detailsData[_this.num].phone;
-          _this.formValidate.type=_this.detailsData[_this.num].type;
-          //   switch(_this.formValidate.type)
-          //   {
-          //    case 1:
-          //     _this.formValidate.type="家属"
-          //     break;
-          //   case 2:
-          //     _this.formValidate.type="租客"
-          //     break;
-          //   case 3:
-          //     _this.formValidate.type="访客"
-          //   }
-          this.$post('/ssh/openDoor/getDoorByPhone', {
-              projectCode: "123",
-              userName:"伍健",
-              phone: "18312583532"
-          }).then(res=>{       
-              console.log(res);     
+         this.num=this.$route.query.value;
+         this.detailsData=JSON.parse(getStore("userData"));
+         console.log(JSON.stringify(this.detailsData));
+         this.formValidate.name=this.detailsData[this.num].name;
+         this.formValidate.phone=this.detailsData[this.num].phone;
+         this.formValidate.type=2;
+         this.hasData = true;
+         this.$post('/ssh/openDoor/getDoorByPhone', {
+         projectCode: "123",
+         userName:"伍健",
+         phone: "18312583532"
+          }).then(res=>{
+              console.log(res);
             for(var i=0; i<res.result.doorList.length;i++){
-              var obj={}; 
-              obj.doorID=res.result.doorList[i].doorID; 
-              obj.doorName = res.result.doorList[i].doorName; 
-              _this.doorName[i]=obj;  
-              _this.seeproject[i]=res.result.doorList[i].doorName;     
-            }  
+              var obj={};
+              obj.doorID=res.result.doorList[i].doorID;
+              obj.doorName = res.result.doorList[i].doorName;
+              this.doorName[i]=obj;
+              this.seeproject[i]=res.result.doorList[i].doorName;
+            }
             this.$store.commit('PROJECTDOOR',this.doorName);
             if(this.saveDoor.length==0){
-            this.saveDoordata=this.seeproject;        
+            this.saveDoordata=this.seeproject;
             }else {
             if (this.saveDoordata.length < this.projectDoor.length){
             this.delet=true;
             }
             this.saveDoordata = this.saveDoor;
-          }          
+          }
           }).catch(err=>{
             console.log(err);
           });
@@ -200,15 +190,15 @@
 					this.$router.push({
 						path: "/entranceGuard"
 					})
-				}	
-    	},    	
+				}
+    	},
 		  handleSubmit (name) {
           this.$refs[name].validate((valid) => {
           if (valid) {
           for(var i = 0; i < this.saveDoordata.length; i++) {
 				  for(var j = 0; j < this.doorName.length; j++) {
 					if(this.saveDoordata[i] == this.doorName[j].doorName) {
-						this.sendData[i]=this.doorName[j];								
+						this.sendData[i]=this.doorName[j];
 					}
 				}
 			}
@@ -220,7 +210,9 @@
 			this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
 				console.log(res);
 				this.$router.push({path: "/activateCard"})
-			})			
+			}).catch(err=>{
+                console.log(err)
+            })
               } else {
                   // this.$Message.error('Fail!');
               }
@@ -228,7 +220,7 @@
       },
       handleReset (name) {
                 this.$refs[name].resetFields();
-    },   
+    },
   }
 }
 </script>
@@ -236,7 +228,7 @@
 html,body{
   background-color:#EFf2f5;
 }
-    .authorization{ 	
+    .authorization{
       padding-top:0.2rem;
     	.scoll{
     		width: 100%;
@@ -275,13 +267,13 @@ html,body{
     			         position:relative;
     			         margin-right:0.35rem;
     			         margin-bottom:0.4rem;
-    			         box-shadow: 0px -5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4;	
+    			         box-shadow: 0px -5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4;
                    border-radius:0.15rem;
                       span{
                            display: inline-block;
 							width: 100%;
-							overflow:hidden; 
-							white-space:nowrap; 
+							overflow:hidden;
+							white-space:nowrap;
 							text-overflow:ellipsis;
 							font-size: 0.24rem;
                             font-size:0.24rem;
@@ -306,7 +298,7 @@ html,body{
    				    				    font-size:0.5rem;
     							     }
     						      }
-    					       }			
+    					       }
     				        }
     			         }
     	             .btn{
