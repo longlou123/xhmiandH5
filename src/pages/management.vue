@@ -8,10 +8,10 @@
 					    <div class="time">有效期：{{item.startTime}}至{{item.endTime}}</div>
                         <img  class="show_img" src="../images/text.png" alt="" v-show="item.isCancel">
 					</div>
-					<button class="btn" @click="modal3 = true">注销</button>
+					<button class="btn" @click="modal(item,index)">注销</button>
 				</div>
                 <div class="deletes" >
-                <Modal  v-model="modal3" @on-ok="cancellation(item)">
+                <Modal  v-model="modal3" @on-ok="cancellation(item,index)">
                         <p>注销将会无法使用门卡</p>
                         <p>请确定是否进行删除</p>
                 </Modal>
@@ -50,7 +50,11 @@ import {saveStore} from '@/script/util'
     	// jump(){
     	// 	this.$router.push({path:"/details"});
     	// },
-        cancellation(item){
+        modal(item,index){
+        this.modal3=true
+
+        },
+        cancellation(item,index){
            var cardN=item.cardNumber.toString();
              this.$post('/ssh/grantCard/cancelGrantCard', {
               cardNumber:cardN
@@ -82,6 +86,7 @@ import {saveStore} from '@/script/util'
             pageSize:10,
             pageNumber:1
           }).then(res=>{
+                console.log(res)
                 this.doorList = res.result.cardList;
 				saveStore('userData',this.doorList);
                 console.log(this.doorList);
