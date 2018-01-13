@@ -6,6 +6,7 @@ import qs from 'qs'
 
 // axios 配置
 var baseUrl = 'http://202.105.104.105:8006';
+// var baseUrl = 'http://10.51.39.112:8080'
 
 axios.defaults.timeout = 5000; 
 axios.defaults.baseURL = baseUrl; //这是调用数据接口
