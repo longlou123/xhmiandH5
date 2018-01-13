@@ -6,7 +6,7 @@
 						<span class="text_span" >{{item.name}}</span><span class="guest">{{status}}</span>
 					    <div class="card" :value="item.cardNumber">卡号：{{item.cardNumber}}</div>
 					    <div class="time">有效期：{{item.startTime}}至{{item.endTime}}</div>
-                        <img  class="show_img" src="../images/text.png" alt="" v-show="item.isCancel">
+                        <img  class="show_img" src="../images/text.png" alt="" v-show="!item.isCancel">
 					</div>
 					<button class="btn" @click="modal(item,index)">注销</button>
 				</div>
@@ -55,12 +55,13 @@ import {saveStore} from '@/script/util'
 
         },
         cancellation(item,index){
-           var cardN=item.cardNumber.toString();
-             this.$post('/ssh/grantCard/cancelGrantCard', {
-              cardNumber:cardN
-             }).then(res=>{
-                console.log(res)
-             })
+            console.log(index)
+           // var cardN=item.cardNumber.toString();
+             // this.$post('/ssh/grantCard/cancelGrantCard', {
+             //  cardNumber:cardN
+             // }).then(res=>{
+             //    console.log(res)
+             // })
         },
         getnow(d,index){
             this.modifyvue = d ;
