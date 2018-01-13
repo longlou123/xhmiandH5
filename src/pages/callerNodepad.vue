@@ -13,7 +13,8 @@ export default {
 		return {
 			vertical: 'apple',
 			userData:null,
-			time:[]
+			time:[],
+			transformTime:null,
 		}
 	},
 	mounted() {
@@ -29,11 +30,22 @@ export default {
 			}).then(res => {
 				//console.log(res.result);
 				var _this= this;
-				this.userData = res.result.cardList;
+				_this.userData = res.result.cardList;
 				saveStore('userData',this.userData);
 				for(var i=0;i<this.userData.length;i++){
-					_this.time.push(new Date(parseInt(_this.userData[i].createTime) * 1).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " "))  
-				     this.userData[i].createTime = _this.time[i];
+					var date = new Date(_this.userData[i].createTime);
+					var Y = date.getFullYear();
+					var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) ;
+					var D = date.getDate() ;
+					var h = date.getHours() ;
+					if(h<10){h = "0"+ h;}
+					var m = date.getMinutes()
+					if(m<10){m = "0"+ m;}
+					var s = date.getSeconds(); 
+					if(s<10){s = "0"+ s;}
+					_this.transformTime = Y+'-'+M+'-'+D+' '+h+':'+m+':'+s;
+					_this.time.push(this.transformTime)  
+				    _this.userData[i].createTime = _this.time[i];
 				}
 			}).catch(function(error) {
 				console.log(error);
