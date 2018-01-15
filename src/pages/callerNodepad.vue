@@ -15,6 +15,7 @@ export default {
 			userData:null,
 			time:[],
 			transformTime:null,
+			loading:null,
 		}
 	},
 	mounted() {
@@ -22,6 +23,7 @@ export default {
 	},
 	methods: {
 		getData() {
+			this.loading = true;
 			this.$get('/ssh/grantCard/getGrantQRByUser', {
 				"projectCode": "123",
 				"pageSize": "20",
@@ -47,6 +49,7 @@ export default {
 					_this.time.push(this.transformTime)  
 				    _this.userData[i].createTime = _this.time[i];
 				}
+				 _this.loading = false;
 			}).catch(function(error) {
 				console.log(error);
 			});
