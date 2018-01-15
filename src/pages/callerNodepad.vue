@@ -15,15 +15,19 @@ export default {
 			userData:null,
 			time:[],
 			transformTime:null,
-			loading:null,
 		}
 	},
 	mounted() {
 		this.getData();
+		
+	},
+	watch:{
+		//数据变化时
+		
 	},
 	methods: {
 		getData() {
-			this.loading = true;
+			var _this = this;
 			this.$get('/ssh/grantCard/getGrantQRByUser', {
 				"projectCode": "123",
 				"pageSize": "20",
@@ -31,8 +35,7 @@ export default {
 				"pageNumber":'1'
 			}).then(res => {
 				//console.log(res.result);
-				var _this= this;
-				_this.userData = res.result.cardList;
+				this.userData = res.result.cardList;
 				saveStore('userData',this.userData);
 				for(var i=0;i<this.userData.length;i++){
 					var date = new Date(_this.userData[i].createTime);
@@ -49,7 +52,7 @@ export default {
 					_this.time.push(this.transformTime)  
 				    _this.userData[i].createTime = _this.time[i];
 				}
-				 _this.loading = false;
+				
 			}).catch(function(error) {
 				console.log(error);
 			});
