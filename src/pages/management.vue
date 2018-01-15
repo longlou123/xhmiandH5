@@ -11,7 +11,6 @@
 					    <div   class="time">有效期：{{item.startTime}} 至  {{item.endTime}}</div>
                         <img   class="show_img" src="../images/cancellation.png" alt="" v-show="item.isCancel">
                         <img   class="show_img" src="../images/overdue.png" alt="" v-show="!showBtnList[index]">
-
 					</div>
                     <div v-show="!item.isCancel">
                       <button class="btn" @click="showModal(item,index)"  v-if="showBtnList[index]" >注销</button>
@@ -76,6 +75,8 @@ import {saveStore} from '@/script/util'
               cardNumber:cardN
             }).then(res=>{
                 console.log(res)
+            }).catch(err=>{
+                console.log(err)
             })
         },
         getnow(d,index){
@@ -99,6 +100,9 @@ import {saveStore} from '@/script/util'
             pageNumber:1
           }).then(res=>{
                     this.doorList = res.result.cardList;
+                    if(res.result.cardList.length===0){
+                    this.$router.push({path:"/doorCard"})
+                    }
     				saveStore('userData',this.doorList);
     				for(var i=0; i<this.doorList.length; i++){
                         this.doorList[i].startTime=this.doorList[i].startTime.substring(0,10)

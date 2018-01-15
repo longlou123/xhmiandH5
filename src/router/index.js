@@ -20,6 +20,11 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'test1',
+      component: test1
+    },
+    {
+      path: '/management',
       name: 'management',
       component: management
     },
@@ -33,11 +38,6 @@ export default new Router({
       name: 'authorization',
       component: authorization
     },
-    // {
-    //   path: '/project',
-    //   name: 'project',
-    //   component: project
-    // },
     {
       path: '/entranceGuard',
       name: 'entranceGuard',
@@ -52,7 +52,6 @@ export default new Router({
       component: details
     },
     //二维码访客邀请
-
     {
       path: '/callerInvite',
       name: 'callerInvite',

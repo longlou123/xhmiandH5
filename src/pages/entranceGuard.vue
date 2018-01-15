@@ -33,8 +33,6 @@ import { mapState, mapMutations } from 'vuex';
          mounted(){
             this.getProject();
             this.getdata();
-
-
          },
          methods: {
             getProject(){
@@ -49,9 +47,6 @@ import { mapState, mapMutations } from 'vuex';
             phone: "18312583532"
           }).then(res=>{
               console.log(res)
-            if(res.result.doorList.length===0){
-              this.$router.push({path:"/doorCard"})
-            }
             for(var i=0; i<res.result.doorList.length;i++){
             _this.dataDoor[i]=res.result.doorList[i].doorName;
 
