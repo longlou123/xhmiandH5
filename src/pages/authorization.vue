@@ -1,7 +1,7 @@
 <template>
 	<div class="authorization">
 		<div class="scoll">
-			<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
+			<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100" v-if="hasData">
         	<FormItem label="姓名 :" prop="name">
             	<Input v-model="formValidate.name" placeholder="请选择"></Input>
         	</FormItem>
@@ -88,10 +88,11 @@
           pickerValues:'',
           num:null,
           detailsData:null,
+          hasData: false,
       	  formValidate: {
               name: '',
               phone: '',
-              type: '',
+              type: '2',
               endTime:'',
               startTime:''
           },
@@ -103,7 +104,7 @@
                   { required: true, message: '请填写手机号', trigger: 'blur' }
               ],
               type: [
-                  { required: true, message: '请选择类型', trigger: 'change' }
+                  { required:true, message: '请选择类型', trigger: 'change' }
               ],
               endTime:[
                   { required: true, message: '请选择失效时间', trigger: 'change' }
@@ -128,11 +129,11 @@
     },
     watch:{
       pickerValuer(){
-            this.formValidate.startTime = this.pickerValuer.format("yyyy-MM-dd hh:mm");
+          this.formValidate.startTime = this.pickerValuer.format("yyyy-MM-dd hh:mm");
             // this.failure= this.pickerValue.format("yyyy-MM-dd");
         },
       pickerValues(){
-            this.formValidate.endTime= this.pickerValues.format("yyyy-MM-dd hh:mm");
+          this.formValidate.endTime= this.pickerValues.format("yyyy-MM-dd hh:mm");
         }
     },
     methods:{
