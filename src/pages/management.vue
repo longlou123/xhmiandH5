@@ -11,7 +11,6 @@
 					    <div   class="time">有效期：{{item.startTime}} 至  {{item.endTime}}</div>
                         <img   class="show_img" src="../images/cancellation.png" alt="" v-show="item.isCancel">
                         <img   class="show_img" src="../images/overdue.png" alt="" v-show="!showBtnList[index]">
-
 					</div>
                     <div v-show="!item.isCancel">
                       <button class="btn" @click="showModal(item,index)"  v-if="showBtnList[index]" >注销</button>

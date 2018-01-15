@@ -20,10 +20,10 @@
 						<Input  placeholder="请填写生效时间" v-model="formValidate.startTime" readonly='readonly'></Input>
 					</FormItem>
 				</div>
-				<mt-datetime-picker  v-model="selectTimeStar" type="datetime" ref="pickerSrtar" 
-					year-format=" {value} 年" 
+				<mt-datetime-picker  v-model="selectTimeStar" type="datetime" ref="pickerSrtar"
+					year-format=" {value} 年"
 					month-format=" {value} 月"
-					 date-format=" {value} 日" 
+					 date-format=" {value} 日"
 					 hour-format=" {value}时"
 					 minute-format="{value}分"
 					 :startDate="this.time">
@@ -33,10 +33,10 @@
 						<Input placeholder="请填写失效时间"  v-model="formValidate.endTime" readonly='readonly'></Input>
 					</FormItem>
 				</div>
-				<mt-datetime-picker v-model="selectTimeEnd" type="datetime" ref="pickerEnd" 
-					year-format=" {value} 年" 
+				<mt-datetime-picker v-model="selectTimeEnd" type="datetime" ref="pickerEnd"
+					year-format=" {value} 年"
 					month-format=" {value} 月"
-					 date-format=" {value} 日" 
+					 date-format=" {value} 日"
 					 hour-format=" {value}时"
 					 minute-format="{value}分"
 					 :startDate="this.time" >
@@ -61,7 +61,7 @@
 								<Icon type="ios-close"></Icon>
 							</div>
 						</li>
-						
+
 					</ul>
 					<div class="door_box" v-if='add'>
    		 				<div class="Icon ">
@@ -145,7 +145,7 @@
 		selectTimeEnd:function(){
 			this.endTime_();
 		}
-		
+
 		},
 		computed:{
 			...mapState(['project'])
@@ -174,7 +174,7 @@
 					if(this.project.length == 0) {
 						this.projectPage = this.projectDoor
 						//this.projectPage = JSON.stringify(this.projectInital)
-					} else {			
+					} else {
 						this.projectPage = this.project;
 						if(this.projectPage.length < this.projectDoor.length) {
 							this.add = true;
@@ -192,7 +192,7 @@
 				//将修改过的门列表保存到vuex
 			},
 			starTime_() {
-				this.$refs.pickerSrtar.open();	
+				this.$refs.pickerSrtar.open();
 					var Year = this.selectTimeStar.getFullYear();
 					var Month = this.selectTimeStar.getMonth()+1;
 					if(Month<10){Month = '0'+Month;}
@@ -201,7 +201,7 @@
 					if(hour<10){hour = '0'+hour;}
 					var minute = this.selectTimeStar.getMinutes();
 					if(minute<10){minute = '0'+minute;}
-					this.formValidate.startTime = Year+'-'+Month+'-'+Date+' '+hour+':'+minute;		
+					this.formValidate.startTime = Year+'-'+Month+'-'+Date+' '+hour+':'+minute;
 			},
 			endTime_() {
 				this.$refs.pickerEnd.open();
@@ -224,9 +224,9 @@
 					this.$router.push({
 						path: "/doorEmpower"
 					})
-				}				
+				}
 			},
-			handleSubmit(name) {	
+			handleSubmit(name) {
 				this.$refs[name].validate((valid) => {
 					if(valid) {
 						//this.$Message.success('Success!');
@@ -234,7 +234,7 @@
 						for(var i = 0; i < this.projectPage.length; i++) {
 							for(var j = 0; j < this.projectInital.length; j++) {
 								if(this.projectPage[i] == this.projectInital[j].doorName) {
-									this.sendData[i]=this.projectInital[j];								
+									this.sendData[i]=this.projectInital[j];
 								}
 							}
 						}
@@ -245,7 +245,7 @@
 						this.$post('/ssh/grantCard/grantQREvent',this.formValidate).then(res => {
 							console.log(res);
 							this.saveData();
-						})						
+						})
 					} else {
 						// this.$Message.error('Fail!');
 					}
@@ -310,16 +310,16 @@
 						position: relative;
 						margin: 0.2rem 0.15rem;
 						box-shadow: 5px 5px 5px #E8EBF4;
-						border-radius: 0.1rem;						
+						border-radius: 0.1rem;
 						span {
 							display: inline-block;
 							width: 100%;
-							overflow:hidden; 
-							white-space:nowrap; 
+							overflow:hidden;
+							white-space:nowrap;
 							text-overflow:ellipsis;
 							font-size: 0.24rem;
 						}
-						.Icon {						
+						.Icon {
 							font-size: 0.5rem;
 							.Icons {
 								font-size: 0.5rem;
@@ -334,7 +334,7 @@
 							font-size: 0.5rem;
 							.ivu-icon {
 								font-size: 0.5rem;
-								color: #5698FF;							
+								color: #5698FF;
 							}
 						}
 					}

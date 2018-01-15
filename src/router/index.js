@@ -33,11 +33,6 @@ export default new Router({
       name: 'authorization',
       component: authorization
     },
-    // {
-    //   path: '/project',
-    //   name: 'project',
-    //   component: project
-    // },
     {
       path: '/entranceGuard',
       name: 'entranceGuard',
@@ -52,7 +47,6 @@ export default new Router({
       component: details
     },
     //二维码访客邀请
-
     {
       path: '/callerInvite',
       name: 'callerInvite',
