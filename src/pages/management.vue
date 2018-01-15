@@ -3,13 +3,18 @@
 			<div class="visitors"  v-for="(item, index) in doorList" >
 				<div class="center_one" >
 					<div class="center_two"    @click="getnow(item,index)">
-						<span class="text_span" >{{item.name}}</span><span class="guest">{{status}}</span>
+						<span class="text_span" >{{item.name}}</span><span class="guest" v-if="item.type===1">家属</span>
+                        <span class="guest"  v-else-if="item.type===2">租客</span><span class="guest" v-else-if="item.type===3">访客</span>
 					    <div class="card" :value="item.cardNumber">卡号：{{item.cardNumber}}</div>
 					    <div class="time">有效期：{{item.startTime}} 至  {{item.endTime}}</div>
                         <img  class="show_img" src="../images/text.png" alt="" v-show="item.isCancel">
-                        <img  class="show_img" src="../images/text.png" alt="" v-show="overdue">
+                        <img  class="show_img" src="../images/text.png" alt="" v-show="!showBtnList[index]">
+                         
 					</div>
-					<button class="btn" @click="showModal(item,index)" v-if="showDoor" >注销</button>
+                    <div v-show="!item.isCancel">
+                      <button class="btn" @click="showModal(item,index)"  v-if="showBtnList[index]" >注销</button>
+                    </div>
+					
 				</div>
                 <div class="deletes" >
                 <Modal  v-model="modal3" @on-ok="cancellation(modalItem,modalIndex)">
@@ -29,6 +34,7 @@ import {saveStore} from '@/script/util'
       return {
       	modal3: false,
         doorList:[],
+        showBtnList:[],
         modifyvue:null,
         detailsList: false,
         value:[],
@@ -38,7 +44,7 @@ import {saveStore} from '@/script/util'
         status:null,
         modalIndex: null,
         modalItem: null,
-        showDoor:true,
+        showBtn:true,
         overdue:false
         // showImg:false
       }
@@ -83,33 +89,23 @@ import {saveStore} from '@/script/util'
             var _this=this
            this.$post('/ssh/grantCard/getGrantCardByUser', {
             projectCode: "123",
-            granterPhone: "18320489492",
+            granterPhone: "18312583532",
             pageSize:10,
             pageNumber:1
           }).then(res=>{
                     this.doorList = res.result.cardList;
     				saveStore('userData',this.doorList);
-                    console.log(this.doorList);
-    				for(var i=0;i<this.doorList.length;i++){
-                        console.log(this.doorList[i].endTime)
-                          if( this.doorList[i].type===1 || this.doorList[i].isCancel){
-                              this.status="家属";
-                              this.showDoor=false;
-                         }else if(this.doorList[i].type===2){
-                             this.status="租客";
-                         }else{
-                             this.status="访客";
-                             this.showDoor=true;
-                    };
-                    if(new Date()> new Date(this.doorList[i].endTime)){
-                        this.showDoor=true;
-                        this.overdue=true;
-                    }else{
-                        this.showDoor=false;
-                        this.overdue=false
-                    }
-                    Vue.set(this.doorList, i, obj);
-            }
+    				for(var i=0; i<this.doorList.length; i++){
+                        this.doorList[i].startTime=this.doorList[i].startTime.substring(0,10)
+                        this.doorList[i].endTime=this.doorList[i].endTime.substring(0,10);
+                        console.log(this.doorList[i].endTime.substring(0,10))              
+                        if(new Date() > new Date(this.doorList[i].endTime)){
+                            this.showBtnList[i] = false;
+                        }else{
+                            this.showBtnList[i] = true;
+                        }
+                    //Vue.$set(this.doorList, i, obj);
+                   }
           }).catch(function (error) {
             // console.log(error);
           });

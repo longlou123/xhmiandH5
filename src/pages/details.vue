@@ -22,8 +22,12 @@
 				<i>{{endTime}}</i>
 			</section>
 			<section>
-				<span>授权门禁 :</span>
-				<i  v-for="item in doors">{{item.doorName}}</i>
+				<span class="door">授权门禁 :</span>
+				<i>
+					<ul >
+					  <li v-for="item in doors">{{item.doorName}}</li>
+					</ul>
+				</i>
 			</section>
 			<section>
 				<span>门卡状态 :</span>
@@ -80,8 +84,8 @@ import {saveStore} from '@/script/util'
 			this.name=this.data[this.num].name;
 			this.type=this.data[this.num].type
 			this.phone=this.data[this.num].phone;
-			this.startTime=this.data[this.num].startTime;
-			this.endTime=this.data[this.num].endTime;
+			this.startTime=this.data[this.num].startTime.substring(0,10);
+			this.endTime=this.data[this.num].endTime.substring(0,10);
 			this.doors= JSON.parse(this.data[this.num].doors)
 			this.cardNumber=this.data[this.num].cardNumber
 			switch(this.type)
@@ -128,7 +132,7 @@ import {saveStore} from '@/script/util'
 		padding-top:0.2rem;
 		.center_box{
 			width:7.5rem;
-			height:8.76rem;
+			height:auto;
 			background-color:#ffffff;
 			padding:0.6rem  0 ;
 			section {
@@ -138,12 +142,18 @@ import {saveStore} from '@/script/util'
 					width: 2.4rem;
 					text-align: left;
 				}
+				.door{
+					vertical-align: top;
+				}
 				i{
 					display: inline-block;
 					text-align: right;
 					width: 3.2rem;
 					margin-left: 0.7rem;
 					color: darkgrey;
+					li{
+						color:darkgrey;
+					}
 				}
 				.ivu-icon-share:before{
 					font-size: 0.7rem;
