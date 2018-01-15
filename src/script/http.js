@@ -8,12 +8,12 @@ import qs from 'qs'
 var baseUrl = 'http://202.105.104.105:8006';
 // var baseUrl = 'http://10.51.39.112:8080'
 
-axios.defaults.timeout = 5000; 
+axios.defaults.timeout = 5000;
 axios.defaults.baseURL = baseUrl; //这是调用数据接口
 var Content_Type = 'application/json;charset=utf-8';
 
 //http request 拦截器，通过这个，把token传到后台
-axios.interceptors.request.use(	
+axios.interceptors.request.use(
   config => {
  		if(axios.defaults.baseURL == baseUrl){
  			var token = getCookie('privarytoken'); //获取Cookie
@@ -32,9 +32,9 @@ axios.interceptors.request.use(
 				// 'Itemid': projectId  //项目iD
 	    };
 			// alert(projectId)
-
- }		
+ }
 		 //console.log(config)
+>>>>>>> e58404b58ed42f0664244544bbef6a7a150796b5
     return config;
   },
   err => {
@@ -76,7 +76,7 @@ export function get(url, params = {}, newUrl, dataType) {
 		axios.defaults.baseURL = baseUrl
 	}
   return new Promise((resolve, reject) => {
-	
+
     axios.get(url, {
       params: params
     })
@@ -95,7 +95,7 @@ export function get(url, params = {}, newUrl, dataType) {
  */
 export function post(url, data = {}, newUrl, dataType) {
 	// if(dataType == 'formdata'){
-	// 	data = qs.stringify(data);	
+	// 	data = qs.stringify(data);
 	// 	Content_Type = 'application/x-www-form-urlencoded;charset=utf-8';
 	// }else{
 	// 	Content_Type = 'application/json;charset=utf-8';
@@ -107,7 +107,7 @@ export function post(url, data = {}, newUrl, dataType) {
 		axios.defaults.baseURL = baseUrl
 	}
   	return new Promise((resolve, reject) => {
-	
+
 		//console.log(axios.defaults.baseURL)
 	    axios.post(url, data)
 	      .then(response => {
