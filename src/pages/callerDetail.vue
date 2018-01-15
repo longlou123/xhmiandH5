@@ -74,11 +74,11 @@
 		},
 		methods: {
 			share() {				
-				window.jsObj.HtmlcallJava2("http://10.51.36.108:3002/sendCard/#/twoDimension?id="+this.codeData)
+				window.jsObj.twoDimensionCode("http://10.51.36.108:3002/sendCard/#/twoDimension?id="+this.codeData);
 			},
 			newData(){			
 				this.data = JSON.parse(getStore("userData"));
-				console.log(this.data);
+				//console.log(this.data);
 				this.num=this.$route.query.value;
 				this.codeData = this.data[this.num].codeData //要分享的id
 				this.name= this.data[this.num].name;

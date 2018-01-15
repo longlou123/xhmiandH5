@@ -80,7 +80,7 @@
 
 </template>
 <script>
-	import {saveStore} from '@/script/util'
+	import {getStore,saveStore} from '@/script/util'
 	import { mapState, mapMutations } from 'vuex';
 	export default {
 		name: 'test',
@@ -161,10 +161,13 @@
 		methods: {
 			getdata() {
 				var _this = this;
-				this.$post('/ssh/openDoor/getDoorByPhone', {
-					projectCode: '123',
-					userName:'龙楼',
-					phone: '13717135881'
+				_this.projectCode = getStore('projectCode');
+				_this.userName = getStore('userName');
+				_this.granterPhone = getStore('granterPhone');
+				_this.$post('/ssh/openDoor/getDoorByPhone', {
+					projectCode: _this.projectCode,
+					userName:_this.userName,
+					phone: _this.granterPhone
 				}).then(res => {
 					//console.log(res.result.doorList)
 					for(var i=0;i<res.result.doorList.length;i++){
@@ -241,13 +244,12 @@
 								}
 							}
 						}
-						this.formValidate.granterPhone = '18320489492';
-						this.formValidate.projectCode = '123';
+						this.formValidate.granterPhone = this.granterPhone;
+						this.formValidate.projectCode = this.projectCode;
 						this.formValidate.doors = JSON.stringify(this.sendData);
-						console.log(this.formValidate)
+						//console.log(this.formValidate)
 						this.$post('/ssh/grantCard/grantQREvent',this.formValidate).then(res => {
-							//console.log(res);
-							this.saveData();
+							this.saveData();							
 						})						
 					} else {
 						// this.$Message.error('Fail!');
@@ -255,10 +257,11 @@
 				})
 			},
 			saveData(){
+				var _this = this;
 				this.$get('/ssh/grantCard/getGrantQRByUser', {
-					"projectCode": "123",    //项目id
+					"projectCode": _this.projectCode,    //项目id
 					"pageSize": "2",
-					"granterPhone": "18320489492",  //使用人的手机号
+					"granterPhone": _this.granterPhone,  //使用人的手机号
 					"pageNumber":'1'
 				}).then(res => {
 					this.userData = res.result.cardList;
