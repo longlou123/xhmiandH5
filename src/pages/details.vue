@@ -1,7 +1,7 @@
 <template>
 	<div class="center">
 		<div class="center_box">
-			  <section>
+			<section>
 				<span>使用人 :</span>
 				<i>{{name}}</i>
 			</section>
@@ -22,27 +22,32 @@
 				<i>{{endTime}}</i>
 			</section>
 			<section>
-				<span>授权门禁 :</span>
-				<i  v-for="item in doors">{{item.doorName}}</i>
+				<span class="door">授权门禁 :</span>
+				<i>
+					<ul >
+					  <li v-for="item in doors">{{item.doorName}}</li>
+					</ul>
+				</i>
 			</section>
 			<section>
 				<span>门卡状态 :</span>
 				<i>{{isCancel}}</i>
 			</section>
-    		 <div class="next_btn">
+    		<div class="next_btn">
         		<Button type="primary" @click="again">重新发卡</Button>
         		<Button type="primary"  @click="modal3 = true">删除信息</Button>
     		</div>
-    			<Modal  v-model="modal3" class="modal">
-        				  <p>注销将会删除账号信息</p>
+    			<Modal  v-model="modal3" @on-ok="delet()" >
+        				  <p>删除将会删除账号信息</p>
         				  <p>请确定是否进行删除</p>
     			</Modal>
-		</div>		
-	</div>	 
+		</div>
+	</div>
 </template>
 <script >
 import Vue from 'vue'
 import {getStore} from '@/script/util'
+import {saveStore} from '@/script/util'
 	export default {
 		// name:"test",
 		data(){
@@ -59,7 +64,8 @@ import {getStore} from '@/script/util'
 				endTime:null,
 				isCancel:null,
 				num:null,
-				door:null
+				door:null,
+				cardNumber:null,
 			}
 		},
 		mounted(){
@@ -67,30 +73,56 @@ import {getStore} from '@/script/util'
 		},
 		methods:{
 			again(){
-				this.$router.push({path:"/authorization"})
+				this.$router.push({path:"/authorization", query: {
+                    value: this.num
+                }})
 			},
 			add() {
-			// this.datas = this.$route.query.value;
-			// console.log();
-			// JSON.stringify(this.$route.query.value)
-			// this.datas =getStore("userData");
 			this.num=this.$route.query.value;
 			this.data=JSON.parse(getStore("userData"));
-			console.log(this.data);
+			saveStore('userData',this.data);
 			this.name=this.data[this.num].name;
-			console.log(this.data[this.num].type);
-		
+			this.type=this.data[this.num].type
 			this.phone=this.data[this.num].phone;
-			this.startTime=this.data[this.num].startTime;
-			this.endTime=this.data[this.num].endTime;
+			this.startTime=this.data[this.num].startTime.substring(0,10);
+			this.endTime=this.data[this.num].endTime.substring(0,10);
 			this.doors= JSON.parse(this.data[this.num].doors)
-			console.log(this.data[this.num].isCancel)
+			this.cardNumber=this.data[this.num].cardNumber
+			switch(this.type)
+            {
+            case 1:
+              this.type="家属"
+              break;
+            case 2:
+              this.type="租客"
+              break;
+            case 3:
+              this.type="访客"
+            }
 			if(this.data[this.num].isCancel){
-				this.isCancel="有效"
+				this.isCancel="无效"
 			}else{
-				this.isCancel="失效"
+				this.isCancel="有效"
 			}
+
 		},
+		delet(){
+			 var cardN=this.cardNumber.toString();
+			 console.log(cardN)
+             this.$post('/ssh/grantCard/deleteGrantCard', {
+              cardNumber:cardN
+             }).then(res=>{
+                if(res.state){
+                  this.$router.push({path:"/management"})
+                }else{
+                  console.log("删除失败");
+                }
+
+
+             }).catch(err=>{
+             	console.log("删除失败");
+             })
+		}
 		}
 	}
 </script>
@@ -100,7 +132,7 @@ import {getStore} from '@/script/util'
 		padding-top:0.2rem;
 		.center_box{
 			width:7.5rem;
-			height:8.76rem;
+			height:auto;
 			background-color:#ffffff;
 			padding:0.6rem  0 ;
 			section {
@@ -110,12 +142,18 @@ import {getStore} from '@/script/util'
 					width: 2.4rem;
 					text-align: left;
 				}
+				.door{
+					vertical-align: top;
+				}
 				i{
 					display: inline-block;
 					text-align: right;
 					width: 3.2rem;
 					margin-left: 0.7rem;
 					color: darkgrey;
+					li{
+						color:darkgrey;
+					}
 				}
 				.ivu-icon-share:before{
 					font-size: 0.7rem;
@@ -128,7 +166,7 @@ import {getStore} from '@/script/util'
             width: 6.2rem;
             left: 60%;
             transform: translateX(-50%);
-            margin-left:-0.2rem;	
+            margin-left:-0.2rem;
                 span{
                      font-size: 0.3rem;
                         color: #fff;
