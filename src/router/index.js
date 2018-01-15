@@ -20,18 +20,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'test1',
-      component: test1
+      name: 'management',
+      component: management
     },
     {
       path: '/doorCard',
       name: 'doorCard',
       component: doorCard
-    },
-    {
-      path: '/management',
-      name: 'management',
-      component: management
     },
     {
       path: '/authorization',

@@ -74,7 +74,7 @@
 		},
 		methods: {
 			share() {				
-				
+				window.jsObj.HtmlcallJava2("http://10.51.36.108:3002/sendCard/#/twoDimension?id="+this.codeData)
 			},
 			newData(){			
 				this.data = JSON.parse(getStore("userData"));
