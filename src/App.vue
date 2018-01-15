@@ -21,17 +21,18 @@ export default {
 		this.getAppData();
 	},
 	methods: {
-		getAppData(){	
+		getAppData(){
 			if(this.$route.query.userName&&this.$route.query.projectCode&&this.$route.query.granterPhone){
 				saveStore('userName', this.$route.query.userName);
 				saveStore('projectCode', this.$route.query.projectCode);
-				saveStore('granterPhone', this.$route.query.granterPhone);				
+				saveStore('granterPhone', this.$route.query.granterPhone);
+
 			}else{
 				if(!(getStore('userName')&&getStore('projectCode')&&getStore('granterPhone'))){
 					this.parameter = false;
 					alert('参数无效');
 				}
-			}			
+			}
 		}
 	},
 	watch: {

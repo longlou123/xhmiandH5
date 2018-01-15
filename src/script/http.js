@@ -34,7 +34,6 @@ axios.interceptors.request.use(
 			// alert(projectId)
  }
 		 //console.log(config)
->>>>>>> e58404b58ed42f0664244544bbef6a7a150796b5
     return config;
   },
   err => {

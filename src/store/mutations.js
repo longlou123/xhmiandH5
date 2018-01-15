@@ -6,13 +6,13 @@ import{
 	PROJECTINITAL,
 	SAVEDOOR,
 	USERNAME,
-	MASSAGESAVE
-	
+	MASSAGESAVE,
+	CLEAR_FORM,
 } from './mutation-types.js'
 
 export default{
 	[GET_ID](state,value){
-		
+
 	},
 	[PROJECT](state,project){
 		state.project = project
@@ -30,5 +30,8 @@ export default{
 	},
 	[MASSAGESAVE](state,massage){
 		state.massageSave=massage
-	}
+	},
+  [CLEAR_FORM](state){
+    state.formValidate = {}
+  },
 }
