@@ -87,13 +87,17 @@ import { getStore } from '@/script/util'
           cardId: this.cardID,
           doorID: this.doorID,	// 测试们
         }).then(res=>{
-          console.log(res.errorCode);
+          console.log(res);
      			if(res.errorCode === 200){
      				this.stepStatus = 1;
-     			}
+     			} else {
+            this.tipsText1 = '首次注册发生错误，错误码：' + res.errorCode;
+            this.allRestart();
+          }
         }).catch(err=>{
           console.log(err)
-          this.stepStatus = 10;
+          this.tipsText1 = '首次注册发生错误，错误信息：' + err;
+          this.allRestart();
         })
       },
       // 第二次注册
@@ -102,12 +106,16 @@ import { getStore } from '@/script/util'
         	cardId: this.cardID,
         }).then(res=>{
           console.log(res);
-          if (res.state){
+          if (res.errorCode === 200){
           	this.longAsk();
+          } else{
+            this.tipsText1 = '第二次注册发生错误，错误码：' + res.errorCode;
+            this.allRestart();
           }
         }).catch(err=>{
           console.log(err)
-          this.stepStatus = 10;
+          this.tipsText1 = '第二次注册发生错误，错误信息：' + err;
+          this.allRestart();
         })
       },
       // 最终授权卡
@@ -121,10 +129,13 @@ import { getStore } from '@/script/util'
         		clearInterval(this.longAskTimer);
           	console.log('最终成功');
           } else {
-          	this.allRestart();
+          	console.log(err)
+            this.tipsText1 = '授权卡时发生错误，错误码：' + res.errorCode;
+            this.allRestart();
           }
         }).catch(err=>{
           console.log(err)
+          this.tipsText1 = '授权卡时发生错误，错误信息：' + err;
           this.allRestart();
         })
       },
@@ -168,7 +179,7 @@ import { getStore } from '@/script/util'
             cardId: _this.cardID,
 	          }).then(res=>{
 	            console.log(res.result);
-                if(res.errorCode){
+                if(res.errorCode === 200){
                     if(res.result.number === 1 && res.result.registerNumber === 1){
                         _this.stepStatus = 2;
                         clearInterval(_this.longAskTimer);
@@ -178,11 +189,13 @@ import { getStore } from '@/script/util'
                         _this.grantCard();
                     }
                 } else {
+                        console.log(res.errorCode)
+                        _this.tipsText1 = '轮询时发生错误，错误码：' + res.errorCode;
                         _this.allRestart();
                 }
-
 	          }).catch(err=>{
 	            console.log(err)
+              _this.tipsText1 = '轮询时发生错误，错误信息：' + err;
 	            _this.allRestart();
 	          })
       	}, 2000)
@@ -230,11 +243,11 @@ import { getStore } from '@/script/util'
             this.tipsText2 = '请重新将IC卡放置需要授权的门禁读头上';
             break
           case 10:
-            this.tipsText1 = '发生错误';
+            // this.tipsText1 = '发生错误';
             this.tipsText2 = '';
-            this.currents = 0;
             var _this = this;
             setTimeout(function(){
+                _this.currents = 0;
                 _this.stepStatus = 0;
             }, 2000)
             break
