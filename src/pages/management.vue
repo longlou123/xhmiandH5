@@ -75,6 +75,8 @@ import {saveStore} from '@/script/util'
               cardNumber:cardN
             }).then(res=>{
                 console.log(res)
+            }).catch(err=>{
+                console.log(err)
             })
         },
         getnow(d,index){
@@ -98,6 +100,9 @@ import {saveStore} from '@/script/util'
             pageNumber:1
           }).then(res=>{
                     this.doorList = res.result.cardList;
+                    if(res.result.cardList.length===0){
+                    this.$router.push({path:"/doorCard"})
+                    }
     				saveStore('userData',this.doorList);
     				for(var i=0; i<this.doorList.length; i++){
                         this.doorList[i].startTime=this.doorList[i].startTime.substring(0,10)

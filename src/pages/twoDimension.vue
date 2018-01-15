@@ -56,7 +56,7 @@ export default {
 			this.$get('/ssh/grantCard/getGrantQRById', {
 				"id": id,
 			}).then(res => {
-				console.log(res.result);
+				//console.log(res.result);
 				this.name = res.result.name;
 				this.codeData = res.result.codeData;
 				this.qrcode.makeCode(this.codeData);

@@ -95,6 +95,9 @@
 					useCount: null,
 				},
 				add:false,
+				projectCode:'',
+				granterPhone:'',
+				userName:'',
 				projectPage:[],//页面展示数据
 				projectInital:[],//初始化存储全部数据
 				projectDoor:[],//存储门列表数据
@@ -159,9 +162,9 @@
 			getdata() {
 				var _this = this;
 				this.$post('/ssh/openDoor/getDoorByPhone', {
-					projectCode: "123",
-					userName: "龙楼",
-					phone: "13717135881"
+					projectCode: '123',
+					userName:'龙楼',
+					phone: '13717135881'
 				}).then(res => {
 					//console.log(res.result.doorList)
 					for(var i=0;i<res.result.doorList.length;i++){
@@ -243,7 +246,7 @@
 						this.formValidate.doors = JSON.stringify(this.sendData);
 						console.log(this.formValidate)
 						this.$post('/ssh/grantCard/grantQREvent',this.formValidate).then(res => {
-							console.log(res);
+							//console.log(res);
 							this.saveData();
 						})
 					} else {
@@ -357,3 +360,4 @@
 		}
 	}
 </style>
+>>>>>>> f883ebf3a878716a593bc9178e8077f472d8a16d

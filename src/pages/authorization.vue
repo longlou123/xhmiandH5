@@ -1,12 +1,12 @@
 <template>
 	<div class="authorization">
 		<div class="scoll">
-			<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100" v-if="hasData">
+			<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
         	<FormItem label="姓名 :" prop="name">
-            	<Input v-model="formValidate.name" placeholder="请选择"></Input>
+            	<Input v-model="formValidate.name" placeholder="访客姓名"></Input>
         	</FormItem>
         	<FormItem label="类型 :" prop="type">
-            <Select v-model="formValidate.type" placeholder="">
+            <Select v-model="formValidate.type" placeholder="请选择访客类型">
                 <Option value="1">家属</Option>
                 <Option value="2">租客</Option>
                 <Option value="3">访客</Option>
@@ -88,11 +88,10 @@
           pickerValues:'',
           num:null,
           detailsData:null,
-          hasData: false,
       	  formValidate: {
               name: '',
               phone: '',
-              type: '2',
+              type: '',
               endTime:'',
               startTime:''
           },
@@ -170,8 +169,8 @@
                 if(this.saveDoor.length==0){
                     this.saveDoordata=this.seeproject;
                 }else {
-                    if (this.saveDoordata.length < this.projectDoor.length){
-                        this.delet=true;
+                    if (this.saveDoor.length < this.projectDoor.length){
+                        this.delet = true;
                     }
                     this.saveDoordata = this.saveDoor;
                 }
@@ -214,11 +213,11 @@
                     this.formValidate.granterPhone = '18312583532';
                     this.formValidate.projectCode = '123';
                     this.formValidate.doors = JSON.stringify(this.sendData);
-                    console.log(this.formValidate)
+                    // console.log(this.formValidate)
                     this.$store.commit('MASSAGESAVE',this.formValidate);
                     saveStore( 'choisedDoorList', this.formValidate);
                     this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
-                      console.log(res);
+                      // console.log(res);
                     	if(res.errorCode === 200){
                         this.$router.push({path: "/activateCard", query: { cardID: res.result.cardId }})
                       }
