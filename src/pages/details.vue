@@ -99,7 +99,7 @@ import {saveStore} from '@/script/util'
             case 3:
               this.type="访客"
             }
-			if(this.data[this.num].isCancel){
+			if(this.data[this.num].isCancel || new Date() > new Date(this.data[this.num].endTime)){
 				this.isCancel="无效"
 			}else{
 				this.isCancel="有效"
