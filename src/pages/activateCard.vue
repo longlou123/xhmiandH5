@@ -3,7 +3,7 @@
       <div class="head">
         <div class="tips">
           <Icon type="close-circled" class="error" v-if="stepStatus==9"></Icon>
-          <div class="tips_one">{{tipsText1}}</div>
+          <div class="tips_one" :class="{error_text: errorText}">{{tipsText1}}</div>
           <div class="tips_two">{{tipsText2}}</div>
         </div>
         <div class="circle_time" v-if="stepStatus==1||stepStatus==2">
@@ -61,6 +61,7 @@ import { getStore } from '@/script/util'
         cardID: null,
         doorID: null,
         doorList: [],
+        errorText: false,
       }
     },
    	computed:{
@@ -72,14 +73,21 @@ import { getStore } from '@/script/util'
     },
     methods:{
       initData(){
-        this.cardID = this.$route.query.cardID;
-        this.doorList = JSON.parse(getStore('choisedDoorList')).doors;
-        this.doorList = JSON.parse(this.doorList)
+          this.cardID = this.$route.query.cardID;
+          this.doorList = JSON.parse(getStore('choisedDoorList')).doors;
+          this.doorList = JSON.parse(this.doorList);
       },
       nextClick(){
-      	if(this.stepStatus === 0){
-      		this.registerFirst();
-      	}
+      	if (this.stepStatus === 0){
+          if(!this.selectValue){
+            this.tipsText1 = '请选择授权发卡的门禁读头';
+            this.stepStatus = 10;
+          } else {
+            this.registerFirst();
+          }
+      	} else if (this.stepStatus === 3){
+          this.$router.push({ path: '/management' });
+        }
       },
       // 第一次注册
       registerFirst(){
@@ -91,12 +99,12 @@ import { getStore } from '@/script/util'
      			if(res.errorCode === 200){
      				this.stepStatus = 1;
      			} else {
-            this.tipsText1 = '首次注册发生错误，错误码：' + res.errorCode;
+            this.tipsText1 = '' + res.message;
             this.allRestart();
           }
         }).catch(err=>{
           console.log(err)
-          this.tipsText1 = '首次注册发生错误，错误信息：' + err;
+          this.tipsText1 = '' + res.message;
           this.allRestart();
         })
       },
@@ -109,12 +117,12 @@ import { getStore } from '@/script/util'
           if (res.errorCode === 200){
           	this.longAsk();
           } else{
-            this.tipsText1 = '第二次注册发生错误，错误码：' + res.errorCode;
+            this.tipsText1 = '' + res.message;
             this.allRestart();
           }
         }).catch(err=>{
           console.log(err)
-          this.tipsText1 = '第二次注册发生错误，错误信息：' + err;
+          this.tipsText1 = '' + res.message;
           this.allRestart();
         })
       },
@@ -130,12 +138,12 @@ import { getStore } from '@/script/util'
           	console.log('最终成功');
           } else {
           	console.log(err)
-            this.tipsText1 = '授权卡时发生错误，错误码：' + res.errorCode;
+            this.tipsText1 = '' + res.message;
             this.allRestart();
           }
         }).catch(err=>{
           console.log(err)
-          this.tipsText1 = '授权卡时发生错误，错误信息：' + err;
+          this.tipsText1 = '' + res.message;
           this.allRestart();
         })
       },
@@ -190,12 +198,12 @@ import { getStore } from '@/script/util'
                     }
                 } else {
                         console.log(res.errorCode)
-                        _this.tipsText1 = '轮询时发生错误，错误码：' + res.errorCode;
+                        this.tipsText1 = '' + res.message;
                         _this.allRestart();
                 }
 	          }).catch(err=>{
 	            console.log(err)
-              _this.tipsText1 = '轮询时发生错误，错误信息：' + err;
+              this.tipsText1 = '' + res.message;
 	            _this.allRestart();
 	          })
       	}, 2000)
@@ -232,7 +240,7 @@ import { getStore } from '@/script/util'
             this.registerSec();
             break
           case 3:
-          	document.getElementsByClassName('btn')[0].setAttribute('disabled', 'disabled');
+          	document.getElementsByClassName('btn')[0].removeAttribute('disabled');
             this.tipsText1 = '';
             this.tipsText2 = '';
             this.currents = 2;
@@ -243,12 +251,13 @@ import { getStore } from '@/script/util'
             this.tipsText2 = '请重新将IC卡放置需要授权的门禁读头上';
             break
           case 10:
-            // this.tipsText1 = '发生错误';
             this.tipsText2 = '';
+            this.errorText = true;
             var _this = this;
             setTimeout(function(){
                 _this.currents = 0;
                 _this.stepStatus = 0;
+                _this.errorText = false;
             }, 2000)
             break
         }
@@ -361,6 +370,9 @@ import { getStore } from '@/script/util'
         font-size: 0.3rem;
         color: #fff;
       }
+    }
+    .error_text{
+      color: red;
     }
   }
 

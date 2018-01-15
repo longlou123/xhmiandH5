@@ -57,7 +57,7 @@ export default new Router({
       component: details
     },
     //二维码访客邀请
-    
+
     {
       path: '/callerInvite',
       name: 'callerInvite',
