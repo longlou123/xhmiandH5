@@ -7,7 +7,7 @@
 </template>
 
 <script>
-	import {saveStore} from '@/script/util'
+	import {getStore,saveStore} from '@/script/util'
 export default {
 	data() {
 		return {
@@ -15,6 +15,8 @@ export default {
 			userData:null,
 			time:[],
 			transformTime:null,
+			projectCode:'',
+			granterPhone:''
 		}
 	},
 	mounted() {
@@ -28,10 +30,13 @@ export default {
 	methods: {
 		getData() {
 			var _this = this;
+			_this.projectCode = getStore('projectCode');
+			var userName = getStore('userName');
+			_this.granterPhone = getStore('granterPhone');
 			this.$get('/ssh/grantCard/getGrantQRByUser', {
-				"projectCode": "123",
+				"projectCode": _this.projectCode,
 				"pageSize": "20",
-				"granterPhone": "18320489492",
+				"granterPhone": _this.granterPhone,
 				"pageNumber":'1'
 			}).then(res => {
 				//console.log(res.result);

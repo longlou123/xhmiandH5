@@ -88,13 +88,6 @@
           pickerValues:'',
           num:null,
           detailsData:null,
-      	  formValidate: {
-              name: '',
-              phone: '',
-              type: '',
-              endTime:'',
-              startTime:''
-          },
           ruleValidate: {
               name: [
                   { required: true, message: '请填写使用人', trigger: 'blur' }
@@ -115,7 +108,7 @@
       }
     },
     computed:{
-      ...mapState(['saveDoor','projectDoor'])
+      ...mapState(['saveDoor','projectDoor','formValidate'])
     },
     created(){
 
@@ -124,7 +117,7 @@
           this.getdata();
           var d = new Date();
           this.formValidate.startTime = d.format("yyyy-MM-dd hh:mm");
-          this.formValidate.endTime = d.format("yyyy-MM-dd hh:mm");
+          // this.formValidate.endTime = d.format("yyyy-MM-dd hh:mm");
     },
     watch:{
       pickerValuer(){
@@ -148,13 +141,16 @@
         },
         getdata(){
             var _this=this;
+            var _projectCode = getStore('projectCode');
+            var _userName = getStore('userName');
+            var _granterPhone = getStore('granterPhone');
             if(this.$route.query.value){
                 this.getQuery();
             }
             this.$post('/ssh/openDoor/getDoorByPhone', {
-                projectCode: "123",
-                userName:"伍健",
-                phone: "18312583532"
+                projectCode: _projectCode,
+                userName: _userName,
+                phone: _granterPhone
             }).then(res=>{
               if(res.errorCode === 200){
                 // console.log(res);
@@ -210,8 +206,8 @@
                     		}
                     	}
                     }
-                    this.formValidate.granterPhone = '18312583532';
-                    this.formValidate.projectCode = '123';
+                    this.formValidate.granterPhone = getStore('granterPhone');
+                    this.formValidate.projectCode = getStore('projectCode');
                     this.formValidate.doors = JSON.stringify(this.sendData);
                     // console.log(this.formValidate)
                     this.$store.commit('MASSAGESAVE',this.formValidate);
@@ -219,13 +215,14 @@
                     this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
                       // console.log(res);
                     	if(res.errorCode === 200){
+                        this.$store.commit('CLEAR_FORM');
                         this.$router.push({path: "/activateCard", query: { cardID: res.result.cardId }})
                       }
                     })
                 } else {
                       // this.$Message.error('Fail!');
                 }
-            })
+            });
         },
       handleReset (name) {
         this.$refs[name].resetFields();

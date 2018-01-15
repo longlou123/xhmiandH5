@@ -21,9 +21,9 @@
 				<span>有效次数 :</span>
 				<i>{{useCount}}</i>
 			</section>
-			<section>	
+			<section>
 				<span class="door">授权门禁 :</span>
-				<i>		
+				<i>
 					<ul>
 						<li class="doorList" v-for="doorname in doors">{{doorname.doorName}}</li>
 					</ul>
@@ -73,12 +73,12 @@
 			...mapState(['userName'])
 		},
 		methods: {
-			share() {				
-				window.jsObj.HtmlcallJava2("http://10.51.36.108:3002/sendCard/#/twoDimension?id="+this.codeData)
+			share() {
+				window.jsObj.twoDimensionCode("http://10.51.36.108:3002/sendCard/#/twoDimension?id="+this.codeData);
 			},
-			newData(){			
+			newData(){
 				this.data = JSON.parse(getStore("userData"));
-				console.log(this.data);
+				//console.log(this.data);
 				this.num=this.$route.query.value;
 				this.codeData = this.data[this.num].codeData //要分享的id
 				this.name= this.data[this.num].name;
@@ -90,7 +90,7 @@
 				this.doors= JSON.parse(this.data[this.num].doors)
 				var crea = this.data[this.num].createTime
 				crea =new Date(parseInt(crea) * 1).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ")
-				this.createTime = crea; 
+				this.createTime = crea;
 				if(new Date()> new Date(this.data[this.num].endTime)){
 					this.status = '无效'
 				}else{
@@ -106,7 +106,7 @@
 		background-color: #EFF2F5;
 		padding-top: 0.2rem;
 		.center_box {
-			width: 7.5rem;			
+			width: 7.5rem;
 			background-color: #ffffff;
 			padding: 0.6rem 0 0 0;
 			section {

@@ -9,7 +9,8 @@ const state = {
 	projectDoor:[],
 	saveDoor:[],
 	userName:'大哥',
-	massageSave:[]
+	massageSave:[],
+  formValidate: {},
 }
 
 export default new Vuex.Store({
