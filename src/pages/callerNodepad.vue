@@ -1,5 +1,5 @@
 <template style="overflow: scroll;">
-		<mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :max-distance="150"
+		<mt-loadmore  :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :max-distance="150"
 	                ref="loadmore" :auto-fill="false" @bottom-status-change="handleTopChange" >
 		<div class="center">
 			<ul class="list_ul" v-for="(data,index) in userData">
@@ -26,26 +26,18 @@ export default {
 	        page:1,
 	        dataList:null,
 	        scrollMode:"touch"
-			
+
 		}
 	},
 	mounted() {
 		 this.getData();
-		
+
 	},
 	watch:{
 		//数据变化时
-		
+
 	},
 	methods: {
-		loadTop() {  // 刷新数据的操作
-                var _this = this;
-                setTimeout(function () {
-                    _this.userData.splice(0, _this.userData.length);
-                  	_this.getData();
-                    _this.$refs.loadmore.onTopLoaded();
-                }, 1000);
-            },
 		loadBottom() { // 加载更多数据的操作
                 //load data
                 //this.allLoaded = true;// 若数据已全部获取完毕
@@ -57,7 +49,7 @@ export default {
                 	}else{
                 		 _this.page = Number(_this.page) +1;
                 		 _this.getData();
-                	}               
+                	}
                     _this.$refs.loadmore.onBottomLoaded();
                }, 1000);
             },
@@ -79,11 +71,11 @@ export default {
 				_this.dataList = res.result.cardList.length;
 				console.log(_this.dataList)
 				if(this.page==1){
-					this.userData =res.result.cardList				
+					this.userData =res.result.cardList
 				}else{
-					this.userData =this.userData.concat(res.result.cardList);	
-				}			
-				
+					this.userData =this.userData.concat(res.result.cardList);
+				}
+
 				saveStore('userData',this.userData);
 				for(var i=0;i<this.userData.length;i++){
 					var date = new Date(_this.userData[i].createTime);
@@ -94,17 +86,17 @@ export default {
 					if(h<10){h = "0"+ h;}
 					var m = date.getMinutes()
 					if(m<10){m = "0"+ m;}
-					var s = date.getSeconds(); 
+					var s = date.getSeconds();
 					if(s<10){s = "0"+ s;}
 					_this.transformTime = Y+'-'+M+'-'+D+' '+h+':'+m+':'+s;
-					_this.time.push(this.transformTime)  
+					_this.time.push(this.transformTime)
 				    _this.userData[i].createTime = _this.time[i];
 				}
 			}).catch(function(error) {
 				console.log(error);
 			});
 		},
-	  
+
 		sure(num	) {
 			var _this = this
 			this.$router.push({path: "/callerDetail", query: {value: num}});
@@ -116,11 +108,11 @@ export default {
 <style lang="scss" scoped>
 .center{
 	width:7.5rem;
-    	height: 13.34rem;
+    	// height: 13.34rem;
     	background-color:#EFf2f5;
     	padding-top:0.28rem;
     	.list_ul{
-    		
+
     		li{
     			position: relative;
     			padding: 0 0.4rem;
@@ -145,12 +137,12 @@ export default {
 	    			right: 5%;
 	    			top: 25%;
 	    			text-align: center;
-	    			.ivu-icon-chevron-right{		    			
+	    			.ivu-icon-chevron-right{
 		    			font-size: 24px;
-		    			z-index: 9999;		    		
-		    		} 
-	    		}  		
-    		}  		  		 		
+		    			z-index: 9999;
+		    		}
+	    		}
+    		}
     	}
  	}
 
