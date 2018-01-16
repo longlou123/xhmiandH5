@@ -21,8 +21,20 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'management',
+      redirect: '/management',
+      component: management,
+      meta: {
+        title: '门卡管理',
+      }
+    },
+    {
+      path: '/test1',
       name: 'test1',
-      component: test1
+      component: test1,
+      meta: {
+        title: '测试列表',
+      }
     },
     {
       path: '/test2',
@@ -32,56 +44,89 @@ export default new Router({
     {
       path: '/management',
       name: 'management',
-      component: management
+      component: management,
+      meta: {
+        title: '门卡管理',
+      }
     },
     {
       path: '/doorCard',
       name: 'doorCard',
-      component: doorCard
+      component: doorCard,
+      meta: {
+        title: '门卡管理',
+      }
     },
     {
       path: '/authorization',
       name: 'authorization',
-      component: authorization
+      component: authorization,
+      meta: {
+        title: '授权门卡',
+      }
     },
     {
       path: '/entranceGuard',
       name: 'entranceGuard',
-      component: entranceGuard
+      component: entranceGuard,
+      meta: {
+        title: '授权门禁',
+      }
     },{
       path: '/activateCard',
       name: 'activateCard',
-      component: activateCard
+      component: activateCard,
+      meta: {
+        title: '激活门卡',
+      }
     },{
       path: '/details',
       name: 'details',
-      component: details
+      component: details,
+      meta: {
+        title: '门卡详情',
+      }
     },
     //二维码访客邀请
     {
       path: '/callerInvite',
       name: 'callerInvite',
-      component: callerInvite
+      component: callerInvite,
+      meta: {
+        title: '访客邀请',
+      }
     },
     {
       path: '/doorEmpower',
       name: 'doorEmpower',
-      component: doorEmpower
+      component: doorEmpower,
+      meta: {
+        title: '授权门禁',
+      }
     },
     {
       path: '/callerNodepad',
       name: 'callerNodepad',
-      component: callerNodepad
+      component: callerNodepad,
+      meta: {
+        title: '访客邀请记录',
+      }
     },
     {
       path: '/callerDetail',
       name: 'callerDetail',
-      component: callerDetail
+      component: callerDetail,
+      meta: {
+        title: '详情',
+      }
     },
     {
       path: '/twoDimension',
       name: 'twoDimension',
-      component: twoDimension
+      component: twoDimension,
+      meta: {
+        title: '访客邀请',
+      }
     },
   ]
 })

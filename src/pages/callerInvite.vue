@@ -279,7 +279,7 @@
 		padding-top: 0.2rem;
 		.scoll {
 			width: 100%;
-			height: 9.8rem;
+			height: 9.5rem;
 			overflow-y: auto;
 			Form {
 				width: 7.5rem;
@@ -343,10 +343,7 @@
 			}
 		}
 		.btn {
-			position: absolute;
-			left: 0;
-			right: 0;
-			bottom: 0.3rem;
+			margin-top: 0.6rem;
 			button {
 				width: 6.9rem;
 				height: 0.89rem;
@@ -358,7 +355,3 @@
 		}
 	}
 </style>
-<<<<<<< HEAD
->>>>>>> f883ebf3a878716a593bc9178e8077f472d8a16d
-=======
->>>>>>> 3b545d9533f7eb64c0c696077ff1e46a95ea095c
