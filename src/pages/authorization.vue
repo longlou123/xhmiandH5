@@ -220,7 +220,7 @@
                       }
                     })
                     } else {
-                      this.$Message.error('Fail!');
+                      // this.$Message.error('Fail!');
                 }
             });
         },
@@ -238,7 +238,7 @@ html,body{
       padding-top:0.2rem;
     	.scoll{
     		width: 100%;
-    		height: 9.8rem;
+    		height: 9rem;
     		overflow-y: auto;
     		Form{
     		    width: 90%;
@@ -308,10 +308,7 @@ html,body{
     				        }
     			         }
     	             .btn{
-			                  position:absolute;
-			                  left:0;
-			                  right:0;
-			                  bottom:0.3rem;
+                        margin-top: 0.6rem;
 			               button{
 				                width: 6.92rem;
 				                height: 0.89rem;

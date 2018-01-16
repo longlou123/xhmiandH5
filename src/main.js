@@ -18,16 +18,16 @@ Vue.prototype.$patch = patch;
 Vue.prototype.$put = put;
 
 
-//时间格式化函数
+// 时间格式化函数
 Date.prototype.format = function(fmt) {
   var o = {
-      "M+": this.getMonth() + 1,               //月份 
-      "d+": this.getDate(),                    //日 
-      "h+": this.getHours(),                   //小时 
-      "m+": this.getMinutes(),                 //分 
-      "s+": this.getSeconds(),                 //秒 
-      "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-      "S": this.getMilliseconds()             //毫秒 
+      "M+": this.getMonth() + 1,               //月份
+      "d+": this.getDate(),                    //日
+      "h+": this.getHours(),                   //小时
+      "m+": this.getMinutes(),                 //分
+      "s+": this.getSeconds(),                 //秒
+      "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+      "S": this.getMilliseconds()             //毫秒
   };
   if (/(y+)/.test(fmt)) {
       fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
@@ -40,9 +40,21 @@ Date.prototype.format = function(fmt) {
   return fmt;
 }
 
+// 格式化标题 （兼容微信H5）
+document.setTitle = function(t) {
+  document.title = t;
+  var i = document.createElement('iframe');
+  i.src = '//m.baidu.com/favicon.ico';
+  i.style.display = 'none';
+  i.onload = function() {
+    setTimeout(function(){
+      i.remove();
+    }, 9)
+  }
+  document.body.appendChild(i);
+}
 
-
-Vue.config.productionTip = false //来关闭生产模式下给出的提示
+Vue.config.productionTip = false // 来关闭生产模式下给出的提示
 Vue.use(iView)
 Vue.use(MintUI)
 new Vue({
