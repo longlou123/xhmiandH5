@@ -20,15 +20,6 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'management',
-      redirect: '/management',
-      component: management,
-      meta: {
-        title: '门卡管理',
-      }
-    },
-    {
       path: '/test1',
       name: 'test1',
       component: test1,
