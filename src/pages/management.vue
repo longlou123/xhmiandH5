@@ -29,7 +29,7 @@
 </template>
 <script >
 import Vue from 'vue'
-import {saveStore} from '@/script/util'
+import {getStore,saveStore} from '@/script/util'
   export default {
     data(){
       return {
@@ -93,12 +93,15 @@ import {saveStore} from '@/script/util'
         },
         getdata(){
             var _this=this
+            _this.projectCode = getStore('projectCode');
+            _this.granterPhone = getStore('granterPhone');
            this.$post('/ssh/grantCard/getGrantCardByUser', {
-            projectCode: "123",
-            granterPhone: "18312583532",
+            projectCode: _this.projectCode,
+            granterPhone: _this.granterPhone,
             pageSize:4,
             pageNumber:1
           }).then(res=>{
+            console.log(res);
                     this.doorList = res.result.cardList;
                     if(res.result.cardList.length===0){
                     this.$router.push({path:"/doorCard"})

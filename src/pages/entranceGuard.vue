@@ -17,6 +17,7 @@
 </template>
 <script >
 import { mapState, mapMutations } from 'vuex';
+import {getStore,saveStore} from '@/script/util'
  export default {
         data () {
             return {
@@ -40,11 +41,14 @@ import { mapState, mapMutations } from 'vuex';
             // console.log(this.saveDoor);
 		      },
             getdata(){
-            var _this=this
-            this.$post('/ssh/openDoor/getDoorByPhone', {
-            projectCode: "123",
-            userName:"伍健",
-            phone: "18312583532"
+            var _this=this;
+            _this.projectCode = getStore('projectCode');
+            _this.userName = getStore('userName');
+            _this.granterPhone = getStore('granterPhone');
+              this.$post('/ssh/openDoor/getDoorByPhone', {
+            projectCode: _this.projectCode,
+            userName:_this.userName,
+            phone: _this.granterPhone
           }).then(res=>{
               console.log(res)
             for(var i=0; i<res.result.doorList.length;i++){

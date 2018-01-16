@@ -22,7 +22,7 @@
            </div>
           <mt-datetime-picker
             v-model="pickerValuer"
-            type="datetime"
+            type="date"
             ref="pickers"
             year-format=" {value} 年"
             month-format=" {value} 月"
@@ -32,13 +32,11 @@
           </mt-datetime-picker>
           <mt-datetime-picker
             v-model="pickerValues"
-            type="datetime"
+            type="date"
             ref="picker"
             year-format=" {value} 年"
             month-format=" {value} 月"
             date-format=" {value} 日"
-            minute-format=" {value} 分"
-            hour-format=" {value} 时"
             :startDate="this.time"
             >
           </mt-datetime-picker>
@@ -116,16 +114,17 @@
     mounted(){
           this.getdata();
           var d = new Date();
-          this.formValidate.startTime = d.format("yyyy-MM-dd hh:mm");
+          this.formValidate.startTime = d.format("yyyy-MM-dd ");
           // this.formValidate.endTime = d.format("yyyy-MM-dd hh:mm");
     },
     watch:{
       pickerValuer(){
-          this.formValidate.startTime = this.pickerValuer.format("yyyy-MM-dd hh:mm");
+          this.formValidate.startTime = this.pickerValuer.format("yyyy-MM-dd ");
             // this.failure= this.pickerValue.format("yyyy-MM-dd");
         },
       pickerValues(){
-          this.formValidate.endTime= this.pickerValues.format("yyyy-MM-dd hh:mm");
+          this.formValidate.endTime= this.pickerValues.format("yyyy-MM-dd ");
+          console.log(this.formValidate.endTime)
         }
     },
     methods:{
@@ -185,7 +184,7 @@
         show(){
             this.$refs.pickers.open();
         },
-            show_box(){
+        show_box(){
             this.$refs.picker.open();
             // console.log(this.pickerValue);
         },
@@ -209,18 +208,19 @@
                     this.formValidate.granterPhone = getStore('granterPhone');
                     this.formValidate.projectCode = getStore('projectCode');
                     this.formValidate.doors = JSON.stringify(this.sendData);
-                    // console.log(this.formValidate)
+                    this.formValidate.startTime=this.formValidate.startTime+'00:00:00';
+                    this.formValidate.endTime=this.formValidate.endTime+'23:59:59';
                     this.$store.commit('MASSAGESAVE',this.formValidate);
                     saveStore( 'choisedDoorList', this.formValidate);
                     this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
-                      // console.log(res);
+                      console.log(this.formValidate);
                     	if(res.errorCode === 200){
                         this.$store.commit('CLEAR_FORM');
-                        this.$router.push({path: "/activateCard", query: { cardID: res.result.cardId }})
+                        this.$router.push({path: "/activateCard", query: { cardID: res.result.cardId}})
                       }
                     })
-                } else {
-                      // this.$Message.error('Fail!');
+                    } else {
+                      this.$Message.error('Fail!');
                 }
             });
         },
@@ -242,24 +242,24 @@ html,body{
     		overflow-y: auto;
     		Form{
     		    width: 90%;
-            border-radius:0.15rem;
+                border-radius:0.15rem;
     		    height: 6rem;
     		    background-color:#ffffff;
     		    margin: 0.2rem 0.3rem 0.2rem 0.4rem;
-            padding:0.5rem 0.3rem 0.2rem 0;
+                padding:0.5rem 0.3rem 0.2rem 0;
     		    box-shadow: 0px -5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4;
     	     }
     	     .door_stop{
-              height:5rem;
-    		      padding:0rem 0 0 0.4rem;
-    		      text-align:left;
+                height:5rem;
+    		    padding:0rem 0 0 0.4rem;
+    		    text-align:left;
     		      .text{
-    			     font-size:0.3rem;
-    			     margin-bottom:0.2rem;
+    			    font-size:0.3rem;
+    			    margin-bottom:0.2rem;
     		      }
     		      .flex{
-                width:100%;
-                height:3rem;
+                     width:100%;
+                     height:3rem;
     			     display:flex;
     			     justify-content:flex-start;
     			     flex-wrap:wrap;
@@ -274,7 +274,7 @@ html,body{
     			         margin-right:0.35rem;
     			         margin-bottom:0.4rem;
     			         box-shadow: 0px -5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4;
-                   border-radius:0.15rem;
+                        border-radius:0.15rem;
                       span{
                            display: inline-block;
 							width: 100%;
