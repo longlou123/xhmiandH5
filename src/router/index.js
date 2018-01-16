@@ -21,7 +21,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'management',
+      name: 'home',
       redirect: '/management',
       component: management,
       meta: {

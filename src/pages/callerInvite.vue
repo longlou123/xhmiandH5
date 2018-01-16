@@ -163,7 +163,6 @@
 					userName:_this.userName,
 					phone: _this.granterPhone
 				}).then(res => {
-					//console.log(res.result.doorList)
 					for(var i=0;i<res.result.doorList.length;i++){
 						var list = {};
 						list.doorID = res.result.doorList[i].doorID;
