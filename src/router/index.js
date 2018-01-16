@@ -39,7 +39,10 @@ export default new Router({
     {
       path: '/test2',
       name: 'test2',
-      component: test2
+      component: test2,
+      meta: {
+        title: '测试列表',
+      }
     },
     {
       path: '/management',
