@@ -29,7 +29,7 @@
 					 :startDate="this.time">
 				</mt-datetime-picker>
 				<div @click="endTime_">
-					<FormItem label="失效日期 :" prop="endTime" ><!--prop="lose"-->
+					<FormItem label="失效日期 :" prop="endTime" >
 						<Input placeholder="请填写失效时间"  v-model="formValidate.endTime" readonly='readonly'></Input>
 					</FormItem>
 				</div>
@@ -86,14 +86,6 @@
 		name: 'test',
 		data() {
 			return {
-				formValidate: {
-					name: null,
-					type: null,
-					phone: '',
-					startTime: null,
-					endTime: null,
-					useCount: null,
-				},
 				add:false,
 				projectCode:'',
 				granterPhone:'',
@@ -157,6 +149,8 @@
 		},
 		mounted() {
 			this.getdata();
+			var d = new Date();
+        	this.formValidate.startTime = d.format("yyyy-MM-dd hh:mm");
 		},
 		methods: {
 			getdata() {
