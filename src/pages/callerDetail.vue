@@ -63,7 +63,7 @@
 				doors:null,
 				num:null,
 				Id:null,
-				codeData:null,
+				id:null,
 				isAndroid: false,
           		isiOS: false,
 			}
@@ -82,17 +82,17 @@
 		     },
 	      	share() {
 	      		this.judgePhone();
-	      		if(this.isAndroid && !this.iOS) {
-	      			window.jsObj.twoDimensionCode("http://10.51.36.108:3002/sendCard/#/twoDimension?id="+this.codeData);
+	      		if(this.isAndroid && !this.iOS){
+	      			jsObj.twoDimensionCode("http://10.51.36.108:3002/sendCard/#/twoDimension?id="+this.id);
 	      		}else if(!this.isAndroid && this.iOS){
-	      			 passValue("http://10.51.36.108:3002/sendCard/#/twoDimension?id="+this.codeData);
+	      			 passValue("http://10.51.36.108:3002/sendCard/#/twoDimension?id="+this.id);
 	      		}else{}
 			},
 			newData(){
 				this.data = JSON.parse(getStore("userData"));
-				//console.log(this.data);
+				console.log(this.data);
 				this.num=this.$route.query.value;
-				this.codeData = this.data[this.num].codeData //要分享的id
+				this.id = this.data[this.num].id //要分享的id
 				this.name= this.data[this.num].name;
 				this.phone = this.data[this.num].phone;
 				this.startTime = this.data[this.num].startTime;
