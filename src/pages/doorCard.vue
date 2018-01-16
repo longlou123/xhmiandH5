@@ -6,7 +6,7 @@
 		   </div>
 	</div>
 </template>
-<script> 
+<script>
   export default {
     name:'test',
     data() {
@@ -16,19 +16,10 @@
     methods:{
     }
   }
-
 </script>
 <style lang="scss" scoped>
-html,body{
-	width:7.5rem;
-	height:13.34rem;
-}
 .big_div{
-	width:7.5rem;
-	height:13.34rem;
 	.center{
-			width:7.5rem;
-	    height:13.34rem;
 			background-color:#EFf2f5;
 	    padding-top:2.3rem;
 		.door_text{

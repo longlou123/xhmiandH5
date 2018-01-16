@@ -72,7 +72,6 @@ export default {
 				}else{
 					this.userData =this.userData.concat(res.result.cardList);
 				}
-
 				saveStore('userData',this.userData);
 				for(var i=0;i<this.userData.length;i++){
 					var date = new Date(_this.userData[i].createTime);
@@ -93,7 +92,6 @@ export default {
 				console.log(error);
 			});
 		},
-
 		sure(num	) {
 			var _this = this
 			this.$router.push({path: "/callerDetail", query: {value: num}});
@@ -105,7 +103,6 @@ export default {
 <style lang="scss" scoped>
 .center{
 	width:7.5rem;
-    	// height: 13.34rem;
     	background-color:#EFf2f5;
     	padding-top:0.28rem;
     	.list_ul{

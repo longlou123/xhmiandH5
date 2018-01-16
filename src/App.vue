@@ -18,8 +18,8 @@ export default {
 		...mapState(['projectInital'])
 	},
 	created(){
+    this.getAppData();
     this.setTitle();
-		this.getAppData();
 	},
 	methods: {
     setTitle(){
@@ -32,8 +32,8 @@ export default {
 				saveStore('userName', this.$route.query.userName);
 				saveStore('projectCode', this.$route.query.projectCode);
 				saveStore('granterPhone', this.$route.query.granterPhone);
-
 			}else{
+        alert('没参数')
 				if(!(getStore('userName')&&getStore('projectCode')&&getStore('granterPhone'))){
 					this.parameter = false;
 					alert('参数无效');
