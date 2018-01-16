@@ -64,6 +64,8 @@
 				num:null,
 				Id:null,
 				codeData:null,
+				isAndroid: false,
+          		isiOS: false,
 			}
 		},
 		mounted() {
@@ -73,8 +75,18 @@
 			...mapState(['userName'])
 		},
 		methods: {
-			share() {
-				window.jsObj.twoDimensionCode("http://10.51.36.108:3002/sendCard/#/twoDimension?id="+this.codeData);
+			judgePhone(){
+		        var u = navigator.userAgent;
+		        this.isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+		        this.iOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+		     },
+	      	share() {
+	      		this.judgePhone();
+	      		if(this.isAndroid && !this.iOS) {
+	      			window.jsObj.twoDimensionCode("http://10.51.36.108:3002/sendCard/#/twoDimension?id="+this.codeData);
+	      		}else if(!this.isAndroid && this.iOS){
+	      			 passValue("http://10.51.36.108:3002/sendCard/#/twoDimension?id="+this.codeData);
+	      		}else{}
 			},
 			newData(){
 				this.data = JSON.parse(getStore("userData"));
@@ -89,8 +101,17 @@
 				this.Id = this.data[this.num].Id;
 				this.doors= JSON.parse(this.data[this.num].doors)
 				var crea = this.data[this.num].createTime
-				crea =new Date(parseInt(crea) * 1).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ")
-				this.createTime = crea;
+				var date = new Date(crea);
+				var Y = date.getFullYear();
+				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) ;
+				var D = date.getDate() ;
+				var h = date.getHours() ;
+				if(h<10){h = "0"+ h;}
+				var m = date.getMinutes()
+				if(m<10){m = "0"+ m;}
+				var s = date.getSeconds(); 
+				if(s<10){s = "0"+ s;}
+				this.createTime = Y+'-'+M+'-'+D+' '+h+':'+m+':'+s;
 				if(new Date()> new Date(this.data[this.num].endTime)){
 					this.status = '无效'
 				}else{
