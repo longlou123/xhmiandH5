@@ -21,11 +21,11 @@ export default {
 	},
 	mounted() {
 		this.getData();
-		
+
 	},
 	watch:{
 		//数据变化时
-		
+
 	},
 	methods: {
 		getData() {
@@ -51,13 +51,13 @@ export default {
 					if(h<10){h = "0"+ h;}
 					var m = date.getMinutes()
 					if(m<10){m = "0"+ m;}
-					var s = date.getSeconds(); 
+					var s = date.getSeconds();
 					if(s<10){s = "0"+ s;}
 					_this.transformTime = Y+'-'+M+'-'+D+' '+h+':'+m+':'+s;
-					_this.time.push(this.transformTime)  
+					_this.time.push(this.transformTime)
 				    _this.userData[i].createTime = _this.time[i];
 				}
-				
+
 			}).catch(function(error) {
 				console.log(error);
 			});
@@ -77,7 +77,7 @@ export default {
     	background-color:#EFf2f5;
     	padding-top:0.28rem;
     	.list_ul{
-    		
+
     		li{
     			position: relative;
     			padding: 0 0.4rem;
@@ -102,12 +102,12 @@ export default {
 	    			right: 5%;
 	    			top: 25%;
 	    			text-align: center;
-	    			.ivu-icon-chevron-right{		    			
+	    			.ivu-icon-chevron-right{
 		    			font-size: 24px;
-		    			z-index: 9999;		    		
-		    		} 
-	    		}  		
-    		}  		  		 		
+		    			z-index: 9999;
+		    		}
+	    		}
+    		}
     	}
  	}
 

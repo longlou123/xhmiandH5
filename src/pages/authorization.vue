@@ -296,7 +296,7 @@ html,body{
    				           	}
     					       }
     						     .Icons{
-    								      position:absolute;
+    								    position:absolute;
    				   					    top: 0;
    				    				    left:0;
    				    				    right:0;
@@ -317,7 +317,7 @@ html,body{
 				                height: 0.89rem;
 				                background-color:#39f;
 				                border-radius:0.2rem;
-                        font-size:0.36rem;
+                                font-size:0.36rem;
 				                color:#ffffff;
 			                }
 		                }

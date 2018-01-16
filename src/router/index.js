@@ -14,6 +14,7 @@ import callerNodepad from '@/pages/callerNodepad'
 import details from '@/pages/details'
 import twoDimension from '@/pages/twoDimension'
 import callerDetail from '@/pages/callerDetail'
+import demo from '@/pages/demo'
 Vue.use(Router)
 
 export default new Router({
@@ -76,6 +77,6 @@ export default new Router({
       path: '/twoDimension',
       name: 'twoDimension',
       component: twoDimension
-    },
+    }
   ]
 })
