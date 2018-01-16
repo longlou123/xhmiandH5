@@ -45,7 +45,6 @@ export default {
              setTimeout(function () {
                 	if(_this.dataList<10){
                 		console.log('无数据更新')
-                		//_this.allLoaded = true;
                 	}else{
                 		 _this.page = Number(_this.page) +1;
                 		 _this.getData();
@@ -55,7 +54,6 @@ export default {
             },
         handleTopChange(status) {
             this.topStatus = status;
-            console.log(444)
         },
 		getData() {
 			var _this = this;
@@ -69,7 +67,6 @@ export default {
 				"pageNumber":_this.page
 			}).then(res => {
 				_this.dataList = res.result.cardList.length;
-				console.log(_this.dataList)
 				if(this.page==1){
 					this.userData =res.result.cardList
 				}else{
