@@ -150,7 +150,7 @@
 		mounted() {
 			this.getdata();
 			var d = new Date();
-        	this.formValidate.startTime = d.format("yyyy-MM-dd hh:mm");
+        		this.formValidate.startTime = d.format("yyyy-MM-dd hh:mm");
 		},
 		methods: {
 			getdata() {

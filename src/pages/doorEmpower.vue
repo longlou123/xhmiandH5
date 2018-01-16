@@ -16,6 +16,7 @@
 </template>
 <script >
 	import { mapState, mapMutations } from 'vuex';
+	import {getStore} from '@/script/util';
  	export default {
         data () {
             return {
@@ -24,6 +25,9 @@
                 checkAllGroup:[],
                 dataDoor:[],
                 hasData: false,
+                projectCode:null,
+                userName:null,
+                granterPhone:null,
             }
         },
         computed:{
@@ -40,10 +44,13 @@
 		    	},
 		    	getdata(){
 				var _this = this;
+				_this.projectCode = getStore('projectCode');
+				_this.userName = getStore('userName');
+				_this.granterPhone = getStore('granterPhone');
 				this.$post('/ssh/openDoor/getDoorByPhone', {
-					projectCode: "123",
-					userName: "龙楼",
-					phone: "13717135881"
+					projectCode: _this.projectCode,
+					userName: _this.userName,
+					phone: _this.granterPhone
 				}).then(res => {
 					for(var i=0;i<res.result.doorList.length;i++){
 						_this.dataDoor[i] = res.result.doorList[i].doorName;
