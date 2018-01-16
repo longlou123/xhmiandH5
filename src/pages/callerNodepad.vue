@@ -1,13 +1,17 @@
-<template>
-	<div class="center">
-		<ul class="list_ul" v-for="(data,index) in userData">
-			<li><p>{{data.name}}</p><i class="time" >{{data.createTime}}</i><span @click="sure(index)"><Icon  type="chevron-right"></Icon></span></li>
-		</ul>
-	</div>
+<template style="overflow: scroll;">
+		<mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :max-distance="150"
+	                ref="loadmore" :auto-fill="false" @bottom-status-change="handleTopChange" >
+		<div class="center">
+			<ul class="list_ul" v-for="(data,index) in userData">
+				<li><p>{{data.name}}</p><i class="time" >{{data.createTime}}</i><span @click="sure(index)"><Icon  type="chevron-right"></Icon></span></li>
+			</ul>
+		</div>
+	</mt-loadmore>
 </template>
 
 <script>
 	import {getStore,saveStore} from '@/script/util'
+	import {Loadmore} from 'mint-ui';
 export default {
 	data() {
 		return {
@@ -16,11 +20,17 @@ export default {
 			time:[],
 			transformTime:null,
 			projectCode:'',
-			granterPhone:''
+			granterPhone:'',
+			allLoaded: false,
+	        topStatus: '',
+	        page:1,
+	        dataList:null,
+	        scrollMode:"touch"
+			
 		}
 	},
 	mounted() {
-		this.getData();
+		 this.getData();
 		
 	},
 	watch:{
@@ -28,6 +38,33 @@ export default {
 		
 	},
 	methods: {
+		loadTop() {  // 刷新数据的操作
+                var _this = this;
+                setTimeout(function () {
+                    _this.userData.splice(0, _this.userData.length);
+                  	_this.getData();
+                    _this.$refs.loadmore.onTopLoaded();
+                }, 1000);
+            },
+		loadBottom() { // 加载更多数据的操作
+                //load data
+                //this.allLoaded = true;// 若数据已全部获取完毕
+             var _this = this;
+             setTimeout(function () {
+                	if(_this.dataList<10){
+                		console.log('无数据更新')
+                		//_this.allLoaded = true;
+                	}else{
+                		 _this.page = Number(_this.page) +1;
+                		 _this.getData();
+                	}               
+                    _this.$refs.loadmore.onBottomLoaded();
+               }, 1000);
+            },
+        handleTopChange(status) {
+            this.topStatus = status;
+            console.log(444)
+        },
 		getData() {
 			var _this = this;
 			_this.projectCode = getStore('projectCode');
@@ -35,12 +72,18 @@ export default {
 			_this.granterPhone = getStore('granterPhone');
 			this.$get('/ssh/grantCard/getGrantQRByUser', {
 				"projectCode": _this.projectCode,
-				"pageSize": "20",
+				"pageSize": "10",
 				"granterPhone": _this.granterPhone,
-				"pageNumber":'1'
+				"pageNumber":_this.page
 			}).then(res => {
-				//console.log(res.result);
-				this.userData = res.result.cardList;
+				_this.dataList = res.result.cardList.length;
+				console.log(_this.dataList)
+				if(this.page==1){
+					this.userData =res.result.cardList				
+				}else{
+					this.userData =this.userData.concat(res.result.cardList);	
+				}			
+				
 				saveStore('userData',this.userData);
 				for(var i=0;i<this.userData.length;i++){
 					var date = new Date(_this.userData[i].createTime);
@@ -57,11 +100,11 @@ export default {
 					_this.time.push(this.transformTime)  
 				    _this.userData[i].createTime = _this.time[i];
 				}
-				
 			}).catch(function(error) {
 				console.log(error);
 			});
 		},
+	  
 		sure(num	) {
 			var _this = this
 			this.$router.push({path: "/callerDetail", query: {value: num}});
