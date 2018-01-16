@@ -62,7 +62,7 @@ export default {
 			_this.granterPhone = getStore('granterPhone');
 			this.$get('/ssh/grantCard/getGrantQRByUser', {
 				"projectCode": _this.projectCode,
-				"pageSize": "10",
+				"pageSize": "11",
 				"granterPhone": _this.granterPhone,
 				"pageNumber":_this.page
 			}).then(res => {

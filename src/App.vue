@@ -17,7 +17,7 @@ export default {
 	computed: {
 		...mapState(['projectInital'])
 	},
-	mounted(){
+	created(){
     this.setTitle();
 		this.getAppData();
 	},
