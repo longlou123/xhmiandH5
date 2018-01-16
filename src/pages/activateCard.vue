@@ -273,7 +273,7 @@ import { getStore } from '@/script/util'
 <style lang="scss" scoped>
   .main{
     .head{
-      height: 6.2rem;
+      height: 5.8rem;
     }
     .circle_time{
       background-color: #fff;
@@ -361,11 +361,9 @@ import { getStore } from '@/script/util'
       padding-top: 0.8rem;
     }
     .next_btn{
-      position: fixed;
-      bottom: 0.8rem;
       width: 6.2rem;
-      left: 50%;
-      transform: translateX(-50%);
+      margin: 0 auto;
+      margin-top: 0.6rem;
       span{
         font-size: 0.3rem;
         color: #fff;

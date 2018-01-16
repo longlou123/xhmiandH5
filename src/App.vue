@@ -18,9 +18,15 @@ export default {
 		...mapState(['projectInital'])
 	},
 	mounted(){
+    this.setTitle();
 		this.getAppData();
 	},
 	methods: {
+    setTitle(){
+      var title = this.$route.meta.title;
+      console.log(title)
+      document.setTitle(title);
+    },
 		getAppData(){
 			if(this.$route.query.userName&&this.$route.query.projectCode&&this.$route.query.granterPhone){
 				saveStore('userName', this.$route.query.userName);
