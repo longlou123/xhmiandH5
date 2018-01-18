@@ -1,12 +1,14 @@
-<template style="overflow: scroll;">
+<template>
+	<transition name="fade">
 		<mt-loadmore  :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :max-distance="150"
 	                ref="loadmore" :auto-fill="false" @bottom-status-change="handleTopChange" >
-		<div class="center">
-			<ul class="list_ul" v-for="(data,index) in userData">
-				<li @click="sure(index)"><p>{{data.name}}</p><i class="time" >{{data.createTime}}</i><span><Icon  type="chevron-right"></Icon></span></li>
-			</ul>
-		</div>
-	</mt-loadmore>
+			<div class="center">
+				<ul class="list_ul" v-for="(data,index) in userData">
+					<li @click="sure(index)"><p>{{data.name}}</p><i class="time" >{{data.createTime}}</i><span><Icon  type="chevron-right"></Icon></span></li>
+				</ul>
+			</div>
+		</mt-loadmore>
+	</transition>
 </template>
 
 <script>

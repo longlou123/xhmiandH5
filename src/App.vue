@@ -20,15 +20,15 @@ export default {
 		...mapState(['projectInital'])
 	},
 	created(){
-    this.getAppData();
-    this.setTitle();
+	    this.getAppData();
+	    this.setTitle();
 	},
 	methods: {
-    setTitle(){
-      var title = this.$route.meta.title;
-      //console.log(title)
-      document.setTitle(title);
-    },
+	    setTitle(){
+	      var title = this.$route.meta.title;
+	      //console.log(title)
+	      document.setTitle(title);
+	    },
     //判断请求是否带参数，参数是否正确
 		getAppData(){
 			console.log(this.$route.path);
@@ -45,7 +45,16 @@ export default {
 					}
 				}
 			}
-		}
+		},
+		beforeRouteUpdate(to,from,next){
+	        let isBack = this.$router.isBack;
+	        if( isBack ){
+	            this.transitionName = 'slide-right'
+	        }else{
+	            this.transitionName = 'slide-left'
+	        }
+	        this.$router.isBack = false;
+	    }
 	},
 	watch: {
 		projectInital: function() {

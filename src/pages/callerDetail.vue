@@ -1,4 +1,5 @@
 <template>
+	<transition name="fade">
 	<div class="center">
 		<div class="center_box">
 			<section>
@@ -44,6 +45,7 @@
 			</section>
 		</div>
 	</div>
+	</transition>
 </template>
 <script>
 	import {getStore} from '@/script/util'
