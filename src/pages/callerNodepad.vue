@@ -3,7 +3,7 @@
 	                ref="loadmore" :auto-fill="false" @bottom-status-change="handleTopChange" >
 		<div class="center">
 			<ul class="list_ul" v-for="(data,index) in userData">
-				<li><p>{{data.name}}</p><i class="time" >{{data.createTime}}</i><span @click="sure(index)"><Icon  type="chevron-right"></Icon></span></li>
+				<li @click="sure(index)"><p>{{data.name}}</p><i class="time" >{{data.createTime}}</i><span><Icon  type="chevron-right"></Icon></span></li>
 			</ul>
 		</div>
 	</mt-loadmore>
@@ -31,13 +31,16 @@ export default {
 	},
 	mounted() {
 		 this.getData();
-
+		 this.active();
 	},
 	watch:{
 		//数据变化时
 
 	},
 	methods: {
+		active(){
+			document.body.addEventListener('touchstart', function () { });
+		},
 		loadBottom() { // 加载更多数据的操作
                 //load data
                 //this.allLoaded = true;// 若数据已全部获取完毕
@@ -62,7 +65,7 @@ export default {
 			_this.granterPhone = getStore('granterPhone');
 			this.$get('/ssh/grantCard/getGrantQRByUser', {
 				"projectCode": _this.projectCode,
-				"pageSize": "10",
+				"pageSize": "11",
 				"granterPhone": _this.granterPhone,
 				"pageNumber":_this.page
 			}).then(res => {
@@ -84,8 +87,8 @@ export default {
 					if(m<10){m = "0"+ m;}
 					var s = date.getSeconds();
 					if(s<10){s = "0"+ s;}
-					_this.transformTime = Y+'-'+M+'-'+D+' '+h+':'+m+':'+s;
-					_this.time.push(this.transformTime)
+					_this.transformTime = Y+'/'+M+'/'+D+' '+h+':'+m+':'+s;
+					_this.time.push(_this.transformTime)
 				    _this.userData[i].createTime = _this.time[i];
 				}
 			}).catch(function(error) {
@@ -138,6 +141,9 @@ export default {
 	    		}
     		}
     	}
- 	}
+    	.list_ul :active{
+    		background: 	rgba(211,211,211,0.8);
+    	}
+ }
 
 </style>
