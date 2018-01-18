@@ -1,5 +1,4 @@
 <template>
-    <transition name="fade">
   <div class="management" >
     <mt-loadmore  :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :max-distance="150"
                     ref="loadmore" :auto-fill="false" @bottom-status-change="handleTopChange" >
@@ -32,7 +31,6 @@
     </div>
     </mt-loadmore>
   </div>
-</transition>
 </template>
 <script>
 import Vue from 'vue'
@@ -96,14 +94,21 @@ export default {
       this.modal3 = true
     },
     cancellation(item, index) {
-      // var cardN = item.cardNumber.toString();
-      // this.$post('/ssh/grantCard/cancelGrantCard', {
-      //   cardNumber: cardN
-      // }).then(res => {
-      //   console.log(res)
-      // }).catch(err => {
-      //   console.log(err)
-      // })
+      var cardN = item.cardNumber.toString();
+      this.$post('/ssh/grantCard/cancelGrantCard', {
+        cardNumber: cardN
+      }).then(res => {
+        if(res.errorCode===200){
+        this.getdata();
+        Vue.set(this.doorList,index,res.result.cardList);
+        console.log(res);
+        }else{
+
+        }
+
+      }).catch(err => {
+        console.log(err)
+      })
     },
     getnow(d, index) {
       this.modifyvue = d;
@@ -127,6 +132,7 @@ export default {
         "pageSize": 4,
         "pageNumber": _this.page
       }).then(res => {
+        console.log(res);
          if (res.result.cardList.length === 0) {
           this.hasData = false;
         }

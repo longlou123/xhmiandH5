@@ -1,5 +1,4 @@
 <template>
-  <transition name="fade">
     <div class="big_box">
         <div class="entranceGuard">
     <div class="entranceGuard_box" >
@@ -18,9 +17,6 @@
         <Button type="primary" shape="circle" :long="true" class="btn" @click="nextClick()">确定</Button>
       </div>
     </div>
-
-  </transition>
-
 </template>
 <script >
 import { mapState, mapMutations } from 'vuex';

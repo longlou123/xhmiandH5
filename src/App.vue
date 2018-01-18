@@ -1,6 +1,8 @@
 <template>
   <div id="app" v-if="parameter">
+    <transition name="fade">
     <router-view/>
+  </transition>
   </div>
 </template>
 
@@ -42,7 +44,7 @@ export default {
 						alert('参数无效');
 					}
 				}
-			}		
+			}
 		}
 	},
 	watch: {

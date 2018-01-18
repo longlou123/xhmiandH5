@@ -53,7 +53,7 @@
 			</Form>
 			<div class="door_stop">
 				<div class="text">授权门禁:</div>
-				<div class="flex">					 
+				<div class="flex">
 						<transition-group name="list" tag="ul">
 							<li class="door_box"  v-for='(item,index) in projectPage' :key="item">
 								<span>{{item}}</span>
@@ -68,8 +68,8 @@
 		   		 					</span>
 		   		 				</div>
 		   		 	 	 	</div>
-						</transition-group>		 
-					
+						</transition-group>
+
 				</div>
 			</div>
 		</div>
@@ -123,7 +123,7 @@
 			...mapState(['project', 'formValidate'])
 		},
 		created() {
-			
+
 		},
 		mounted() {
 			this.getdata();
@@ -169,16 +169,16 @@
 			},
 			Delete(index) {
 				var _this = this;
-				
+
 				//setTimeout(function(){
 					//_this.show.splice(index, 1);
 					//_this.show[index] = 0;
-					_this.projectPage.splice(index, 1);	
-					
+					_this.projectPage.splice(index, 1);
+
 					_this.add = true;
 					_this.$store.commit('PROJECT',this.projectPage);//储存修改的数据
-					//将修改过的门列表保存到vuex	
-				//},1000)					
+					//将修改过的门列表保存到vuex
+				//},1000)
 			},
 			starTime_() {
 				this.$refs.pickerSrtar.open();

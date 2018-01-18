@@ -1,5 +1,4 @@
 <template>
-  <transition name="fade">
 	<div class="authorization">
 		<div class="scoll">
 			<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
@@ -50,17 +49,22 @@
    		<div class="door_stop">
    		 	<div class="text">授权门禁</div>
    		 	<div class="flex">
-   		 		<div class="door_box" v-for="(item,index) in saveDoordata">
+          <transition-group name="list" tag="ul">
+   		 		<li class="door_box" v-for="(item,index) in saveDoordata" :key="item">
    		 			<span class="">{{item}}</span>
    		 				<div class="Icon" @click="removeTode(index)" >
    		 					<Icon  type="ios-close"></Icon>
    		 				</div>
-   		 	 	 </div>
-   		 	 	 	<div class="door_box"  @click="sure"  v-if="delet">
+   		 	 	 </li>
+   		 	 	 	<div class="door_box"   v-if="delet" :key="delet">
    		 				<div class="Icon Icons">
-   		 					<Icon type="ios-plus-outline"></Icon>
+                <span  @click="sure">
+                  <Icon type="ios-plus-outline"></Icon>
+                </span>
+
    		 				</div>
    		 	 	 </div>
+           </transition-group>
    		 	</div>
    		 </div>
 		</div>
@@ -69,7 +73,6 @@
          <Button  type="primary">下一步</Button>
     	</div>
 	</div>
- </transition>
 </template>
 <script >
   import { mapState, mapMutations } from 'vuex';
@@ -174,10 +177,7 @@
             });
         },
         removeTode(index) {
-            var door_box=document.getElementsByClassName("door_box")
-            console.log(door_box[index]);
-            door_box[index].style.opacity=0.1,
-            door_box[index].style.siblings.opacity=1
+
              this.saveDoordata.splice(index, 1)
             // door_box[index].
 
@@ -261,11 +261,12 @@ html,body{
     			    margin-bottom:0.2rem;
     		      }
     		      .flex{
-                width:100%;
-                height:3rem;
     			     display:flex;
     			     justify-content:flex-start;
     			     flex-wrap:wrap;
+               .door_box:active{background-color:#999;
+                                 border-radius:0.02rem;
+                           }
     		        .door_box{
     			         width: 1.98rem;
     			         height: 1.14rem;
@@ -278,6 +279,7 @@ html,body{
     			         margin-bottom:0.4rem;
     			         box-shadow: 0px -5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4;
                         border-radius:0.15rem;
+                        float: left;
                       span{
                            display: inline-block;
 							             width: 100%;
@@ -285,12 +287,12 @@ html,body{
 							             white-space:nowrap;
 							             text-overflow:ellipsis;
 							             font-size: 0.24rem;
-                            font-size:0.24rem;
+                            border-radius:0.02rem;
+
                            }
                       .spns{
-
-                          width:100px;
-                          height:100px;
+                          width:1rem;
+                          height:1rem;
                           background:red;
                           position:relative;
                           animation:mymove 5s infinite;
@@ -318,6 +320,9 @@ html,body{
    				    				    right:0;
    				    				    bottom:0;
    				    				    font-size:0.5rem;
+                          span{
+                            padding-top:0.1rem;
+                          }
     							     }
     						      }
     					       }
@@ -334,6 +339,17 @@ html,body{
 			                }
 		                }
                   }
-
+  .list-item {
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .list-enter-active, .list-leave-active {
+      transition: all 0.5s;
+    }
+    .list-enter, .list-leave-to
+    /* .list-leave-active for below version 2.1.8 */ {
+      opacity: 0;
+      transform: translateY(30px);
+    }
 
 </style>

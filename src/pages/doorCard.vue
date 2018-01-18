@@ -1,12 +1,10 @@
 <template>
-  <transition name="fade">
 	<div class="big_div">
 		<div class="center">
 			<div class="door_text"></div>
 			<img class="door_img" src="../images/dragon.png">
 		   </div>
 	</div>
-   </transition>
 </template>
 <script>
   export default {

@@ -1,5 +1,4 @@
 <template>
-  <transition name="fade">
     <div class="main">
       <div class="head">
         <div class="tips">
@@ -35,7 +34,6 @@
         <Button type="primary" :long="true" class="btn" @click="nextClick()">{{btnText}}</Button>
       </div>
     </div>
-    </transition>
 </template>
 <script >
 import { mapState, mapMutations } from 'vuex';

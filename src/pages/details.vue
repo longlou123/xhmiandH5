@@ -1,5 +1,4 @@
 <template>
-  <transition name="fade">
 	<div class="center">
 		<div class="center_box">
 			<section>
@@ -44,7 +43,6 @@
     			</Modal>
 		</div>
 	</div>
-</transition>
 </template>
 <script >
 import Vue from 'vue'
@@ -139,7 +137,7 @@ import {getStore,saveStore} from '@/script/util'
 			background-color:#ffffff;
 			padding:0.6rem  0 ;
 			section {
-				margin-bottom: 0.6rem;
+				margin-bottom: 0.4rem;
 				span{
 					display: inline-block;
 					width: 2.4rem;
@@ -164,18 +162,17 @@ import {getStore,saveStore} from '@/script/util'
 			}
 		}
 		.next_btn{
-            position: fixed;
-            bottom: 0.8rem;
-            width: 6.2rem;
-            left: 60%;
-            transform: translateX(-50%);
-            margin-left:-0.2rem;
+            // margin-top:0.6rem;
+            display:flex;
+            justify-content: space-around;
+            // margin:0 auto;
+            margin-top:1.5rem;
                 span{
                      font-size: 0.3rem;
                         color: #fff;
                 }
                 button{
-                	margin-right:1rem;
+                	// margin-right:1rem;
                 }
             }
 		}
