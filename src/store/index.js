@@ -11,6 +11,7 @@ const state = {
 	userName:'大哥',
 	massageSave:[],
   formValidate: {},
+  userData:[]
 }
 
 export default new Vuex.Store({

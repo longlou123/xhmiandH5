@@ -1,4 +1,5 @@
 <template>
+  <transition name="fade">
 	<div class="center">
 		<div class="center_box">
 			<section>
@@ -43,11 +44,11 @@
     			</Modal>
 		</div>
 	</div>
+</transition>
 </template>
 <script >
 import Vue from 'vue'
-import {getStore} from '@/script/util'
-import {saveStore} from '@/script/util'
+import {getStore,saveStore} from '@/script/util'
 	export default {
 		// name:"test",
 		data(){
@@ -73,14 +74,17 @@ import {saveStore} from '@/script/util'
 		},
 		methods:{
 			again(){
+        saveStore('userData', this.data);
+        console.log(this.num);
+        console.log((getStore("userData")));
 				this.$router.push({path:"/authorization", query: {
                     value: this.num
                 }})
+
 			},
 			add() {
 			this.num=this.$route.query.value;
 			this.data=JSON.parse(getStore("userData"));
-			saveStore('userData',this.data);
 			this.name=this.data[this.num].name;
 			this.type=this.data[this.num].type
 			this.phone=this.data[this.num].phone;
@@ -104,7 +108,6 @@ import {saveStore} from '@/script/util'
 			}else{
 				this.isCancel="有效"
 			}
-
 		},
 		delet(){
 			 var cardN=this.cardNumber.toString();

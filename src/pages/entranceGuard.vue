@@ -1,6 +1,8 @@
 <template>
-	<div class="entranceGuard">
-		<div class="entranceGuard_box" >
+  <transition name="fade">
+    <div class="big_box">
+        <div class="entranceGuard">
+    <div class="entranceGuard_box" >
         <Checkbox
             v-if="hasData"
             :indeterminate="indeterminate"
@@ -10,10 +12,15 @@
     <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
         <Checkbox :label="item" v-for="(item,index) in dataDoor" :key="item.id"></Checkbox>
     </CheckboxGroup>
-    <div class="next_btn">
+
+  </div>
+   <div class="next_btn">
         <Button type="primary" shape="circle" :long="true" class="btn" @click="nextClick()">确定</Button>
       </div>
-	</div>
+    </div>
+
+  </transition>
+
 </template>
 <script >
 import { mapState, mapMutations } from 'vuex';
@@ -47,8 +54,8 @@ import {getStore,saveStore} from '@/script/util'
             _this.granterPhone = getStore('granterPhone');
               this.$post('/ssh/openDoor/getDoorByPhone', {
             projectCode: _this.projectCode,
-            userName:_this.userName,
-            phone: _this.granterPhone
+          userName:_this.userName,
+          phone: _this.granterPhone
           }).then(res=>{
               console.log(res)
             for(var i=0; i<res.result.doorList.length;i++){
@@ -98,7 +105,7 @@ import {getStore,saveStore} from '@/script/util'
 	.entranceGuard{
         width: 90%;
         height: 100%;
-    	background-color: #ffffff;
+    	  background-color: #ffffff;
         margin: 0rem 0.3rem 0 0.35rem ;
         border-radius: 0.15rem;
         box-shadow: 0px -5px 5px #E8EBF4, 0px 5px 5px #E8EBF4, 0px 5px 5px #E8EBF4, 0px 5px 5px #E8EBF4;
@@ -134,22 +141,18 @@ import {getStore,saveStore} from '@/script/util'
     		float: left;
     		text-align: left;
 			}
-		.next_btn{
-            position:absolute;
-            left:0;
-            right:0;
-            bottom:0.3rem;
-            .btn{
-                width: 6.92rem;
-                height: 0.89rem;
-               span{
-                    background-color:#39f;
-                    border-radius:0.2rem;
-                    font-size:0.36rem;
-                    color:#ffffff;
-                }
-            }
+
+	    }
+      .next_btn{
+            margin-top:4rem;
+                Button{
+                        width: 6.92rem;
+                        height: 0.89rem;
+                        border-radius:0.2rem;
+                        font-size:0.36rem;
+                        color:#ffffff;
+
+                      }
 
             }
-	    }
 </style>

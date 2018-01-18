@@ -1,4 +1,5 @@
 <template>
+  <transition name="fade">
 	<div class="authorization">
 		<div class="scoll">
 			<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
@@ -50,7 +51,7 @@
    		 	<div class="text">授权门禁</div>
    		 	<div class="flex">
    		 		<div class="door_box" v-for="(item,index) in saveDoordata">
-   		 			<span>{{item}}</span>
+   		 			<span class="">{{item}}</span>
    		 				<div class="Icon" @click="removeTode(index)" >
    		 					<Icon  type="ios-close"></Icon>
    		 				</div>
@@ -64,10 +65,11 @@
    		 </div>
 		</div>
    		 <div class="btn" @click="handleSubmit('formValidate')">
-    		<button type="primary" >下一步</button>
+    		<!-- <button type="primary" >下一步</button> -->
+         <Button  type="primary">下一步</Button>
     	</div>
 	</div>
-
+ </transition>
 </template>
 <script >
   import { mapState, mapMutations } from 'vuex';
@@ -124,7 +126,6 @@
         },
       pickerValues(){
           this.formValidate.endTime= this.pickerValues.format("yyyy-MM-dd ");
-          console.log(this.formValidate.endTime)
         }
     },
     methods:{
@@ -133,7 +134,6 @@
           var _this=this;
           _this.num=_this.$route.query.value;
           _this.detailsData=JSON.parse(getStore("userData"));
-          // console.log(JSON.stringify(_this.detailsData));
           _this.formValidate.name=_this.detailsData[_this.num].name;
           _this.formValidate.phone=_this.detailsData[_this.num].phone;
           // _this.formValidate.type=_this.detailsData[_this.num].type;
@@ -143,16 +143,15 @@
             var _projectCode = getStore('projectCode');
             var _userName = getStore('userName');
             var _granterPhone = getStore('granterPhone');
-            if(this.$route.query.value){
-                this.getQuery();
+            if(_this.$route.query.value){
+                _this.getQuery();
             }
-            this.$post('/ssh/openDoor/getDoorByPhone', {
+            _this.$post('/ssh/openDoor/getDoorByPhone', {
                 projectCode: _projectCode,
                 userName: _userName,
                 phone: _granterPhone
             }).then(res=>{
               if(res.errorCode === 200){
-                // console.log(res);
                 for(var i=0; i<res.result.doorList.length;i++){
                     var obj={};
                     obj.doorID=res.result.doorList[i].doorID;
@@ -175,10 +174,15 @@
             });
         },
         removeTode(index) {
-            this.saveDoordata.splice(index, 1);
+            var door_box=document.getElementsByClassName("door_box")
+            console.log(door_box[index]);
+            door_box[index].style.opacity=0.1,
+            door_box[index].style.siblings.opacity=1
+             this.saveDoordata.splice(index, 1)
+            // door_box[index].
+
             this.delet=true;
             this.$store.commit('SAVEDOOR',this.saveDoordata);
-            // console.log(this.saveDoor)
             // 储存修改的数据
         },
         show(){
@@ -186,7 +190,6 @@
         },
         show_box(){
             this.$refs.picker.open();
-            // console.log(this.pickerValue);
         },
         sure(){
             if(this.delet){
@@ -213,7 +216,6 @@
                     this.$store.commit('MASSAGESAVE',this.formValidate);
                     saveStore( 'choisedDoorList', this.formValidate);
                     this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
-                      console.log(this.formValidate);
                     	if(res.errorCode === 200){
                         this.$store.commit('CLEAR_FORM');
                         this.$router.push({path: "/activateCard", query: { cardID: res.result.cardId}})
@@ -236,21 +238,22 @@ html,body{
 }
     .authorization{
       padding-top:0.2rem;
+      // margin-left:7.5rem;
     	.scoll{
     		width: 100%;
     		height: 9rem;
     		overflow-y: auto;
     		Form{
     		    width: 90%;
-                border-radius:0.15rem;
+            border-radius:0.15rem;
     		    height: 6rem;
     		    background-color:#ffffff;
     		    margin: 0.2rem 0.3rem 0.2rem 0.4rem;
-                padding:0.5rem 0.3rem 0.2rem 0;
+            padding:0.5rem 0.3rem 0.2rem 0;
     		    box-shadow: 0px -5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4,0px 5px 5px #E8EBF4;
     	     }
     	     .door_stop{
-                height:5rem;
+            height:5rem;
     		    padding:0rem 0 0 0.4rem;
     		    text-align:left;
     		      .text{
@@ -258,8 +261,8 @@ html,body{
     			    margin-bottom:0.2rem;
     		      }
     		      .flex{
-                     width:100%;
-                     height:3rem;
+                width:100%;
+                height:3rem;
     			     display:flex;
     			     justify-content:flex-start;
     			     flex-wrap:wrap;
@@ -277,13 +280,23 @@ html,body{
                         border-radius:0.15rem;
                       span{
                            display: inline-block;
-							width: 100%;
-							overflow:hidden;
-							white-space:nowrap;
-							text-overflow:ellipsis;
-							font-size: 0.24rem;
+							             width: 100%;
+							             overflow:hidden;
+							             white-space:nowrap;
+							             text-overflow:ellipsis;
+							             font-size: 0.24rem;
                             font-size:0.24rem;
                            }
+                      .spns{
+
+                          width:100px;
+                          height:100px;
+                          background:red;
+                          position:relative;
+                          animation:mymove 5s infinite;
+                          -webkit-animation:mymove 5s infinite; /*Safari and Chrome*/
+
+                      }
     			           .Icon{
     				              display:inline-block;
     				              position:absolute;
@@ -295,6 +308,9 @@ html,body{
    				               	color:#39f;
    				           	}
     					       }
+                      .ivu-icon-ios-close:active{
+                      color:red;
+                     }
     						     .Icons{
     								    position:absolute;
    				   					    top: 0;
@@ -309,14 +325,15 @@ html,body{
     			         }
     	             .btn{
                         margin-top: 0.6rem;
-			               button{
+			               Button{
 				                width: 6.92rem;
 				                height: 0.89rem;
-				                background-color:#39f;
 				                border-radius:0.2rem;
-                                font-size:0.36rem;
+                        font-size:0.36rem;
 				                color:#ffffff;
 			                }
 		                }
                   }
+
+
 </style>
