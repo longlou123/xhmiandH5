@@ -163,7 +163,6 @@
 							this.add = true;
 						}
 					}
-					//console.log(JSON.stringify(this.doorName));
 				}).catch(function(error) {
 					console.log(error);
 				});
