@@ -53,24 +53,23 @@
 			</Form>
 			<div class="door_stop">
 				<div class="text">授权门禁:</div>
-				<div class="flex">
-							
-					<ul class="door_box" v-for='(name,index) in projectPage'>
-						<li>
-							<span>{{name}}</span>
-							<div class="detele" @click="Delete(index)">
-								<Icon type="ios-close"></Icon>
-							</div>
-						</li>
-					</ul>
-				
-					<div class="door_box" v-if='add'>
-   		 				<div class="Icon ">
-   		 					<span @click="sure">
-   		 						<Icon type="ios-plus-outline" class='Icons'></Icon>
-   		 					</span>
-   		 				</div>
-   		 	 	 	</div>
+				<div class="flex">					 
+						<transition-group name="list" tag="ul">
+							<li class="door_box"  v-for='(item,index) in projectPage' :key="item">
+								<span>{{item}}</span>
+								<div class="detele" @click="Delete(index)">
+									<Icon type="ios-close"></Icon>
+								</div>
+							</li>
+							<div class="door_box" v-if='add' :key="add">
+		   		 				<div class="Icon ">
+		   		 					<span @click="sure">
+		   		 						<Icon type="ios-plus-outline" class='Icons'></Icon>
+		   		 					</span>
+		   		 				</div>
+		   		 	 	 	</div>
+						</transition-group>		 
+					
 				</div>
 			</div>
 		</div>
@@ -106,8 +105,8 @@
 				selectTimeEnd:new Date() ,
 				time: new Date(), //选择生效的最早起始时间
 				index:0,
+				show:[],
 				sendData:[], //发送后台的数据
-				show: true
 			}
 		},
 		watch:{
@@ -152,6 +151,7 @@
 						list.doorName = res.result.doorList[i].doorName;
 						_this.projectInital[i]=list;
 						_this.projectDoor[i]=res.result.doorList[i].doorName;
+						_this.show.push(1)
 					}
 					if(this.project.length == 0) {
 						this.projectPage = this.projectDoor
@@ -168,11 +168,17 @@
 				});
 			},
 			Delete(index) {
-				this.projectPage.splice(index, 1);
-				this.show = !this.show
-				this.add = true;
-				this.$store.commit('PROJECT',this.projectPage);//储存修改的数据
-				//将修改过的门列表保存到vuex
+				var _this = this;
+				
+				//setTimeout(function(){
+					//_this.show.splice(index, 1);
+					//_this.show[index] = 0;
+					_this.projectPage.splice(index, 1);	
+					
+					_this.add = true;
+					_this.$store.commit('PROJECT',this.projectPage);//储存修改的数据
+					//将修改过的门列表保存到vuex	
+				//},1000)					
 			},
 			starTime_() {
 				this.$refs.pickerSrtar.open();
@@ -281,6 +287,9 @@
 					margin: 0.15rem 0;
 				}
 				.flex {
+					.colse{
+						display: none;
+					}
 					display: flex;
 					justify-content: flex-start;
 					flex-wrap: wrap;
@@ -295,6 +304,7 @@
 						margin: 0.2rem 0.15rem;
 						box-shadow: 5px 5px 5px #E8EBF4;
 						border-radius: 0.1rem;
+						float: left;
 						span {
 							display: inline-block;
 							width: 100%;
@@ -327,6 +337,18 @@
 					}
 				}
 			}
+		}
+		.list-item {
+		  display: inline-block;
+		  margin-right: 10px;
+		}
+		.list-enter-active, .list-leave-active {
+		  transition: all 0.5s;
+		}
+		.list-enter, .list-leave-to
+		/* .list-leave-active for below version 2.1.8 */ {
+		  opacity: 0;
+		  transform: translateY(30px);
 		}
 		.next_btn{
 			width: 6.2rem;
