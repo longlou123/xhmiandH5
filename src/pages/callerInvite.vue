@@ -1,4 +1,5 @@
 <template>
+	<transition name="fade">
 	<div class="center">
 		<div class="scoll">
 			<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
@@ -77,8 +78,9 @@
 			<Button type="primary" shape="circle" :long="true">确定邀请</Button>
 		</div>
 	</div>
-
+	</transition>
 </template>
+
 <script>
 	import {getStore,saveStore} from '@/script/util'
 	import { mapState, mapMutations } from 'vuex';
