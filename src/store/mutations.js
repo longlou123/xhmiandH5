@@ -23,7 +23,7 @@ export default{
 	},
 	[SAVEDOOR](state,door){
 		state.saveDoor=door
-		console.log(state.saveDoor)
+		// console.log(state.saveDoor)
 	},
 	[USERNAME](state,name){
 		state.userName = name
@@ -34,4 +34,5 @@ export default{
   [CLEAR_FORM](state){
     state.formValidate = {}
   },
+
 }

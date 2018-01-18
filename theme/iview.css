@@ -14625,7 +14625,7 @@ span.ivu-date-picker-cells-cell-disabled.ivu-date-picker-cells-cell-selected em 
 .ivu-tree-icon__close {
     margin-right: 2px;
     vertical-align: top
-    
+
 }
 
 
@@ -14717,7 +14717,7 @@ a {
 }*/
 .ivu-modal-body{
     color:#5698FF;
-    
+
 }
   button.ivu-btn.ivu-btn-text.ivu-btn-large span{
     color:#C0C0C1;
@@ -14763,9 +14763,9 @@ a {
             background-color:#DEE7F0;
             border-radius: 0.1rem;
         }
-        [type=reset], [type=submit], button, html [type=button]{
+       /* [type=reset], [type=submit], button, html [type=button]{
             height:0.89rem;
-        }
+        }*/
         .project button span{
             font-size:0.36rem;
         }
@@ -14789,3 +14789,31 @@ a {
             display:inline-block;
             line-height: 0.5rem;
         }*/
+        .ivu-modal-close .ivu-icon-ios-close-empty:active{
+          color:red;
+        }
+        button.ivu-btn.ivu-btn-primary.ivu-btn-large span:active{
+    color:red;
+}
+        .ivu-btn.ivu-btn-text.ivu-btn-large span:active{
+          color:red;
+        }
+        /*// 卡片动画属性*/
+                     /* 开始过渡阶段,动画出去阶段 */
+                  .fade-enter-active,.fade-leave-active{
+                    transition: all 0.2s ease-out;
+                  }
+                  /* 进入开始 */
+                  .fade-enter{
+                    transform: translateX(500px);
+                    opacity: 0;
+                  }
+                  /* 出去终点 */
+                  .fade-leave-active{
+                    transform: translateX(-500px);
+                    opacity: 0;
+                  }
+.main .ivu-btn-primary{
+    height:0.89rem;
+    width:6.92rem;
+}
