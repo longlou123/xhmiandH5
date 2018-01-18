@@ -96,7 +96,7 @@
                   { required: true, message: '请填写使用人', trigger: 'blur' }
               ],
               phone: [
-                  { required: true, message: '请填写手机号', trigger: 'blur' }
+                  {required: true,message: '请输入手机号',trigger: 'blur'},{type: "string", required: true,len: 11,message: '号码输入错误', trigger: 'blur' }
               ],
               type: [
                   { required:true, message: '请选择类型', trigger: 'change' }
