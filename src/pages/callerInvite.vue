@@ -54,6 +54,7 @@
 			<div class="door_stop">
 				<div class="text">授权门禁:</div>
 				<div class="flex">
+							
 					<ul class="door_box" v-for='(name,index) in projectPage'>
 						<li>
 							<span>{{name}}</span>
@@ -61,8 +62,8 @@
 								<Icon type="ios-close"></Icon>
 							</div>
 						</li>
-
 					</ul>
+				
 					<div class="door_box" v-if='add'>
    		 				<div class="Icon ">
    		 					<span @click="sure">
@@ -73,8 +74,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="btn" @click="handleSubmit('formValidate')">
-			<button type="primary" shape="circle" :long="true">确定邀请</button>
+		<div class="next_btn" @click="handleSubmit('formValidate')">
+			<Button type="primary" shape="circle" :long="true">确定邀请</Button>
 		</div>
 	</div>
 
@@ -94,42 +95,19 @@
 				projectInital:[],//初始化存储全部数据
 				projectDoor:[],//存储门列表数据
 				ruleValidate: {
-					name: [{
-						required: true,
-						message: '请填写使用人',
-						trigger: 'blur'
-					}],
-					type: [{
-						required: true,
-						message: '请选择类型',
-						trigger: 'change'
-					}],
-					phone: [{
-						required: true,
-						message: '请填写手机号',
-						trigger: 'blur'
-					}],
-					startTime: [{
-						required: true,
-						message: '请填写生效时间',
-						trigger: 'change'
-					}],
-					endTime: [{
-						required: true,
-						message: '请填写失效时间',
-						trigger: 'change'
-					}],
-					useCount: [{
-						required: true,
-						message: '请选择有效次数',
-						trigger: 'change'
-					}],
+					name: [{required: true,message: '请填写使用人',trigger: 'blur'}],
+					type: [{required: true,message: '请选择类型',trigger: 'change'}],
+					phone: [{required: true,message: '请输入手机号',trigger: 'blur'},{type: "string", required: true,len: 11,message: '号码输入错误', trigger: 'blur' }],
+					startTime: [{required: true,message: '请填写生效时间',trigger: 'change'}],
+					endTime: [{required: true,message: '请填写失效时间',trigger: 'change'}],
+					useCount: [{required: true,message: '请选择有效次数',trigger: 'change'}],
 				},
 				selectTimeStar:new Date() ,
 				selectTimeEnd:new Date() ,
 				time: new Date(), //选择生效的最早起始时间
 				index:0,
 				sendData:[], //发送后台的数据
+				show: true
 			}
 		},
 		watch:{
@@ -146,13 +124,18 @@
 			...mapState(['project', 'formValidate'])
 		},
 		created() {
+			
 		},
 		mounted() {
 			this.getdata();
+			this.active();
 			var d = new Date();
         		this.formValidate.startTime = d.format("yyyy-MM-dd hh:mm");
 		},
 		methods: {
+			active(){
+				document.body.addEventListener('touchstart', function () { });
+			},
 			getdata() {
 				var _this = this;
 				_this.projectCode = getStore('projectCode');
@@ -186,6 +169,7 @@
 			},
 			Delete(index) {
 				this.projectPage.splice(index, 1);
+				this.show = !this.show
 				this.add = true;
 				this.$store.commit('PROJECT',this.projectPage);//储存修改的数据
 				//将修改过的门列表保存到vuex
@@ -278,7 +262,7 @@
 		padding-top: 0.2rem;
 		.scoll {
 			width: 100%;
-			height: 9.5rem;
+			height: 9.9rem;
 			overflow-y: auto;
 			Form {
 				width: 7.5rem;
@@ -337,20 +321,17 @@
 								color: #5698FF;
 							}
 						}
+						 .detele :active{
+							color: red;
+						}
 					}
 				}
 			}
 		}
-		.btn {
-			margin-top: 0.6rem;
-			button {
-				width: 6.9rem;
-				height: 0.89rem;
-				background-color: #39f;
-				border-radius: 0.2rem;
-				font-size:0.36rem;
-				color: #ffffff;
-			}
-		}
+		.next_btn{
+			width: 6.2rem;
+			margin: 0 auto;
+			margin-top: 0.2rem;
+		 }
 	}
 </style>

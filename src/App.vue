@@ -24,21 +24,25 @@ export default {
 	methods: {
     setTitle(){
       var title = this.$route.meta.title;
-      console.log(title)
+      //console.log(title)
       document.setTitle(title);
     },
+    //判断请求是否带参数，参数是否正确
 		getAppData(){
-			if(this.$route.query.userName&&this.$route.query.projectCode&&this.$route.query.granterPhone){
-				saveStore('userName', this.$route.query.userName);
-				saveStore('projectCode', this.$route.query.projectCode);
-				saveStore('granterPhone', this.$route.query.granterPhone);
-			}else{
-        alert('没参数')
-				if(!(getStore('userName')&&getStore('projectCode')&&getStore('granterPhone'))){
-					this.parameter = false;
-					alert('参数无效');
+			console.log(this.$route.path);
+			if(this.$route.path != '/twoDimension'){
+				if(this.$route.query.userName&&this.$route.query.projectCode&&this.$route.query.granterPhone){
+					saveStore('userName', this.$route.query.userName);
+					saveStore('projectCode', this.$route.query.projectCode);
+					saveStore('granterPhone', this.$route.query.granterPhone);
+				}else{
+	        		alert('没参数')
+					if(!(getStore('userName')&&getStore('projectCode')&&getStore('granterPhone'))){
+						this.parameter = false;
+						alert('参数无效');
+					}
 				}
-			}
+			}		
 		}
 	},
 	watch: {
