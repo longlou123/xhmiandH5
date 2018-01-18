@@ -167,18 +167,13 @@
 					console.log(error);
 				});
 			},
+			//删除门列表选项
 			Delete(index) {
 				var _this = this;
-				
-				//setTimeout(function(){
-					//_this.show.splice(index, 1);
-					//_this.show[index] = 0;
-					_this.projectPage.splice(index, 1);	
-					
+					_this.projectPage.splice(index, 1);						
 					_this.add = true;
 					_this.$store.commit('PROJECT',this.projectPage);//储存修改的数据
-					//将修改过的门列表保存到vuex	
-				//},1000)					
+					//将修改过的门列表保存到vuex					
 			},
 			starTime_() {
 				this.$refs.pickerSrtar.open();
@@ -208,6 +203,7 @@
 					}
 					this.formValidate.endTime = Year+'-'+Month+'-'+Date+' '+hour+':'+minute;
 			},
+			//添加门列表
 			sure() {
 				if(this.add){
 					this.$router.push({
@@ -215,6 +211,7 @@
 					})
 				}
 			},
+			//确定邀请
 			handleSubmit(name) {
 				this.$refs[name].validate((valid) => {
 					if(valid) {
@@ -249,12 +246,12 @@
 				}).then(res => {
 					this.userData = res.result.cardList;
 					saveStore('userData',this.userData);
-          this.$store.commit('CLEAR_FORM');
-					this.$router.push({path: "/callerDetail",query: {value: 0}})
-				}).catch(function(error) {
-					console.log(error);
-				});
-			},
+	          this.$store.commit('CLEAR_FORM');
+						this.$router.push({path: "/callerDetail",query: {value: 0}})
+					}).catch(function(error) {
+						console.log(error);
+					});
+				},
 			handleReset(name) {
 				this.$refs[name].resetFields();
 			}
