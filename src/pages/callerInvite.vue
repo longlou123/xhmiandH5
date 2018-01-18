@@ -55,22 +55,21 @@
 			<div class="door_stop">
 				<div class="text">授权门禁:</div>
 				<div class="flex">
-						<transition-group name="list" tag="ul">
-							<li class="door_box"  v-for='(item,index) in projectPage' :key="item">
-								<span>{{item}}</span>
-								<div class="detele" @click="Delete(index)">
-									<Icon type="ios-close"></Icon>
-								</div>
-							</li>
-							<div class="door_box" v-if='add' :key="add">
-		   		 				<div class="Icon ">
-		   		 					<span @click="sure">
-		   		 						<Icon type="ios-plus-outline" class='Icons'></Icon>
-		   		 					</span>
-		   		 				</div>
-		   		 	 	 	</div>
-						</transition-group>
-
+					<transition-group name="list" tag="ul">
+						<li class="door_box"  v-for='(item,index) in projectPage' :key="item">
+							<span>{{item}}</span>
+							<div class="detele" @click="Delete(index)">
+								<Icon type="ios-close"></Icon>
+							</div>
+						</li>
+						<div class="door_box" v-if='add' :key="add">
+	   		 				<div class="Icon ">
+	   		 					<span @click="sure">
+	   		 						<Icon type="ios-plus-outline" class='Icons'></Icon>
+	   		 					</span>
+	   		 				</div>
+	   		 	 	 	</div>
+					</transition-group>
 				</div>
 			</div>
 		</div>

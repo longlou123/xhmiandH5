@@ -157,6 +157,9 @@
 				.ivu-icon-share:before{
 					font-size: 0.7rem;
 				}
+				.ivu-icon-share:active{
+					color: rgba(211,211,211,0.8);
+				}
 			}
 		}
 		.next_btn {
