@@ -38,7 +38,6 @@ export default {
 					saveStore('projectCode', this.$route.query.projectCode);
 					saveStore('granterPhone', this.$route.query.granterPhone);
 				}else{
-	        		alert('没参数')
 					if(!(getStore('userName')&&getStore('projectCode')&&getStore('granterPhone'))){
 						this.parameter = false;
 						alert('参数无效');
