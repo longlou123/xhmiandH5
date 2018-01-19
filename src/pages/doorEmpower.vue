@@ -1,4 +1,5 @@
 <template>
+	<transition name="fade">
 	<div class="entranceGuard">
 		<div class="entranceGuard_box" >
         <Checkbox v-if="hasData"
@@ -13,6 +14,7 @@
         <Button type="primary" shape="circle" :long="true"  @click="nextClick()">确定</Button>
       </div>
 	</div>
+	</transition>
 </template>
 <script >
 	import { mapState, mapMutations } from 'vuex';
@@ -102,55 +104,48 @@
 
 </script>
 <style lang="scss" scoped>
-	.entranceGuard{
-        width: 90%;
-        height: 100%;
-    	background-color: #ffffff;
-        margin: 0rem 0.3rem 0 0.35rem ;
-        border-radius: 0.2rem;
-        box-shadow: 0px -5px 5px #E8EBF4, 0px 5px 5px #E8EBF4, 0px 5px 5px #E8EBF4, 0px 5px 5px #E8EBF4;
-        .entranceGuard_box{
-            border-bottom: 1px solid #e9e9e9;
-            height:0.86rem;
-            margin-top:0.2rem;
-            text-align:left;
-            line-height: 0.86rem;
-        }
-        .entranceGuard_box:hover{
-            // background-color:#DEE7F0;
-            border-radius: 0.1rem;
-        }
-    	.ivu-radio-group{
-    		width:100%;
-
-    	}
-    	.ivu-radio-group-vertical .ivu-radio-wrapper {
-    		height: 0.86rem;
-    		line-height: 0.86rem;
-   			width:100%;
-    		padding: 0 0.5rem;
-    		border-bottom:0.01rem solid #E5E7E9;
-        }
-        .ivu-radio-group-vertical .ivu-radio-wrapper:hover{
-        	background-color:#DEE7F0;
-        }
-    	.ivu-radio-group {
-    		display: inline-block;
-    		font-size: 12px;
-    		vertical-align: middle;
-    		float: left;
-    		text-align: left;
-			}
-		.next_btn{
-            position: fixed;
-            bottom: 0.3rem;
-            width: 6.92rem;
-            left: 50%;
-            transform: translateX(-50%);
-                span{
-                     font-size: 0.36rem;
-                        color: #fff;
-                }
-            }
-	    }
+.entranceGuard {
+	width: 90%;
+	height: 100%;
+	background-color: #ffffff;
+	margin: 0rem 0.3rem 0 0.35rem;
+	border-radius: 0.2rem;
+	box-shadow: 0px -5px 5px #E8EBF4, 0px 5px 5px #E8EBF4, 0px 5px 5px #E8EBF4, 0px 5px 5px #E8EBF4;
+	.entranceGuard_box {
+		border-bottom: 1px solid #e9e9e9;
+		height: 0.86rem;
+		margin-top: 0.2rem;
+		text-align: left;
+		line-height: 0.86rem;
+	}
+	.entranceGuard_box:hover {
+		// background-color:#DEE7F0;
+		border-radius: 0.1rem;
+	}
+	.ivu-radio-group {
+		width: 100%;
+	}
+	.ivu-radio-group-vertical .ivu-radio-wrapper {
+		height: 0.86rem;
+		line-height: 0.86rem;
+		width: 100%;
+		padding: 0 0.5rem;
+		border-bottom: 0.01rem solid #E5E7E9;
+	}
+	.ivu-radio-group-vertical .ivu-radio-wrapper:hover {
+		background-color: #DEE7F0;
+	}
+	.ivu-radio-group {
+		display: inline-block;
+		font-size: 12px;
+		vertical-align: middle;
+		float: left;
+		text-align: left;
+	}
+	.next_btn {
+		position: fixed;
+		bottom: 0.3rem;
+		width: 6.92rem;
+	}
+}
 </style>
