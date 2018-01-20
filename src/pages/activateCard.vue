@@ -272,6 +272,7 @@ import { getStore } from '@/script/util'
 </script>
 <style lang="scss" scoped>
   .main{
+    height: 100%;
     .head{
       height: 5.8rem;
     }

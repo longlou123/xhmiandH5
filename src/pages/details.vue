@@ -129,6 +129,7 @@ import {getStore,saveStore} from '@/script/util'
 </script>
 <style lang="scss" scoped>
 	.center{
+    height: 100%;
 		background-color:#EFF2F5;
 		padding-top:0.2rem;
 		.center_box{

@@ -98,6 +98,9 @@ import {getStore,saveStore} from '@/script/util'
     }
 </script>
 <style lang="scss" scoped>
+  .big_box{
+    height: 100%;
+  }
 	.entranceGuard{
         width: 90%;
         height: 100%;

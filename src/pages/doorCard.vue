@@ -19,6 +19,7 @@
 </script>
 <style lang="scss" scoped>
 .big_div{
+  height: 100%;
 	.center{
 			background-color:#EFf2f5;
 	    padding-top:2.3rem;

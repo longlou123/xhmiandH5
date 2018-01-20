@@ -52,7 +52,7 @@ export default {
 		});
 	},
 	methods: {
-		gitData(id) {	
+		gitData(id) {
 			this.$get('/ssh/grantCard/getGrantQRById', {
 				"id": id,
 			}).then(res => {
@@ -71,18 +71,18 @@ export default {
 				if(h<10){h = "0"+ h;}
 				var m = date.getMinutes()
 				if(m<10){m = "0"+ m;}
-				var s = date.getSeconds(); 
+				var s = date.getSeconds();
 				if(s<10){s = "0"+ s;}
 				this.createTime = Y+'-'+M+'-'+D+' '+h+':'+m+':'+s;
 			}).catch(function(error) {
 				console.log(error);
 			});
 		},
-		makeCode () {			
-			
-			
+		makeCode () {
+
+
 		}
-	    
+
 	}
 }
 </script>
@@ -90,6 +90,7 @@ export default {
 <style lang="scss" scoped>
 .center{
 	width:100%;
+  height: 100%;
     	background-color:#EFf2f5;
     padding-top:0.20rem;
     .content{
@@ -110,7 +111,7 @@ export default {
     .name{
     	font-size: 0.38rem;
     }
-    .message{   		
+    .message{
     		    height: 3.4rem;
     		    width: 100%;
     		    margin: 0.1rem 0;
