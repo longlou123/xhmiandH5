@@ -1,14 +1,14 @@
 <template>
-	<transition name="fade">
-		<mt-loadmore  :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :max-distance="150"
-	                ref="loadmore" :auto-fill="false" @bottom-status-change="handleTopChange" >
-			<div class="center">
-				<ul class="list_ul" v-for="(data,index) in userData">
-					<li @click="sure(index)"><p>{{data.name}}</p><i class="time" >{{data.createTime}}</i><span><Icon  type="chevron-right"></Icon></span></li>
-				</ul>
-			</div>
-		</mt-loadmore>
-	</transition>
+    <div class="wrap">
+      <mt-loadmore  :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :max-distance="150"
+                    ref="loadmore" :auto-fill="false" @bottom-status-change="handleTopChange">
+        <div class="center">
+          <ul class="list_ul" v-for="(data,index) in userData">
+            <li @click="sure(index)"><p>{{data.name}}</p><i class="time" >{{data.createTime}}</i><span><Icon  type="chevron-right"></Icon></span></li>
+          </ul>
+        </div>
+      </mt-loadmore>
+    </div>
 </template>
 
 <script>
@@ -106,8 +106,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.wrap{
+  height: 100%;
+}
 .center{
 	width:7.5rem;
+  height: 100%;
     	background-color:#EFf2f5;
     	padding-top:0.28rem;
     	.list_ul{
@@ -115,7 +119,7 @@ export default {
     		li{
     			position: relative;
     			padding: 0 0.4rem;
-    			height: 1.16rem;
+    			height: 1.3rem;
     			width: 100%;
     			text-align: left;
     			border-bottom: 0.02rem solid lightgray;

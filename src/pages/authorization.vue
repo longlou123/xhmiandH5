@@ -237,6 +237,7 @@ html,body{
   background-color:#EFf2f5;
 }
     .authorization{
+      height: 100%;
       padding-top:0.2rem;
       // margin-left:7.5rem;
     	.scoll{

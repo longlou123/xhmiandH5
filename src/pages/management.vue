@@ -165,7 +165,7 @@ export default {
 <style lang="scss" scoped>
 .management {
   width: 7.5rem;
-  height: 13.34rem;
+  height: 100%;
   background-color: #EFf2f5;
   padding-top: 0.2rem;
   .visitors {

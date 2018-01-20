@@ -1,5 +1,4 @@
 <template>
-	<transition name="fade">
 	<div class="entranceGuard">
 		<div class="entranceGuard_box" >
         <Checkbox v-if="hasData"
@@ -8,13 +7,12 @@
             @click.prevent.native="handleCheckAll">全选</Checkbox>
     </div>
     <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
-        <Checkbox :label="item" v-for="item in dataDoor" :key="item.id"></Checkbox> 
+        <Checkbox :label="item" v-for="item in dataDoor" :key="item.id"></Checkbox>
     </CheckboxGroup>
     <div class="next_btn">
         <Button type="primary" shape="circle" :long="true"  @click="nextClick()">确定</Button>
       </div>
 	</div>
-	</transition>
 </template>
 <script >
 	import { mapState, mapMutations } from 'vuex';
@@ -38,7 +36,7 @@
 		mounted() {
 			this.getProject();
 			this.getdata();
-						
+
 		},
         methods: {
 		    	getProject(){
@@ -98,7 +96,7 @@
             }
         }
     }
-   
+
 
 
 
@@ -106,7 +104,6 @@
 <style lang="scss" scoped>
 .entranceGuard {
 	width: 90%;
-	height: 100%;
 	background-color: #ffffff;
 	margin: 0rem 0.3rem 0 0.35rem;
 	border-radius: 0.2rem;

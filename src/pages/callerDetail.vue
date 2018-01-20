@@ -1,5 +1,4 @@
 <template>
-	<transition name="fade">
 	<div class="center">
 		<div class="center_box">
 			<section>
@@ -45,7 +44,6 @@
 			</section>
 		</div>
 	</div>
-	</transition>
 </template>
 <script>
 	import {getStore} from '@/script/util'
@@ -111,7 +109,7 @@
 				if(h<10){h = "0"+ h;}
 				var m = date.getMinutes()
 				if(m<10){m = "0"+ m;}
-				var s = date.getSeconds(); 
+				var s = date.getSeconds();
 				if(s<10){s = "0"+ s;}
 				this.createTime = Y+'/'+M+'/'+D+' '+h+':'+m+':'+s;
 				if(new Date()> new Date(this.data[this.num].endTime)){
@@ -125,6 +123,7 @@
 </script>
 <style lang="scss" scoped>
 	.center {
+    height: 100%;
 		background-color: #EFF2F5;
 		padding-top: 0.2rem;
 		.center_box {
