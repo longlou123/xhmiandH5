@@ -1,14 +1,14 @@
 <template>
   <div class="header">
-      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="doorCard">doorCard</router-link></Button>
-      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="management">management</router-link></Button>
-      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="project">project</router-link></Button>
-      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="activateCard">activateCard</router-link></Button>
-      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="callerInvite">访客邀请</router-link></Button>
-      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="callerNodepad">访客邀请记录</router-link></Button>
-      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="twoDimension?id=2">访客邀请二维码</router-link></Button>
-      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="authorization">授权门卡</router-link></Button>
-      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="details">门卡详情</router-link></Button>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="/doorCard">doorCard</router-link></Button>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="/management">management</router-link></Button>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="/project">project</router-link></Button>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="/activateCard">activateCard</router-link></Button>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="/callerInvite">访客邀请</router-link></Button>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="/callerNodepad">访客邀请记录</router-link></Button>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="/twoDimension?id=2">访客邀请二维码</router-link></Button>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="/authorization">授权门卡</router-link></Button>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="/details">门卡详情</router-link></Button>
       <a href="tel:18312583532">一键拨打号码</a>
       <a id="send_message" href="sms:10086?body=呵呵这是问号">一键发送短信</a> 
   </div>

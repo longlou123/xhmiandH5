@@ -348,7 +348,8 @@
 		  transform: translateY(30px);
 		}
 		.next_btn{
-			width: 6.2rem;
+			width: 6.92rem;
+			height: 0.89rem;
 			margin: 0 auto;
 			margin-top: 0.2rem;
 		 }

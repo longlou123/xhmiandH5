@@ -1,20 +1,19 @@
 <template>
-	<transition name="fade">
-	<div class="entranceGuard">
-		<div class="entranceGuard_box" >
-        <Checkbox v-if="hasData"
-            :indeterminate="indeterminate"
-            :value="checkAll"
-            @click.prevent.native="handleCheckAll">全选</Checkbox>
-    </div>
-    <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
-        <Checkbox :label="item" v-for="item in dataDoor" :key="item.id"></Checkbox> 
-    </CheckboxGroup>
-    <div class="next_btn">
-        <Button type="primary" shape="circle" :long="true"  @click="nextClick()">确定</Button>
-      </div>
+	<div>
+		<div class="doorList">
+			<div class="entranceGuard">
+				<div class="entranceGuard_box">
+					<Checkbox v-if="hasData" :indeterminate="indeterminate" :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox>
+				</div>
+				<CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
+					<Checkbox :label="item" v-for="item in dataDoor" :key="item.id"></Checkbox>
+				</CheckboxGroup>
+			</div>
+		</div>
+		<div class="next_btn">
+			<Button type="primary" shape="circle" :long="true" @click="nextClick()">确定</Button>
+		</div>
 	</div>
-	</transition>
 </template>
 <script >
 	import { mapState, mapMutations } from 'vuex';
@@ -99,14 +98,15 @@
         }
     }
    
-
-
-
 </script>
 <style lang="scss" scoped>
+.doorList{
+		width: 100%;
+		height: 10rem;
+		overflow-y: auto;
+	}
 .entranceGuard {
 	width: 90%;
-	height: 100%;
 	background-color: #ffffff;
 	margin: 0rem 0.3rem 0 0.35rem;
 	border-radius: 0.2rem;
@@ -118,8 +118,8 @@
 		text-align: left;
 		line-height: 0.86rem;
 	}
+	
 	.entranceGuard_box:hover {
-		// background-color:#DEE7F0;
 		border-radius: 0.1rem;
 	}
 	.ivu-radio-group {
@@ -142,10 +142,10 @@
 		float: left;
 		text-align: left;
 	}
-	.next_btn {
-		position: fixed;
-		bottom: 0.3rem;
-		width: 6.92rem;
-	}
 }
+.next_btn {
+		margin: 0 auto;
+		width: 6.92rem;
+		height: 0.89rem;	
+	}
 </style>
