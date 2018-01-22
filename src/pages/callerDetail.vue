@@ -29,7 +29,6 @@
 						<li class="doorList" v-for="doorname in doors">{{doorname.doorName}}</li>
 					</ul>
 				</i>
-
 			</section>
 			<section>
 				<span>二维码状态 :</span>
@@ -67,7 +66,7 @@
 				Id:null,
 				id:null,
 				isAndroid: false,
-          		isiOS: false,
+        isiOS: false,
 			}
 		},
 		mounted() {
@@ -111,7 +110,7 @@
 				if(h<10){h = "0"+ h;}
 				var m = date.getMinutes()
 				if(m<10){m = "0"+ m;}
-				var s = date.getSeconds(); 
+				var s = date.getSeconds();
 				if(s<10){s = "0"+ s;}
 				this.createTime = Y+'/'+M+'/'+D+' '+h+':'+m+':'+s;
 				if(new Date()> new Date(this.data[this.num].endTime)){

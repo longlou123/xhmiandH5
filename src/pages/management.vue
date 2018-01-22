@@ -134,6 +134,7 @@ export default {
       }).then(res => {
         console.log(res);
          if (res.result.cardList.length === 0) {
+          this.$router.push({path:"/doorCard"})
           this.hasData = false;
         }
         this.dataList=res.result.cardList.length;
