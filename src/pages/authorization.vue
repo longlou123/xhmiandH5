@@ -200,13 +200,17 @@
         },
         handleSubmit (name) {
             this.$refs[name].validate((valid) => {
-                if (valid) {
+                if(this.$route.query.value){
+                  //直接授权
+                }
+                else{
+                  if (valid) {
                     for(var i = 0; i < this.saveDoordata.length; i++) {
-                    	  for(var j = 0; j < this.doorName.length; j++) {
-                    		if(this.saveDoordata[i] == this.doorName[j].doorName) {
-                    			this.sendData[i]=this.doorName[j];
-                    		}
-                    	}
+                        for(var j = 0; j < this.doorName.length; j++) {
+                        if(this.saveDoordata[i] == this.doorName[j].doorName) {
+                          this.sendData[i]=this.doorName[j];
+                        }
+                      }
                     }
                     this.formValidate.granterPhone = getStore('granterPhone');
                     this.formValidate.projectCode = getStore('projectCode');
@@ -216,13 +220,14 @@
                     this.$store.commit('MASSAGESAVE',this.formValidate);
                     saveStore( 'choisedDoorList', this.formValidate);
                     this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
-                    	if(res.errorCode === 200){
+                      if(res.errorCode === 200){
                         this.$store.commit('CLEAR_FORM');
                         this.$router.push({path: "/activateCard", query: { cardID: res.result.cardId}})
                       }
                     })
-                    } else {
+                  } else {
                       // this.$Message.error('Fail!');
+                  }
                 }
             });
         },
