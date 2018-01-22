@@ -1,5 +1,5 @@
 <template>
-	<div style="height: 100%;">
+	<div class="bigDiv">
 		<div class="doorList">
 			<div class="entranceGuard">
 				<div class="entranceGuard_box">
@@ -9,9 +9,7 @@
 					<Checkbox :label="item" v-for="item in dataDoor" :key="item.id"></Checkbox>
 				</CheckboxGroup>
 			</div>
-
 		</div>
-
 		<div class="next_btn">
 			<Button type="primary" shape="circle" :long="true" @click="nextClick()">确定</Button>
 		</div>
@@ -104,11 +102,15 @@
 	}
 </script>
 <style lang="scss" scoped>
-	.doorList {
-		height: 10rem;
-		width: 100%;
-		overflow-y: auto;
-	}	
+	.bigDiv{
+		height: 100%;
+		.doorList {
+			height: 10rem;
+			width: 100%;
+			overflow-y: auto;
+		}	
+	}
+	
 	.entranceGuard {
 		width: 90%;
 		background-color: #ffffff;
@@ -121,32 +123,32 @@
 			margin-top: 0.2rem;
 			text-align: left;
 			line-height: 0.86rem;
-		}
-		.entranceGuard_box:hover {
+			.entranceGuard_box:hover {
 			// background-color:#DEE7F0;
-			border-radius: 0.1rem;
+				border-radius: 0.1rem;
+			}
+			.ivu-radio-group {
+				width: 100%;
+			}
+			.ivu-radio-group-vertical .ivu-radio-wrapper {
+				height: 0.86rem;
+				line-height: 0.86rem;
+				width: 100%;
+				padding: 0 0.5rem;
+				border-bottom: 0.01rem solid #E5E7E9;
+			}
+			.ivu-radio-group-vertical .ivu-radio-wrapper:hover {
+				background-color: #DEE7F0;
+			}
+			.ivu-radio-group {
+				display: inline-block;
+				font-size: 12px;
+				vertical-align: middle;
+				float: left;
+				text-align: left;
+			}
 		}
-		.ivu-radio-group {
-			width: 100%;
-		}
-		.ivu-radio-group-vertical .ivu-radio-wrapper {
-			height: 0.86rem;
-			line-height: 0.86rem;
-			width: 100%;
-			padding: 0 0.5rem;
-			border-bottom: 0.01rem solid #E5E7E9;
-		}
-		.ivu-radio-group-vertical .ivu-radio-wrapper:hover {
-			background-color: #DEE7F0;
-		}
-		.ivu-radio-group {
-			display: inline-block;
-			font-size: 12px;
-			vertical-align: middle;
-			float: left;
-			text-align: left;
-		}
-	}
+	}		
 	.next_btn {
 		margin: 0 auto;
 		width: 6.92rem;

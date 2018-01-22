@@ -28,7 +28,6 @@
 						<li class="doorList" v-for="doorname in doors">{{doorname.doorName}}</li>
 					</ul>
 				</i>
-
 			</section>
 			<section>
 				<span>二维码状态 :</span>
@@ -65,7 +64,7 @@
 				Id:null,
 				id:null,
 				isAndroid: false,
-          		isiOS: false,
+        isiOS: false,
 			}
 		},
 		mounted() {
