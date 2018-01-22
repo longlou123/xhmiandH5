@@ -43,7 +43,6 @@ export default {
       doorList: null,
       showBtnList: [],
       modifyvue: null,
-      detailsList: false,
       value: [],
       doors: [],
       cardNumber: [],
@@ -59,7 +58,6 @@ export default {
       page:1,
       dataList:null,
       scrollMode:"touch",
-       topStatus: '',
 
       // showImg:false
     }
