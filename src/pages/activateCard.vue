@@ -37,7 +37,8 @@
 </template>
 <script >
 import { mapState, mapMutations } from 'vuex';
-import { getStore } from '@/script/util'
+import { getStore } from '@/script/util';
+import { MessageBox } from 'mint-ui';
   export default {
     name:'test',
     data(){
@@ -81,7 +82,7 @@ import { getStore } from '@/script/util'
       	if (this.stepStatus === 0){
           if(!this.selectValue){
             this.tipsText1 = '请选择授权发卡的门禁读头';
-            this.stepStatus = 10;
+            MessageBox('错误', this.tipsText1);
           } else {
             this.registerFirst();
           }
@@ -117,6 +118,7 @@ import { getStore } from '@/script/util'
           if (res.errorCode === 200){
           	this.longAsk();
           } else{
+            console.log(res)
             this.tipsText1 = '' + res.message;
             this.allRestart();
           }
@@ -135,17 +137,28 @@ import { getStore } from '@/script/util'
           	this.stepStatus = 3;
           	clearInterval(this.countTimer);
         		clearInterval(this.longAskTimer);
-          	console.log('最终成功');
+          	// console.log('最终成功');
           } else {
-          	console.log(err)
             this.tipsText1 = '' + res.message;
             this.allRestart();
           }
+
+
+
+
         }).catch(err=>{
           console.log(err)
           this.tipsText1 = '' + res.message;
           this.allRestart();
         })
+
+
+
+          //   },(err)=>{
+          // console.log(err)
+          //     // var errorCode = error.code;
+          //     // var errorMessage = error.message;
+          // })
       },
       // 全部清除重新开始
       allRestart(){
@@ -254,11 +267,8 @@ import { getStore } from '@/script/util'
             this.tipsText2 = '';
             this.errorText = true;
             var _this = this;
-            setTimeout(function(){
-                _this.currents = 0;
-                _this.stepStatus = 0;
-                _this.errorText = false;
-            }, 2000)
+            MessageBox('错误', this.tipsText1);
+            this.$router.push({path: "/authorization"})
             break
         }
       },
