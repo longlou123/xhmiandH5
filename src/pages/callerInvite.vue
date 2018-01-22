@@ -259,7 +259,7 @@
 <style lang="scss" scoped>
 	// @import './style/common.scss'
 	.center {
-    height: 100%;
+    		height: 100%;
 		background-color: #EFf2f5;
 		padding-top: 0.2rem;
 		.scoll {
@@ -347,9 +347,12 @@
 		  transform: translateY(30px);
 		}
 		.next_btn{
-			width: 6.2rem;
+			width: 6.92rem;
 			margin: 0 auto;
 			margin-top: 0.2rem;
+			Button{
+				height: 0.89rem;
+			}
 		 }
 	}
 </style>
