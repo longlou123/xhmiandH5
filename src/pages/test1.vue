@@ -59,7 +59,6 @@
     z-index: 99;
     width: 100%;
     // background: #f55947;
-    height: 3rem;
     font-size: 0.16rem;
   }
     .div {
