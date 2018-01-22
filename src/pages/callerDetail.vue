@@ -1,5 +1,4 @@
 <template>
-	<transition name="fade">
 	<div class="center">
 		<div class="center_box">
 			<section>
@@ -44,7 +43,6 @@
 			</section>
 		</div>
 	</div>
-	</transition>
 </template>
 <script>
 	import {getStore} from '@/script/util'
@@ -124,6 +122,7 @@
 </script>
 <style lang="scss" scoped>
 	.center {
+    height: 100%;
 		background-color: #EFF2F5;
 		padding-top: 0.2rem;
 		.center_box {

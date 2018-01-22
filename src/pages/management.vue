@@ -23,13 +23,13 @@
         </Modal>
       </div>
     </ul>
+    </mt-loadmore>
     <div v-if="!hasData">
       <div class="center">
         <div class="door_text"></div>
         <img class="door_img" src="../images/dragon.png">
       </div>
     </div>
-    </mt-loadmore>
   </div>
 </template>
 <script>
@@ -136,22 +136,23 @@ export default {
          if (res.result.cardList.length === 0) {
           this.$router.push({path:"/doorCard"})
           this.hasData = false;
-        }
-        this.dataList=res.result.cardList.length;
-        if(this.page===1){
-                    this.doorList = res.result.cardList;
-                }else{
-                    this.doorList =this.doorList.concat(res.result.cardList);
-                }
-        this.hasData = true;
-        saveStore('userData', this.doorList);
-        for (var i = 0; i < this.doorList.length; i++) {
-          this.doorList[i].startTime = this.doorList[i].startTime.substring(0, 10)
-          this.doorList[i].endTime = this.doorList[i].endTime.substring(0, 10);
-          if (new Date() > new Date(this.doorList[i].endTime)) {
-            this.showBtnList[i] = false;
-          } else {
-            this.showBtnList[i] = true;
+        }else{
+          this.dataList=res.result.cardList.length;
+          if(this.page===1){
+                      this.doorList = res.result.cardList;
+                  }else{
+                      this.doorList =this.doorList.concat(res.result.cardList);
+                  }
+          this.hasData = true;
+          saveStore('userData', this.doorList);
+          for (var i = 0; i < this.doorList.length; i++) {
+            this.doorList[i].startTime = this.doorList[i].startTime.substring(0, 10)
+            this.doorList[i].endTime = this.doorList[i].endTime.substring(0, 10);
+            if (new Date() > new Date(this.doorList[i].endTime)) {
+              this.showBtnList[i] = false;
+            } else {
+              this.showBtnList[i] = true;
+            }
           }
         }
       }).catch(function(error) {
@@ -165,7 +166,7 @@ export default {
 <style lang="scss" scoped>
 .management {
   width: 7.5rem;
-  height: 13.34rem;
+  height: 100%;
   background-color: #EFf2f5;
   padding-top: 0.2rem;
   .visitors {

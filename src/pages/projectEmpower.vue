@@ -1,9 +1,9 @@
 <template>
 	<div class="center">
-		<RadioGroup v-model="vertical" vertical>	
+		<RadioGroup v-model="vertical" vertical>
 			<Radio label="apple">
             		<span>中海华庭</span>
-            </Radio>		       
+            </Radio>
 	        <Radio label="android">
 	            <span>千灯湖</span>
 	        </Radio>
@@ -12,13 +12,13 @@
     		<button >确定</button>
     </div>
 	</div>
-	 
+
 </template>
 <script >
   export default {
     data(){
       return {
-      	   vertical: 'apple'                
+      	   vertical: 'apple'
         }
     },
     methods:{
@@ -32,6 +32,7 @@
 <style lang="scss" scoped>
 	.center{
 		width:7.5rem;
+    height: 100%;
 	    	height: 13.34rem;
 	    	background-color:#EFf2f5;
 	    	padding-top:0.28rem;

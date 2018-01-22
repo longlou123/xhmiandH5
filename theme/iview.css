@@ -14795,24 +14795,24 @@ a {
         button.ivu-btn.ivu-btn-primary.ivu-btn-large span:active{
     color:red;
 }
-        .ivu-btn.ivu-btn-text.ivu-btn-large span:active{
-          color:red;
-        }
+.ivu-btn.ivu-btn-text.ivu-btn-large span:active{
+  color:red;
+}
         /*// 卡片动画属性*/
                      /* 开始过渡阶段,动画出去阶段 */
-                  .fade-enter-active,.fade-leave-active{
+              /*    .fade-enter-active,.fade-leave-active{
                     transition: all 0.2s ease-out;
-                  }
+                  }*/
                   /* 进入开始 */
-                  .fade-enter{
+               /*   .fade-enter{
                     transform: translateX(500px);
                     opacity: 0;
-                  }
+                  }*/
                   /* 出去终点 */
-                  .fade-leave-active{
+/*                  .fade-leave-active{
                     transform: translateX(-500px);
                     opacity: 0;
-                  }
+                  }*/
 .main .ivu-btn-primary{
     height:0.89rem;
     width:6.92rem;
