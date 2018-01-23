@@ -26,17 +26,11 @@ export function delCookie (name) {
 
 // localStorage
 export const saveStore = (name, content) => {
-  // if (!name) return;
-  // if (typeof content !== 'string') {
-  //   content = JSON.stringify(content);
-  // }
-  // window.localStorage.setItem(name, content);
-
   if (!name) return;
   if (typeof content !== 'string') {
     content = JSON.stringify(content);
   }
-  window.sessionStorage.setItem(name, content);
+  window.localStorage.setItem(name, content);
 
 }
 
@@ -44,10 +38,8 @@ export const saveStore = (name, content) => {
  * 获取localStorage
  */
 export const getStore = name => {
-  // if (!name) return;
-  // return window.localStorage.getItem(name);
   if (!name) return;
-  return window.sessionStorage.getItem(name);
+  return window.localStorage.getItem(name);
 }
 
 /**
@@ -62,25 +54,18 @@ export const removeStore = name => {
  * 存储sessionStorage
  */
 export const setSession = (name, content) => {
-  // if (!name) return;
-  // if (typeof content !== 'string') {
-  //   content = JSON.stringify(content);
-  // }
-  // window.sessionStorage.setItem(name, content);
   if (!name) return;
   if (typeof content !== 'string') {
     content = JSON.stringify(content);
   }
-  window.localStorage.setItem(name, content);
+  window.sessionStorage.setItem(name, content);
 }
 /**
  * 获取sessionStorage
  */
 export const getSession = name => {
-  // if (!name) return;
-  // return window.sessionStorage.getItem(name);
   if (!name) return;
-  return window.localStorage.getItem(name);
+  return window.sessionStorage.getItem(name);
 }
 /**
  * 删除sessionStorage

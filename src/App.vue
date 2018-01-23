@@ -22,24 +22,15 @@ export default {
 		...mapState(['projectInital', 'viewDirection']),
 	},
 	created(){
-	    this.getAppData();
+	    //this.getAppData(); 根据项目需要开启
 	    this.setTitle();
-      // this.onURLChange();
 	},
+  mounted(){
+    
+  },
 	methods: {
-    onURLChange(){
-      var _this = this;
-      window.addEventListener('popstate', function(e) {
-        // alert("我监听到了浏览器的返回按钮事件啦");//根据自己的需求实现自己的功能
-        _this.transitionName = 'back';
-        // setTimeout(function(){
-        //   _this.transitionName = 'go';
-        // },1000)
-      }, false);
-    },
     setTitle(){
       var title = this.$route.meta.title;
-      //console.log(title)
       document.setTitle(title);
     },
     //判断请求是否带参数，参数是否正确
@@ -59,7 +50,8 @@ export default {
 		},
 	},
 	watch: {
-		projectInital: function() {
+		viewDirection: function() {
+       //console.log(this.viewDirection);
 		},
 	},
 }

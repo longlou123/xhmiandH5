@@ -4,9 +4,8 @@ import router from '@/router/index'
 import qs from 'qs'
 
 
-// axios 配置
+// axios 配置 根据实际接口配置IP地址
 var baseUrl = 'http://202.105.104.105:8006';
-// var baseUrl = 'http://10.51.39.112:8080'
 
 axios.defaults.timeout = 5000;
 axios.defaults.baseURL = baseUrl; //这是调用数据接口
@@ -24,9 +23,9 @@ axios.interceptors.request.use(
  			if(projectId && projectId.length!=0){
  				projectId = projectId.code;
  			}
-	    config.headers = {
+	    config.headers = { //请求头的配置，请与你的后台商量需要的放回参数
 				// 'Content-Type':'application/json;charset=utf-8',		//不跨域时的请求头
-				'Content-Type':'application/x-www-form-urlencoded;charset=utf-8', //设置跨域头部
+				'Content-Type':'application/x-www-form-urlencoded;charset=utf-8', 
 				// 'Content-Type':	Content_Type,
 				// 'Stafftoken': token,
 				// 'Itemid': projectId  //项目iD
@@ -43,7 +42,6 @@ axios.interceptors.request.use(
 // http response 拦截器
 axios.interceptors.response.use(
   response => {
-		//如果返回402（自定义），说明没有token，跳转回登录页
 		// console.log(response)
 		if(response.data.status == 402){
 			// alert(router.currentRoute.fullPath+"呵呵")

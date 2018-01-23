@@ -1,7 +1,9 @@
 <template>
   <div class="header">
-      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="/test1">test1</router-link></Button>
-      <h1 class="h1">我是test2页面啊</h1>
+      <h1 class="h1">我是首页</h1>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="/test1">去往test1</router-link></Button>
+      <Button type="primary" shape="circle" :long="true" class="btn"><router-link to="/test2">去往test2</router-link></Button>
+      
 
   </div>
 </template>
@@ -16,7 +18,7 @@
       }
     },
     mounted(){
-      // this.setMessage();
+     
     },
     methods:{
       go(){
@@ -32,11 +34,11 @@
     height: 100%;
     z-index: 99;
     width: 100%;
-     background: blue;
+     background: #fff;
     font-size: 0.16rem;
     .h1{
       color: red;
-      font-size:0.36rem;
+      font-size:0.46rem;
     }
   }
 
