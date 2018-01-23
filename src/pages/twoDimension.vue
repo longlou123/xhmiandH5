@@ -82,7 +82,6 @@ export default {
 
 
 		}
-
 	}
 }
 </script>
@@ -131,6 +130,5 @@ export default {
     			display: inline-block;
     		}
     }
-   }
-
+ }
 </style>

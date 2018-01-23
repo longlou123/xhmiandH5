@@ -7,9 +7,9 @@
 				</FormItem>
 				<FormItem label="类型 :" prop="type">
 					<Select v-model="formValidate.type" placeholder="请选择">
-						<Option value="1">1</Option>
-						<Option value="2">2</Option>
-						<Option value="3">3</Option>
+						<Option value="1">家属</Option>
+						<Option value="2">租客</Option>
+						<Option value="3">访客</Option>
 					</Select>
 				</FormItem>
 				<FormItem label="手机 :" prop="phone">
