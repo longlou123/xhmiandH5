@@ -1,4 +1,0 @@
-export const PROJECT = 'PROJECT'
-
-
-
