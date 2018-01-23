@@ -43,7 +43,6 @@ export default {
       doorList: null,
       showBtnList: [],
       modifyvue: null,
-      detailsList: false,
       value: [],
       doors: [],
       cardNumber: [],
@@ -59,7 +58,6 @@ export default {
       page:1,
       dataList:null,
       scrollMode:"touch",
-       topStatus: '',
 
       // showImg:false
     }
@@ -134,6 +132,7 @@ export default {
       }).then(res => {
         console.log(res);
          if (res.result.cardList.length === 0) {
+          this.$router.push({path:"/doorCard"})
           this.hasData = false;
         }else{
           this.dataList=res.result.cardList.length;

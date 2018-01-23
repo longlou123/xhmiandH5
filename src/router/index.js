@@ -18,12 +18,6 @@ import callerDetail from '@/pages/callerDetail'
 import demo from '@/pages/demo'
 Vue.use(Router)
 
-// 添加是否返回的判断
-Router.prototype.goBack = function () {
-　　this.isBack = true
-　　window.history.go(-1)
-}
-
 export default new Router({
   routes: [
     {

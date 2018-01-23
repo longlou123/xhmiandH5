@@ -64,7 +64,7 @@
 				Id:null,
 				id:null,
 				isAndroid: false,
-          		isiOS: false,
+        isiOS: false,
 			}
 		},
 		mounted() {
