@@ -12,7 +12,6 @@
   export default {
     data(){
       return {
-          hand:"我是测试的哟",
           isAndroid: false,
           isiOS: false,
       }
