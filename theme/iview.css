@@ -14740,6 +14740,7 @@ a {
     /*border-bottom:0.01rem solid #E5E7E9;*/
     background-color:#ffffff;
     border-radius:0.2rem;
+
 }
 .entranceGuard .ivu-checkbox-group:hover{
     /*background-color:#DEE7F0;*/
@@ -14761,7 +14762,7 @@ a {
         }
  .ivu-radio-group-vertical .ivu-radio-wrapper:hover{
             background-color:#DEE7F0;
-            border-radius: 0.1rem;
+            border-radius: 0.15rem;
         }
        /* [type=reset], [type=submit], button, html [type=button]{
             height:0.89rem;
@@ -14772,7 +14773,8 @@ a {
         .entranceGuard .ivu-checkbox-wrapper{
             font-size:0.3rem;
             width:100%;
-            border-radius:0.2rem;
+            /*border-radius:0.15rem;*/
+            background-color:#fff;
         }
 .entranceGuard .ivu-checkbox-wrapper:hover{
             background-color:#DEE7F0;

@@ -69,11 +69,15 @@
 		},
 		mounted() {
 			this.newData();
+			this.active();
 		},
 		computed: {
 			...mapState(['userName'])
 		},
 		methods: {
+			active(){
+				document.body.addEventListener('touchstart', function () { });
+			},
 			judgePhone(){
 		        var u = navigator.userAgent;
 		        this.isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
@@ -82,9 +86,9 @@
 	      	share() {
 	      		this.judgePhone();
 	      		if(this.isAndroid && !this.iOS){
-	      			jsObj.twoDimensionCode("http://202.105.96.131:3002/sendCard/#/twoDimension?id="+this.id);
+	      			jsObj.twoDimensionCode("http://202.105.96.131:3002/sendCard/#/twoDimension?id="+this.id,this.startTime,this.endTime);
 	      		}else if(!this.isAndroid && this.iOS){
-	      			 window.webkit.messageHandlers.passValue.postMessage("http://202.105.96.131:3002/sendCard/#/twoDimension?id="+this.id);
+	      			 window.webkit.messageHandlers.passValue.postMessage({url:"http://202.105.96.131:3002/sendCard/#/twoDimension?id="+this.id,startTime:this.startTime,endTime:this.endTime});
 	      		}else{}
 			},
 			newData(){
@@ -94,8 +98,8 @@
 				this.id = this.data[this.num].id //要分享的id
 				this.name= this.data[this.num].name;
 				this.phone = this.data[this.num].phone;
-				this.startTime = this.data[this.num].startTime;
-				this.endTime =  this.data[this.num].endTime;
+				this.startTime = this.data[this.num].startTime;//要分享的开始时间
+				this.endTime =  this.data[this.num].endTime;//要分享的结束时间
 				this.useCount = this.data[this.num].useCount;
 				this.Id = this.data[this.num].Id;
 				this.doors= JSON.parse(this.data[this.num].doors);

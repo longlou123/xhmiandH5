@@ -103,7 +103,6 @@ import {getStore,saveStore} from '@/script/util'
   }
 	.entranceGuard{
         width: 90%;
-        height: 100%;
     	  background-color: #ffffff;
         margin: 0rem 0.3rem 0 0.35rem ;
         border-radius: 0.15rem;
@@ -143,7 +142,7 @@ import {getStore,saveStore} from '@/script/util'
 
 	    }
       .next_btn{
-            margin-top:4rem;
+        margin-top:3rem;
                 Button{
                         width: 6.92rem;
                         height: 0.89rem;
