@@ -144,6 +144,7 @@
 					userName:_this.userName,
 					phone: _this.granterPhone
 				}).then(res => {
+					console.log(res)
 					for(var i=0;i<res.result.doorList.length;i++){
 						var list = {};
 						list.doorID = res.result.doorList[i].doorID;
