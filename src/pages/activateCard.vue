@@ -7,7 +7,6 @@
           <div class="tips_two">{{tipsText2}}</div>
         </div>
         <div class="circle_time" v-if="stepStatus==1||stepStatus==2">
-          <span>00:{{countTime}}</span>
         </div>
         <div class="select" v-if="stepStatus==0">
           <span class="label">读卡门禁：</span>
@@ -254,7 +253,7 @@ import { MessageBox } from 'mint-ui';
             this.errorText = true;
             var _this = this;
             MessageBox('错误', this.tipsText1);
-            this.$router.push({path: "/authorization"})
+            this.$router.push({path: "/authorization", query: {return: 1}})
             break
           default:
             break
@@ -284,20 +283,12 @@ import { MessageBox } from 'mint-ui';
     }
     .circle_time{
       background-color: #fff;
-      width: 3rem;
-      height: 3rem;
-      border-radius: 1.5rem;
-      background-color: #ffffff;
-      box-shadow: 0px 12px 21px 0px #ced4e5;
+      width: 100%;
+      height: 5.5rem;
       margin: 0 auto;
-      margin-top: 0.85rem;
-      text-align: left;
-      span{
-        margin-left: 0.7rem;
-        font-size: 0.65rem;
-        line-height: 3rem;
-        color: #7c7c88;
-      }
+      margin-top: 0.2rem;
+      background: url('/static/active.jpg');
+      background-size: 100% 100%;
     }
     overflow: hidden;
     .tips{
@@ -362,6 +353,7 @@ import { MessageBox } from 'mint-ui';
       width: 6.6rem;
       margin: 0 auto;
       margin-bottom: 0.3rem;
+      margin-top: 1rem;
       background-color: #fff;
       box-shadow: 0 0.12rem 0.21rem 0 #ced4e5;
       border-radius: 0.1rem;

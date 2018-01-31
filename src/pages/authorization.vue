@@ -120,6 +120,7 @@
           this.getdata();
           var d = new Date();
           this.formValidate.startTime = d.format("yyyy-MM-dd ");
+          // if()
           // this.formValidate.endTime = d.format("yyyy-MM-dd hh:mm");
     },
     watch:{
@@ -147,7 +148,9 @@
             var _userName = getStore('userName');
             var _granterPhone = getStore('granterPhone');
             if(_this.$route.query.value){
-                _this.getQuery();
+                this.getQuery();
+            } else if(this.$route.query.return) {
+                this.$store.commit('RELOAD_FORM', JSON.parse(getStore('choisedDoorList')))
             }
             _this.$post('/ssh/openDoor/getDoorByPhone', {
                 projectCode: _projectCode,
@@ -215,12 +218,22 @@
                     this.formValidate.granterPhone = getStore('granterPhone');
                     this.formValidate.projectCode = getStore('projectCode');
                     this.formValidate.doors = JSON.stringify(this.sendData);
-                    this.formValidate.startTime=this.formValidate.startTime+'00:00:00';
-                    this.formValidate.endTime=this.formValidate.endTime+'23:59:59';
+                    if(this.formValidate.startTime.indexOf('00:00:00') == -1){
+                      this.formValidate.startTime=this.formValidate.startTime+'00:00:00';
+                    }
+                    if (this.formValidate.endTime.indexOf('23:59:59') == -1) {
+                      this.formValidate.endTime=this.formValidate.endTime+'23:59:59';
+                    }
                     this.$store.commit('MASSAGESAVE',this.formValidate);
-                    saveStore( 'choisedDoorList', this.formValidate);
                     this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
                       if(res.errorCode === 200){
+                        if (this.formValidate.endTime.indexOf('23:59:59') != -1) {
+                          this.formValidate.endTime = this.formValidate.endTime.slice(0, this.formValidate.endTime.indexOf('23:59:59'))
+                        }
+                        if (this.formValidate.startTime.indexOf('00:00:00') != -1) {
+                          this.formValidate.startTime = this.formValidate.startTime.slice(0, this.formValidate.startTime.indexOf('00:00:00'))
+                        }
+                        saveStore( 'choisedDoorList', this.formValidate);
                         this.$store.commit('CLEAR_FORM');
                         this.$router.push({path: "/activateCard", query: { cardID: res.result.cardId}})
                       }
@@ -294,7 +307,6 @@ html,body{
 							             text-overflow:ellipsis;
 							             font-size: 0.24rem;
                             border-radius:0.02rem;
-
                            }
                       .spns{
                           width:1rem;
