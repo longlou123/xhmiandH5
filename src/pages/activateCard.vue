@@ -57,7 +57,7 @@ import { MessageBox } from 'mint-ui';
         selectValue: '',
         countTimer: null,
         longAskTimer: null,
-        firstCount: 30,
+        firstCount: 10,
         secondCount: 15,
         cardID: null,
         doorID: null,
@@ -98,7 +98,7 @@ import { MessageBox } from 'mint-ui';
         }).then(res=>{
           console.log(res);
      			if(res.errorCode === 200){
-     				this.stepStatus = 1;
+            this.switchJuged(1);
      			} else {
             this.tipsText1 = '' + res.message;
             this.allRestart();
@@ -116,6 +116,7 @@ import { MessageBox } from 'mint-ui';
         }).then(res=>{
           console.log(res);
           if (res.errorCode === 200){
+            clearInterval(this.longAskTimer);
           	this.longAsk();
           } else{
             console.log(res)
@@ -134,7 +135,7 @@ import { MessageBox } from 'mint-ui';
         	cardId: this.cardID,
         }).then(res=>{
           if (res.errorCode === 200){
-          	this.stepStatus = 3;
+            this.switchJuged(3);
           	clearInterval(this.countTimer);
         		clearInterval(this.longAskTimer);
           	// console.log('最终成功');
@@ -142,36 +143,23 @@ import { MessageBox } from 'mint-ui';
             this.tipsText1 = '' + res.message;
             this.allRestart();
           }
-
-
-
-
         }).catch(err=>{
           console.log(err)
           this.tipsText1 = '' + res.message;
           this.allRestart();
         })
-
-
-
-          //   },(err)=>{
-          // console.log(err)
-          //     // var errorCode = error.code;
-          //     // var errorMessage = error.message;
-          // })
       },
       // 全部清除重新开始
       allRestart(){
       	clearInterval(this.countTimer);
         clearInterval(this.longAskTimer);
-        this.stepStatus = 10;
+        this.switchJuged(10);
         document.getElementsByClassName('btn')[0].removeAttribute('disabled');
       },
       // 计时
       count(num){
         this.countTime = num;
         var _this = this;
-        clearInterval(_this.longAskTimer);
         this.countTimer = setInterval(function(){
           _this.countTime = parseInt(_this.countTime);
           _this.countTime--;
@@ -180,6 +168,7 @@ import { MessageBox } from 'mint-ui';
           }
           if(_this.countTime <= 0){
           	clearInterval(_this.longAskTimer)
+            clearInterval(_this.countTimer);
           	if(num === _this.firstCount){
           		_this.registerFirst();
           	}
@@ -194,52 +183,48 @@ import { MessageBox } from 'mint-ui';
       // 轮询
       longAsk(){
       	var _this = this;
-      	clearInterval(_this.longAskTimer);
       	this.longAskTimer = setInterval(function(){
       		_this.$post('/ssh/grantCard/checkCallBack', {
             cardId: _this.cardID,
 	          }).then(res=>{
 	            console.log(res.result);
-                if(res.errorCode === 200){
-                    if(res.result.number === 1 && res.result.registerNumber === 1){
-                        _this.stepStatus = 2;
-                        clearInterval(_this.longAskTimer);
-                    }
-                    if(res.result.number === 2 && res.result.registerNumber === 2){
-                        clearInterval(_this.longAskTimer);
-                        _this.grantCard();
-                    }
-                } else {
-                        console.log(res.errorCode)
-                        this.tipsText1 = '' + res.message;
-                        _this.allRestart();
-                }
+              if(res.errorCode === 200){
+                  if(res.result.number === 1 && res.result.registerNumber === 1){
+                      _this.switchJuged(2);
+                      clearInterval(_this.longAskTimer)
+                      clearInterval(_this.countTimer);
+                  }
+                  if(res.result.number === 2 && res.result.registerNumber === 2){
+                      clearInterval(_this.longAskTimer)
+                      clearInterval(_this.countTimer);
+                      _this.grantCard();
+                  }
+              } else {
+                      console.log(res.errorCode)
+                      this.tipsText1 = '' + res.message;
+                      // _this.allRestart();
+              }
 	          }).catch(err=>{
 	            console.log(err)
               this.tipsText1 = '' + res.message;
-	            _this.allRestart();
 	          })
       	}, 2000)
       },
-    },
-    destroyed(){
-    	clearInterval(this.countTimer);
-      clearInterval(this.longAskTimer);
-    },
-    watch: {
-    	// stepStatus 只关注tips
-      stepStatus: function(){
-        switch (this.stepStatus){
+      switchJuged(num){
+        this.stepStatus = num;
+        switch (num){
           case 0:
             this.tipsText1 = '';
             this.tipsText2 = '请选择一个方便您授权发卡的门禁读头';
             this.btnText = '下一步';
             break
           case 1:
-          	document.getElementsByClassName('btn')[0].setAttribute('disabled', 'disabled');
+            document.getElementsByClassName('btn')[0].setAttribute('disabled', 'disabled');
             this.tipsText1 = '第一次读卡';
             this.tipsText2 = '请将IC卡放置需要授权的门禁读头';
             this.btnText = '下一步';
+            clearInterval(this.countTimer);
+            clearInterval(this.longAskTimer);
             this.count(this.firstCount);
             this.currents = 1;
             this.longAsk();
@@ -249,11 +234,12 @@ import { MessageBox } from 'mint-ui';
             this.tipsText2 = '请再次将IC卡防止门禁读头上';
             this.btnText = '下一步';
             clearInterval(this.countTimer);
+            clearInterval(this.longAskTimer);
             this.count(this.secondCount);
             this.registerSec();
             break
           case 3:
-          	document.getElementsByClassName('btn')[0].removeAttribute('disabled');
+            document.getElementsByClassName('btn')[0].removeAttribute('disabled');
             this.tipsText1 = '';
             this.tipsText2 = '';
             this.currents = 2;
@@ -270,8 +256,18 @@ import { MessageBox } from 'mint-ui';
             MessageBox('错误', this.tipsText1);
             this.$router.push({path: "/authorization"})
             break
+          default:
+            break
         }
-      },
+      }
+    },
+    destroyed(){
+    	clearInterval(this.countTimer);
+      clearInterval(this.longAskTimer);
+    },
+    watch: {
+    	// stepStatus 只关注tips
+      // stepStatus: function(),
       // 监听选择器的值变化
       selectValue: function(){
         this.doorID = this.selectValue;

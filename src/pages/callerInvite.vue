@@ -7,9 +7,9 @@
 				</FormItem>
 				<FormItem label="类型 :" prop="type">
 					<Select v-model="formValidate.type" placeholder="请选择">
-						<Option value="1">1</Option>
-						<Option value="2">2</Option>
-						<Option value="3">3</Option>
+						<Option value="1">家属</Option>
+						<Option value="2">租客</Option>
+						<Option value="3">访客</Option>
 					</Select>
 				</FormItem>
 				<FormItem label="手机 :" prop="phone">
@@ -144,6 +144,7 @@
 					userName:_this.userName,
 					phone: _this.granterPhone
 				}).then(res => {
+					console.log(res)
 					for(var i=0;i<res.result.doorList.length;i++){
 						var list = {};
 						list.doorID = res.result.doorList[i].doorID;
@@ -213,7 +214,6 @@
 			handleSubmit(name) {
 				this.$refs[name].validate((valid) => {
 					if(valid) {
-						//this.$Message.success('Success!');
 						//将当前选中授权的门列表与初始的门列表对比相同的元素
 						for(var i = 0; i < this.projectPage.length; i++) {
 							for(var j = 0; j < this.projectInital.length; j++) {
@@ -259,7 +259,7 @@
 <style lang="scss" scoped>
 	// @import './style/common.scss'
 	.center {
-    		height: 100%;
+    	height: 100%;
 		background-color: #EFf2f5;
 		padding-top: 0.2rem;
 		.scoll {
@@ -314,6 +314,9 @@
 							.Icons {
 								font-size: 0.5rem;
 								color: #5698FF;
+							}
+							.Icons:active{
+								color: red;
 							}
 						}
 						.detele{
