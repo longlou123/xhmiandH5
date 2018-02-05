@@ -34,7 +34,7 @@
 				<i>{{isCancel}}</i>
 			</section>
     		<div class="next_btn">
-        		<Button type="primary" @click="again">重新发卡</Button>
+        		<Button type="primary" @click="again"  :disabled="yCancal">重新发卡</Button>
         		<Button type="primary"  @click="modal3 = true">删除信息</Button>
     		</div>
     			<Modal  v-model="modal3" @on-ok="delet()" >
@@ -62,9 +62,11 @@ import {getStore,saveStore} from '@/script/util'
 				startTime:null,
 				endTime:null,
 				isCancel:null,
+        yCancal:null,
 				num:null,
 				door:null,
 				cardNumber:null,
+        Id:null
 			}
 		},
 		mounted(){
@@ -76,13 +78,13 @@ import {getStore,saveStore} from '@/script/util'
         console.log(this.num);
         console.log((getStore("userData")));
 				this.$router.push({path:"/authorization", query: {
-                    value: this.num
+                    value: this.num,Id:this.Id
                 }})
-
 			},
 			add() {
 			this.num=this.$route.query.value;
 			this.data=JSON.parse(getStore("userData"));
+      this.Id=this.data[this.num].id;
 			this.name=this.data[this.num].name;
 			this.type=this.data[this.num].type
 			this.phone=this.data[this.num].phone;
@@ -103,8 +105,10 @@ import {getStore,saveStore} from '@/script/util'
             }
 			if(this.data[this.num].isCancel || new Date() > new Date(this.data[this.num].endTime)){
 				this.isCancel="无效"
+        this.yCancal=false
 			}else{
 				this.isCancel="有效"
+        this.yCancal=true
 			}
 		},
 		delet(){

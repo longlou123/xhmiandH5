@@ -58,14 +58,20 @@ export default {
       page:1,
       dataList:null,
       scrollMode:"touch",
+      num:null
 
       // showImg:false
     }
   },
-  mounted() {
+  mounted(index) {
+    console.log(1)
     this.getdata();
+    // Vue.set(this.doorList,index,res.result.cardList);
+
   },
   created() {
+  },
+  watch:{
 
   },
   methods: {
@@ -74,11 +80,11 @@ export default {
                 //this.allLoaded = true;// 若数据已全部获取完毕
              var _this = this;
              setTimeout(function () {
-                    if(_this.dataList<2){
+                    if(_this.dataList<4){
                         console.log('无数据更新')
                     }else{
                          _this.page = Number(_this.page) +1;
-                         _this.getdata();
+                         // _this.getdata();
                     }
                     _this.$refs.loadmore.onBottomLoaded();
                }, 1000);
@@ -91,7 +97,7 @@ export default {
       this.modalIndex = index;
       this.modal3 = true
     },
-    cancellation(item, index) {
+    cancellation(item,index) {
       var cardN = item.cardNumber.toString();
       this.$post('/ssh/grantCard/cancelGrantCard', {
         cardNumber: cardN
@@ -99,7 +105,7 @@ export default {
         if(res.errorCode===200){
         this.getdata();
         Vue.set(this.doorList,index,res.result.cardList);
-        console.log(res);
+        // console.log(res);
         }else{
 
         }
@@ -113,8 +119,7 @@ export default {
       this.$router.push({
         path: "/details",
         query: {
-          value: index + ''
-        }
+         value:index + ''}
       });
     },
     success() {
@@ -130,6 +135,7 @@ export default {
         "pageSize": 4,
         "pageNumber": _this.page
       }).then(res => {
+        // Vue.set(this.doorList,index,res.result.cardList);
         console.log(res);
          if (res.result.cardList.length === 0) {
           this.$router.push({path:"/doorCard"})
@@ -152,10 +158,12 @@ export default {
               this.showBtnList[i] = true;
             }
           }
+
         }
       }).catch(function(error) {
         console.log(error);
       });
+
     }
   }
 }

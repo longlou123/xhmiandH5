@@ -90,6 +90,7 @@
           pickerValuer: '',
           pickerValues:'',
           num:null,
+          Id:null,
           detailsData:null,
           ruleValidate: {
               name: [
@@ -136,6 +137,8 @@
         getQuery(){
           var _this=this;
           _this.num=_this.$route.query.value;
+          _this.Id=_this.$route.query.Id;
+          console.log(_this.$route.query);
           _this.detailsData=JSON.parse(getStore("userData"));
           _this.formValidate.name=_this.detailsData[_this.num].name;
           _this.formValidate.phone=_this.detailsData[_this.num].phone;
@@ -177,10 +180,8 @@
             });
         },
         removeTode(index) {
-
-             this.saveDoordata.splice(index, 1)
+            this.saveDoordata.splice(index, 1)
             // door_box[index].
-
             this.delet=true;
             this.$store.commit('SAVEDOOR',this.saveDoordata);
             // 储存修改的数据
@@ -202,6 +203,26 @@
             this.$refs[name].validate((valid) => {
                 if(this.$route.query.value){
                   //直接授权
+                  if (valid){
+                    for(var i = 0; i < this.saveDoordata.length; i++) {
+                        for(var j = 0; j < this.doorName.length; j++) {
+                        if(this.saveDoordata[i] == this.doorName[j].doorName) {
+                          this.sendData[i]=this.doorName[j];
+                        }
+                      }
+                    }
+                    this.formValidate.startTime=(this.formValidate.startTime+'00:00:00').substring(0, 19);
+                    this.formValidate.endTime=(this.formValidate.endTime+'23:59:59').substring(0, 19);
+                    console.log(this.formValidate.endTime);
+                    this.formValidate.doors = JSON.stringify(this.sendData);
+                    console.log(this.Id)
+                    this.$post('/ssh/grantCard/reGrantCardEvent',{id:this.Id,startTime:this.formValidate.startTime,endTime:this.formValidate.endTime,doors:this.formValidate.doors}).then(res=>{
+                      console.log(res)
+                      if(res.errorCode === 200){
+                        this.$router.push({path: "/management"})
+                      }
+                    })
+                  }
                 }
                 else{
                   if (valid) {
@@ -215,11 +236,14 @@
                     this.formValidate.granterPhone = getStore('granterPhone');
                     this.formValidate.projectCode = getStore('projectCode');
                     this.formValidate.doors = JSON.stringify(this.sendData);
-                    this.formValidate.startTime=this.formValidate.startTime+'00:00:00';
-                    this.formValidate.endTime=this.formValidate.endTime+'23:59:59';
+                    this.formValidate.startTime=(this.formValidate.startTime+'00:00:00').substring(0, 19);
+                    this.formValidate.endTime=(this.formValidate.endTime+'23:59:59').substring(0, 19);
                     this.$store.commit('MASSAGESAVE',this.formValidate);
+                    // console.log(this.formValidate)
                     saveStore( 'choisedDoorList', this.formValidate);
-                    this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
+                    this.$post('/ssh/grantCard/addCard',this.formValidate).then(res =>
+                    {
+                      console.log(res)
                       if(res.errorCode === 200){
                         this.$store.commit('CLEAR_FORM');
                         this.$router.push({path: "/activateCard", query: { cardID: res.result.cardId}})

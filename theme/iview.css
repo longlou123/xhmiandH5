@@ -14720,11 +14720,11 @@ a {
 
 }
   button.ivu-btn.ivu-btn-text.ivu-btn-large span{
-    color:#C0C0C1;
+    color:#26a2ff;
 
   }
   button.ivu-btn.ivu-btn-primary.ivu-btn-large span{
-    color:#C0C0C1;
+    color:#26a2ff;
     border-left:0.01rem solid #C0C0C1;
     padding-left:0.75rem;
     }
@@ -14742,13 +14742,13 @@ a {
     border-radius:0.2rem;
 
 }
-.entranceGuard .ivu-checkbox-group:hover{
-    /*background-color:#DEE7F0;*/
-}
- .authorization .ivu-form-item-error-tip{
-    font-size:0.24rem;
- }
- .project .ivu-radio-group{
+        .entranceGuard .ivu-checkbox-group:hover{
+         /*background-color:#DEE7F0;*/
+        }
+        .authorization .ivu-form-item-error-tip{
+        font-size:0.24rem;
+         }
+        .project .ivu-radio-group{
             width:90%;
             display: inline-block;
             font-size: 12px;
@@ -14760,7 +14760,7 @@ a {
             border-radius: 0.2rem;
             box-shadow: -5px -5px 5px #E8EBF4, 5px 5px 5px #E8EBF4, 5px 5px 5px #E8EBF4, 5px 5px 5px #E8EBF4;
         }
- .ivu-radio-group-vertical .ivu-radio-wrapper:hover{
+        .ivu-radio-group-vertical .ivu-radio-wrapper:hover{
             background-color:#DEE7F0;
             border-radius: 0.15rem;
         }
@@ -14776,7 +14776,7 @@ a {
             /*border-radius:0.15rem;*/
             background-color:#fff;
         }
-.entranceGuard .ivu-checkbox-wrapper:hover{
+        .entranceGuard .ivu-checkbox-wrapper:hover{
             background-color:#DEE7F0;
         }
 
@@ -14795,11 +14795,11 @@ a {
           color:red;
         }
         button.ivu-btn.ivu-btn-primary.ivu-btn-large span:active{
-    color:red;
-}
-.ivu-btn.ivu-btn-text.ivu-btn-large span:active{
-  color:red;
-}
+        color:red;
+        }
+         .ivu-btn.ivu-btn-text.ivu-btn-large span:active{
+        color:red;
+        }
         /*// 卡片动画属性*/
                      /* 开始过渡阶段,动画出去阶段 */
               /*    .fade-enter-active,.fade-leave-active{
@@ -14818,4 +14818,7 @@ a {
 .main .ivu-btn-primary{
     height:0.89rem;
     width:6.92rem;
+}
+.ivu-modal-close .ivu-icon-ios-close-empty{
+    display:none;
 }
