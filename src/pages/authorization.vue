@@ -120,8 +120,7 @@
           this.getdata();
           var d = new Date();
           this.formValidate.startTime = d.format("yyyy-MM-dd ");
-          // if()
-          // this.formValidate.endTime = d.format("yyyy-MM-dd hh:mm");
+          // this.addBtnClass();
     },
     watch:{
       pickerValuer(){
@@ -134,6 +133,17 @@
     },
     methods:{
         // 获取query的值
+        addBtnClass(){
+          var sumHeight = document.body.offsetHeight;
+          var obj = document.getElementsByClassName('btn')[0];
+          var scoll = document.getElementsByClassName('scoll')[0];
+          var docEl = document.documentElement;
+          var scollH = scoll.clientHeight;
+          var clientWidth = docEl.clientWidth;
+          console.log(scoll.style)
+          var marginT = sumHeight - scollH - (0.89 + 0.8) * (100 * (clientWidth /750))
+          obj.style.marginTop = marginT + 'px';
+        },
         getQuery(){
           var _this=this;
           _this.num=_this.$route.query.value;
@@ -256,11 +266,12 @@ html,body{
 }
     .authorization{
       height: 100%;
-      padding-top:0.2rem;
+      // padding-top:0.2rem;
       // margin-left:7.5rem;
     	.scoll{
     		width: 100%;
     		height: 9rem;
+        padding-top: 0.2rem;
     		overflow-y: auto;
     		Form{
     		    width: 90%;
@@ -347,7 +358,7 @@ html,body{
     				        }
     			         }
     	             .btn{
-                        margin-top: 0.6rem;
+                        // margin-top: 0.6rem;
 			               Button{
 				                width: 6.92rem;
 				                height: 0.89rem;
