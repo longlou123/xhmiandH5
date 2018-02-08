@@ -97,7 +97,7 @@ export default {
 				console.log(error);
 			});
 		},
-		sure(num	) {
+		sure(num) {
 			var _this = this
 			this.$router.push({path: "/callerDetail", query: {value: num}});
 		}
