@@ -108,9 +108,9 @@
 			height: 10rem;
 			width: 100%;
 			overflow-y: auto;
-		}	
+		}
 	}
-	
+
 	.entranceGuard {
 		width: 90%;
 		background-color: #ffffff;
@@ -148,7 +148,7 @@
 				text-align: left;
 			}
 		}
-	}		
+	}
 	.next_btn {
 		margin: 0 auto;
 		width: 6.92rem;

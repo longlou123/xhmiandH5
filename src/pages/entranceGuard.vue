@@ -1,5 +1,6 @@
 <template>
     <div class="big_box">
+    <div class="doorList">
         <div class="entranceGuard">
     <div class="entranceGuard_box" >
         <Checkbox
@@ -11,12 +12,14 @@
     <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
         <Checkbox :label="item" v-for="(item,index) in dataDoor" :key="item.id"></Checkbox>
     </CheckboxGroup>
-
   </div>
-   <div class="next_btn">
+    </div>
+    <div class="next_btn">
         <Button type="primary" shape="circle" :long="true" class="btn" @click="nextClick()">确定</Button>
       </div>
     </div>
+
+
 </template>
 <script >
 import { mapState, mapMutations } from 'vuex';
@@ -100,6 +103,11 @@ import {getStore,saveStore} from '@/script/util'
 <style lang="scss" scoped>
   .big_box{
     height: 100%;
+    .doorList{
+      height: 10rem;
+      width: 100%;
+      overflow-y: auto;
+    }
   }
 	.entranceGuard{
         width: 90%;
@@ -141,16 +149,21 @@ import {getStore,saveStore} from '@/script/util'
 			}
 
 	    }
-      .next_btn{
-        margin-top:3rem;
-                Button{
+      .next_btn {
+    z-index:-1;
+    Button {
+      position:absolute;
+                        margin:auto;
+                        // top:0;
+                        left:0;
+                        right:0;
+                        bottom:0.4rem;
                         width: 6.92rem;
                         height: 0.89rem;
                         border-radius:0.2rem;
                         font-size:0.36rem;
                         color:#ffffff;
+    }
+  }
 
-                      }
-
-            }
 </style>

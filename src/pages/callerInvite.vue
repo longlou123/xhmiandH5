@@ -192,6 +192,9 @@
 					var Month = this.selectTimeEnd.getMonth()+1;
 					if(Month<10){Month = '0'+Month;}
 					var Date = this.selectTimeEnd.getDate();
+          if(Date<10){
+            Date = '0'+Date;
+          }
 					var hour = this.selectTimeEnd.getHours();
 					if(hour<10){
 						hour = '0'+hour;

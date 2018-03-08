@@ -69,7 +69,6 @@
    		 </div>
 		</div>
    		 <div class="btn" @click="handleSubmit('formValidate')">
-    		<!-- <button type="primary" >下一步</button> -->
          <Button  type="primary">下一步</Button>
     	</div>
 	</div>
@@ -267,16 +266,17 @@ html,body{
 }
     .authorization{
       height: 100%;
+      background-color: #EFf2f5;
       padding-top:0.2rem;
-      // margin-left:7.5rem;
     	.scoll{
     		width: 100%;
-    		height: 9rem;
+    		height: 90%;
     		overflow-y: auto;
+
     		Form{
     		    width: 90%;
             border-radius:0.15rem;
-    		    height: 6rem;
+    		    height: 6.2rem;
     		    background-color:#ffffff;
     		    margin: 0.2rem 0.3rem 0.2rem 0.4rem;
             padding:0.5rem 0.3rem 0.2rem 0;
@@ -358,16 +358,27 @@ html,body{
     					       }
     				        }
     			         }
-    	             .btn{
-                        margin-top: 0.6rem;
-			               Button{
-				                width: 6.92rem;
-				                height: 0.89rem;
-				                border-radius:0.2rem;
+                   @media (max-height:  0.8rem) {
+
+                    }
+                     .btn{
+                    z-index: -1;
+                     Button{
+                        position:absolute;
+                        margin:auto;
+                        // top:0;
+                        left:0;
+                        right:0;
+                        bottom:0.6rem;
+                        width: 6.92rem;
+                        height: 0.89rem;
+                        border-radius:0.2rem;
                         font-size:0.36rem;
-				                color:#ffffff;
-			                }
-		                }
+                        color:#ffffff;
+
+                      }
+                    }
+
                   }
   .list-item {
       display: inline-block;
