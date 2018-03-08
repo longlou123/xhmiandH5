@@ -120,7 +120,7 @@
           this.getdata();
           var d = new Date();
           this.formValidate.startTime = d.format("yyyy-MM-dd ");
-          // this.formValidate.endTime = d.format("yyyy-MM-dd hh:mm");
+          // this.addBtnClass();
     },
     watch:{
       pickerValuer(){
@@ -133,6 +133,17 @@
     },
     methods:{
         // 获取query的值
+        addBtnClass(){
+          var sumHeight = document.body.offsetHeight;
+          var obj = document.getElementsByClassName('btn')[0];
+          var scoll = document.getElementsByClassName('scoll')[0];
+          var docEl = document.documentElement;
+          var scollH = scoll.clientHeight;
+          var clientWidth = docEl.clientWidth;
+          console.log(scoll.style)
+          var marginT = sumHeight - scollH - (0.89 + 0.8) * (100 * (clientWidth /750))
+          obj.style.marginTop = marginT + 'px';
+        },
         getQuery(){
           var _this=this;
           _this.num=_this.$route.query.value;
@@ -149,7 +160,9 @@
             var _userName = getStore('userName');
             var _granterPhone = getStore('granterPhone');
             if(_this.$route.query.value){
-                _this.getQuery();
+                this.getQuery();
+            } else if(this.$route.query.return) {
+                this.$store.commit('RELOAD_FORM', JSON.parse(getStore('choisedDoorList')))
             }
             _this.$post('/ssh/openDoor/getDoorByPhone', {
                 projectCode: _projectCode,
@@ -235,15 +248,22 @@
                     this.formValidate.granterPhone = getStore('granterPhone');
                     this.formValidate.projectCode = getStore('projectCode');
                     this.formValidate.doors = JSON.stringify(this.sendData);
-                    this.formValidate.startTime=(this.formValidate.startTime+'00:00:00').substring(0, 19);
-                    this.formValidate.endTime=(this.formValidate.endTime+'23:59:59').substring(0, 19);
+                    if(this.formValidate.startTime.indexOf('00:00:00') == -1){
+                      this.formValidate.startTime=this.formValidate.startTime+'00:00:00';
+                    }
+                    if (this.formValidate.endTime.indexOf('23:59:59') == -1) {
+                      this.formValidate.endTime=this.formValidate.endTime+'23:59:59';
+                    }
                     this.$store.commit('MASSAGESAVE',this.formValidate);
-                    // console.log(this.formValidate)
-                    saveStore( 'choisedDoorList', this.formValidate);
-                    this.$post('/ssh/grantCard/addCard',this.formValidate).then(res =>
-                    {
-                      console.log(res)
+                    this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
                       if(res.errorCode === 200){
+                        if (this.formValidate.endTime.indexOf('23:59:59') != -1) {
+                          this.formValidate.endTime = this.formValidate.endTime.slice(0, this.formValidate.endTime.indexOf('23:59:59'))
+                        }
+                        if (this.formValidate.startTime.indexOf('00:00:00') != -1) {
+                          this.formValidate.startTime = this.formValidate.startTime.slice(0, this.formValidate.startTime.indexOf('00:00:00'))
+                        }
+                        saveStore( 'choisedDoorList', this.formValidate);
                         this.$store.commit('CLEAR_FORM');
                         this.$router.push({path: "/activateCard", query: { cardID: res.result.cardId}})
                       }
@@ -266,11 +286,10 @@ html,body{
 }
     .authorization{
       height: 100%;
-      background-color: #EFf2f5;
-      padding-top:0.2rem;
     	.scoll{
     		width: 100%;
-    		height: 90%;
+    		height: 9rem;
+        padding-top: 0.2rem;
     		overflow-y: auto;
 
     		Form{
@@ -318,7 +337,6 @@ html,body{
 							             text-overflow:ellipsis;
 							             font-size: 0.24rem;
                             border-radius:0.02rem;
-
                            }
                       .spns{
                           width:1rem;
@@ -358,21 +376,12 @@ html,body{
     					       }
     				        }
     			         }
-                   @media (max-height:  0.8rem) {
-
-                    }
-                     .btn{
-                    z-index: -1;
-                     Button{
-                        position:absolute;
-                        margin:auto;
-                        // top:0;
-                        left:0;
-                        right:0;
-                        bottom:0.6rem;
-                        width: 6.92rem;
-                        height: 0.89rem;
-                        border-radius:0.2rem;
+    	             .btn{
+                        margin-top: 0.8rem;
+			               Button{
+				                width: 6.92rem;
+				                height: 0.89rem;
+				                border-radius:0.2rem;
                         font-size:0.36rem;
                         color:#ffffff;
 

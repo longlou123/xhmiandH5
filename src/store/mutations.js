@@ -8,6 +8,7 @@ import{
 	USERNAME,
 	MASSAGESAVE,
 	CLEAR_FORM,
+  RELOAD_FORM
 } from './mutation-types.js'
 
 export default{
@@ -34,5 +35,7 @@ export default{
   [CLEAR_FORM](state){
     state.formValidate = {}
   },
-
+  [RELOAD_FORM](state,data){
+    state.formValidate = data
+  },
 }
