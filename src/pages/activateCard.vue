@@ -287,7 +287,7 @@ import { MessageBox } from 'mint-ui';
       height: 5.5rem;
       margin: 0 auto;
       margin-top: 0.2rem;
-      background: url('http://202.105.96.131:3002/sendCard/static/active.jpg');
+      background: url('http://202.105.96.131:3002/active.jpg');
       background-size: 100% 100%;
     }
     overflow: hidden;
