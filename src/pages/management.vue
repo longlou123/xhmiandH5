@@ -138,7 +138,6 @@ export default {
         // Vue.set(this.doorList,index,res.result.cardList);
         console.log(res);
          if (res.result.cardList.length === 0) {
-          // this.$router.push({path:"/doorCard"})
           this.hasData = false;
         }else{
           this.dataList=res.result.cardList.length;
