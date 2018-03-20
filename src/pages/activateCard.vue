@@ -353,21 +353,21 @@ import { MessageBox } from 'mint-ui';
       width: 6.6rem;
       margin: 0 auto;
       margin-bottom: 0.3rem;
-      margin-top: 1rem;
+      // margin-top: 1rem;
       background-color: #fff;
       box-shadow: 0 0.12rem 0.21rem 0 #ced4e5;
       border-radius: 0.1rem;
       padding-top: 0.8rem;
     }
     .next_btn{
-      width: 6.92rem;
-      height:0.89rem;
-      margin: 0 auto;
-      margin-top: 0.6rem;
-      span{
-        font-size: 0.3rem;
-        color: #fff;
-      }
+     margin-top: 0.8rem;
+                        Button{
+                        width: 6.92rem;
+                        height: 0.89rem;
+                        border-radius:0.2rem;
+                        font-size:0.36rem;
+                        color:#ffffff;
+                      }
     }
     .error_text{
       color: red;
