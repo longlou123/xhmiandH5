@@ -120,6 +120,7 @@
           this.getdata();
           var d = new Date();
           this.formValidate.startTime = d.format("yyyy-MM-dd ");
+          this.formValidate.endTime = d.format("yyyy-MM-dd ");
           // this.addBtnClass();
     },
     watch:{
