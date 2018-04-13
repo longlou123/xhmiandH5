@@ -69,7 +69,6 @@
    		 </div>
 		</div>
    		 <div class="btn" @click="handleSubmit('formValidate')">
-    		<!-- <button type="primary" >下一步</button> -->
          <Button  type="primary">下一步</Button>
     	</div>
 	</div>
@@ -90,6 +89,7 @@
           pickerValuer: '',
           pickerValues:'',
           num:null,
+          Id:null,
           detailsData:null,
           ruleValidate: {
               name: [
@@ -120,7 +120,8 @@
           this.getdata();
           var d = new Date();
           this.formValidate.startTime = d.format("yyyy-MM-dd ");
-          // this.formValidate.endTime = d.format("yyyy-MM-dd hh:mm");
+          this.formValidate.endTime = d.format("yyyy-MM-dd ");
+          // this.addBtnClass();
     },
     watch:{
       pickerValuer(){
@@ -133,9 +134,22 @@
     },
     methods:{
         // 获取query的值
+        addBtnClass(){
+          var sumHeight = document.body.offsetHeight;
+          var obj = document.getElementsByClassName('btn')[0];
+          var scoll = document.getElementsByClassName('scoll')[0];
+          var docEl = document.documentElement;
+          var scollH = scoll.clientHeight;
+          var clientWidth = docEl.clientWidth;
+          console.log(scoll.style)
+          var marginT = sumHeight - scollH - (0.89 + 0.8) * (100 * (clientWidth /750))
+          obj.style.marginTop = marginT + 'px';
+        },
         getQuery(){
           var _this=this;
           _this.num=_this.$route.query.value;
+          _this.Id=_this.$route.query.Id;
+          console.log(_this.$route.query);
           _this.detailsData=JSON.parse(getStore("userData"));
           _this.formValidate.name=_this.detailsData[_this.num].name;
           _this.formValidate.phone=_this.detailsData[_this.num].phone;
@@ -147,7 +161,9 @@
             var _userName = getStore('userName');
             var _granterPhone = getStore('granterPhone');
             if(_this.$route.query.value){
-                _this.getQuery();
+                this.getQuery();
+            } else if(this.$route.query.return) {
+                this.$store.commit('RELOAD_FORM', JSON.parse(getStore('choisedDoorList')))
             }
             _this.$post('/ssh/openDoor/getDoorByPhone', {
                 projectCode: _projectCode,
@@ -177,10 +193,8 @@
             });
         },
         removeTode(index) {
-
-             this.saveDoordata.splice(index, 1)
+            this.saveDoordata.splice(index, 1)
             // door_box[index].
-
             this.delet=true;
             this.$store.commit('SAVEDOOR',this.saveDoordata);
             // 储存修改的数据
@@ -202,6 +216,26 @@
             this.$refs[name].validate((valid) => {
                 if(this.$route.query.value){
                   //直接授权
+                  if (valid){
+                    for(var i = 0; i < this.saveDoordata.length; i++) {
+                        for(var j = 0; j < this.doorName.length; j++) {
+                        if(this.saveDoordata[i] == this.doorName[j].doorName) {
+                          this.sendData[i]=this.doorName[j];
+                        }
+                      }
+                    }
+                    this.formValidate.startTime=(this.formValidate.startTime+'00:00:00').substring(0, 19);
+                    this.formValidate.endTime=(this.formValidate.endTime+'23:59:59').substring(0, 19);
+                    console.log(this.formValidate.endTime);
+                    this.formValidate.doors = JSON.stringify(this.sendData);
+                    console.log(this.Id)
+                    this.$post('/ssh/grantCard/reGrantCardEvent',{id:this.Id,startTime:this.formValidate.startTime,endTime:this.formValidate.endTime,doors:this.formValidate.doors}).then(res=>{
+                      console.log(res)
+                      if(res.errorCode === 200){
+                        this.$router.push({path: "/management"})
+                      }
+                    })
+                  }
                 }
                 else{
                   if (valid) {
@@ -215,12 +249,22 @@
                     this.formValidate.granterPhone = getStore('granterPhone');
                     this.formValidate.projectCode = getStore('projectCode');
                     this.formValidate.doors = JSON.stringify(this.sendData);
-                    this.formValidate.startTime=this.formValidate.startTime+'00:00:00';
-                    this.formValidate.endTime=this.formValidate.endTime+'23:59:59';
+                    if(this.formValidate.startTime.indexOf('00:00:00') == -1){
+                      this.formValidate.startTime=this.formValidate.startTime+'00:00:00';
+                    }
+                    if (this.formValidate.endTime.indexOf('23:59:59') == -1) {
+                      this.formValidate.endTime=this.formValidate.endTime+'23:59:59';
+                    }
                     this.$store.commit('MASSAGESAVE',this.formValidate);
-                    saveStore( 'choisedDoorList', this.formValidate);
                     this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
                       if(res.errorCode === 200){
+                        if (this.formValidate.endTime.indexOf('23:59:59') != -1) {
+                          this.formValidate.endTime = this.formValidate.endTime.slice(0, this.formValidate.endTime.indexOf('23:59:59'))
+                        }
+                        if (this.formValidate.startTime.indexOf('00:00:00') != -1) {
+                          this.formValidate.startTime = this.formValidate.startTime.slice(0, this.formValidate.startTime.indexOf('00:00:00'))
+                        }
+                        saveStore( 'choisedDoorList', this.formValidate);
                         this.$store.commit('CLEAR_FORM');
                         this.$router.push({path: "/activateCard", query: { cardID: res.result.cardId}})
                       }
@@ -243,16 +287,16 @@ html,body{
 }
     .authorization{
       height: 100%;
-      padding-top:0.2rem;
-      // margin-left:7.5rem;
     	.scoll{
     		width: 100%;
     		height: 9rem;
+        padding-top: 0.2rem;
     		overflow-y: auto;
+
     		Form{
     		    width: 90%;
             border-radius:0.15rem;
-    		    height: 6rem;
+    		    height: 6.2rem;
     		    background-color:#ffffff;
     		    margin: 0.2rem 0.3rem 0.2rem 0.4rem;
             padding:0.5rem 0.3rem 0.2rem 0;
@@ -294,7 +338,6 @@ html,body{
 							             text-overflow:ellipsis;
 							             font-size: 0.24rem;
                             border-radius:0.02rem;
-
                            }
                       .spns{
                           width:1rem;
@@ -335,15 +378,17 @@ html,body{
     				        }
     			         }
     	             .btn{
-                        margin-top: 0.6rem;
+                        margin-top: 0.8rem;
 			               Button{
 				                width: 6.92rem;
 				                height: 0.89rem;
 				                border-radius:0.2rem;
                         font-size:0.36rem;
-				                color:#ffffff;
-			                }
-		                }
+                        color:#ffffff;
+
+                      }
+                    }
+
                   }
   .list-item {
       display: inline-block;
