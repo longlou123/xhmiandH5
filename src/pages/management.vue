@@ -84,7 +84,7 @@ export default {
                         console.log('无数据更新')
                     }else{
                          _this.page = Number(_this.page) +1;
-                         // _this.getdata();
+                         _this.getdata();
                     }
                     _this.$refs.loadmore.onBottomLoaded();
                }, 1000);
