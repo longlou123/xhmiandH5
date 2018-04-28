@@ -67,8 +67,9 @@ import {getStore,saveStore} from '@/script/util'
           });
             },
             nextClick(){
-            this.$store.commit('SAVEDOOR',this.checkAllGroup);
-            this.$router.push({path:"/authorization"})
+                this.$store.commit('SAVEDOOR',this.checkAllGroup);
+              // this.$router.push({path:"/authorization"})
+                history.back(-1);
                 },
 
             handleCheckAll () {

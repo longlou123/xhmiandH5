@@ -68,6 +68,7 @@
 			}
 		},
 		mounted() {
+      this.judgePhone();
 			this.newData();
 			this.active();
 		},
@@ -82,14 +83,13 @@
 		        var u = navigator.userAgent;
 		        this.isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 		        this.iOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-		     },
-	      	share() {
-	      		this.judgePhone();
-	      		if(this.isAndroid && !this.iOS){
-	      			jsObj.twoDimensionCode("http://202.105.96.131:3002/sendCard/#/twoDimension?id="+this.id,this.startTime,this.endTime);
-	      		}else if(!this.isAndroid && this.iOS){
-	      			 window.webkit.messageHandlers.passValue.postMessage({url:"http://202.105.96.131:3002/sendCard/#/twoDimension?id="+this.id,startTime:this.startTime,endTime:this.endTime});
-	      		}else{}
+      },
+      share() {
+        if(this.isAndroid && !this.iOS){
+          jsObj.twoDimensionCode("http://202.105.96.131:3002/sendCard/#/twoDimension?id="+this.id,this.startTime,this.endTime);
+        }else if(!this.isAndroid && this.iOS){
+           window.webkit.messageHandlers.passValue.postMessage({url:"http://202.105.96.131:3002/sendCard/#/twoDimension?id="+this.id,startTime:this.startTime,endTime:this.endTime});
+        }
 			},
 			newData(){
 				this.data = JSON.parse(getStore("userData"));

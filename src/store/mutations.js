@@ -8,7 +8,8 @@ import{
 	USERNAME,
 	MASSAGESAVE,
 	CLEAR_FORM,
-  RELOAD_FORM
+  RELOAD_FORM,
+  SAVE_CARDURL
 } from './mutation-types.js'
 
 export default{
@@ -38,4 +39,8 @@ export default{
   [RELOAD_FORM](state,data){
     state.formValidate = data
   },
+  [SAVE_CARDURL](state,url){
+    state.authorizationUrl = url
+    console.log(url)
+  }
 }
