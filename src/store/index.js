@@ -13,6 +13,7 @@ const state = {
   formValidate: {},
   userData:[],
   viewDirection: '',
+  authorizationUrl: '',
 }
 
 export default new Vuex.Store({

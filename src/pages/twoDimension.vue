@@ -62,7 +62,7 @@ export default {
 				this.qrcode.makeCode(this.codeData);
 				this.startTime = res.result.startTime;
 				this.endTime = res.result.endTime;
-				this.useCount = res.result.useCount
+				this.useCount = res.result.useCount==0?'次数不限':res.result.useCount
 				var date = new Date(res.result.createTime);
 				var Y = date.getFullYear();
 				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) ;
@@ -93,7 +93,6 @@ export default {
     	background-color:#EFf2f5;
     padding-top:0.20rem;
     .content{
-    		height: 9.6rem;
     		width: 100%;
     		background-color: white;
     }
@@ -108,6 +107,8 @@ export default {
     		}
     }
     .name{
+      margin-top: 1rem;
+      margin-bottom: 0.2rem;
     	font-size: 0.38rem;
     }
     .message{

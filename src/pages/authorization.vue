@@ -3,21 +3,21 @@
 		<div class="scoll">
 			<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
         	<FormItem label="姓名 :" prop="name">
-            	<Input v-model="formValidate.name" placeholder="访客姓名"></Input>
+            	<Input v-model="formValidate.name" placeholder="访客姓名" :disabled="hasParams"></Input>
         	</FormItem>
         	<FormItem label="类型 :" prop="type">
-            <Select v-model="formValidate.type" placeholder="请选择访客类型">
+            <Select v-model="formValidate.type" placeholder="请选择访客类型" :disabled="hasParams">
                 <Option value="1">家属</Option>
                 <Option value="2">租客</Option>
                 <Option value="3">访客</Option>
             </Select>
         	</FormItem>
         	<FormItem label="手机 :" prop="phone">
-            	<Input v-model="formValidate.phone" placeholder=""></Input>
+            	<Input v-model="formValidate.phone" placeholder="" :disabled="hasParams"></Input>
        		 </FormItem>
         	 <div  @click="show">
              <FormItem label="生效日期 :"  prop="startTime">
-              <Input v-model="formValidate.startTime" placeholder=""  readonly ></Input>
+              <Input v-model="formValidate.startTime" placeholder=""  readonly :disabled="hasParams"></Input>
           </FormItem>
            </div>
           <mt-datetime-picker
@@ -28,6 +28,7 @@
             month-format=" {value} 月"
             date-format=" {value} 日"
             :startDate="this.time"
+            :disabled="hasParams"
             >
           </mt-datetime-picker>
           <mt-datetime-picker
@@ -38,11 +39,12 @@
             month-format=" {value} 月"
             date-format=" {value} 日"
             :startDate="this.time"
+            :disabled="hasParams"
             >
           </mt-datetime-picker>
           <div  @click="show_box">
             <FormItem label="失效日期 :" prop="endTime" >
-               <Input v-model="formValidate.endTime" placeholder=""  readonly></Input>
+               <Input v-model="formValidate.endTime" placeholder=""  readonly :disabled="hasParams"></Input>
           </FormItem>
           </div>
    		 </Form>
@@ -91,6 +93,7 @@
           num:null,
           Id:null,
           detailsData:null,
+          hasParams: false,
           ruleValidate: {
               name: [
                   { required: true, message: '请填写使用人', trigger: 'blur' }
@@ -111,16 +114,16 @@
       }
     },
     computed:{
-      ...mapState(['saveDoor','projectDoor','formValidate'])
+      ...mapState(['saveDoor','projectDoor','formValidate', 'authorizationUrl'])
     },
     created(){
 
     },
     mounted(){
           this.getdata();
+          this.getUrlParams();
           var d = new Date();
           this.formValidate.startTime = d.format("yyyy-MM-dd ");
-          this.formValidate.endTime = d.format("yyyy-MM-dd ");
           // this.addBtnClass();
     },
     watch:{
@@ -133,7 +136,22 @@
         }
     },
     methods:{
+        // 保存url
+        saveUrl() {
+          this.$store.commit('SAVE_CARDURL', window.location.href)
+        },
+
         // 获取query的值
+        getUrlParams() {
+          if (this.$route.query.userName&&this.$route.query.projectCode&&this.$route.query.granterPhone&&this.$route.query.name&&this.$route.query.type&&this.$route.query.phone&&this.$route.query.endTime) {
+            this.formValidate.name = this.$route.query.name;
+            this.formValidate.type = this.$route.query.type;
+            this.formValidate.phone = this.$route.query.phone;
+            this.formValidate.endTime = this.$route.query.endTime;
+            this.hasParams = true;  // 禁用表单
+            this.saveUrl();
+          }
+        },
         addBtnClass(){
           var sumHeight = document.body.offsetHeight;
           var obj = document.getElementsByClassName('btn')[0];
@@ -200,10 +218,14 @@
             // 储存修改的数据
         },
         show(){
-            this.$refs.pickers.open();
+            if (!this.hasParams) {
+              this.$refs.pickers.open();
+            }
         },
         show_box(){
-            this.$refs.picker.open();
+            if (!this.hasParams) {
+              this.$refs.picker.open();
+            }
         },
         sure(){
             if(this.delet){
@@ -225,7 +247,7 @@
                       }
                     }
                     this.formValidate.startTime=(this.formValidate.startTime+'00:00:00').substring(0, 19);
-                    this.formValidate.endTime=(this.formValidate.endTime+'23:59:59').substring(0, 19);
+                    this.formValidate.endTime=(this.formValidate.endTime+' 23:59:59').substring(0, 19);
                     console.log(this.formValidate.endTime);
                     this.formValidate.doors = JSON.stringify(this.sendData);
                     console.log(this.Id)
@@ -253,11 +275,12 @@
                       this.formValidate.startTime=this.formValidate.startTime+'00:00:00';
                     }
                     if (this.formValidate.endTime.indexOf('23:59:59') == -1) {
-                      this.formValidate.endTime=this.formValidate.endTime+'23:59:59';
+                      this.formValidate.endTime=this.formValidate.endTime+' 23:59:59';
                     }
                     this.$store.commit('MASSAGESAVE',this.formValidate);
                     this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
                       if(res.errorCode === 200){
+                        console.log(res)
                         if (this.formValidate.endTime.indexOf('23:59:59') != -1) {
                           this.formValidate.endTime = this.formValidate.endTime.slice(0, this.formValidate.endTime.indexOf('23:59:59'))
                         }

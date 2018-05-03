@@ -53,25 +53,50 @@ export default {
       tipsText2: '请选择一个方便您授权发卡的门禁读头',
       currents: 0, //步骤条的步骤数
       countTime: 30,
+      tempTime: null,
+      long: true,    // 当前轮询是短时还是长时
       selectValue: '',
       countTimer: null,
       longAskTimer: null,
-      firstCount: 10,
+      firstCount: 30, // 首次轮询30s
       secondCount: 15,
       cardID: null,
       doorID: null,
       doorList: [],
       errorText: false,
+      doors: null,
+      grantNo: null
     }
   },
   computed: {
-    ...mapState(['massageSave'])
+    ...mapState(['massageSave', 'authorizationUrl'])
   },
   mounted() {
     this.stepStatus = 0;
     this.initData();
   },
   methods: {
+    // 成功后判断不同端去传输数据和跳出webview
+    judgeToComplete() {
+      var u = navigator.userAgent;
+      var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+      var iOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+      if (isAndroid && ! iOS) {
+        jsObj.twoDimensionCode(this.doors, this.grantNo);
+      }else if(!isAndroid && iOS){
+        window.webkit.messageHandlers.passValue.postMessage({doors: this.doors, grantNo: this.grantNo});
+      }
+    },
+    judgeToClose() {
+      var u = navigator.userAgent;
+      var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+      var iOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+      if (isAndroid && ! iOS) {
+        jsObj.finished();
+      }else if(!isAndroid && iOS){
+        window.webkit.messageHandlers.passValue.postMessage({finish: true});
+      }
+    },
     initData() {
       this.cardID = this.$route.query.cardID;
       this.doorList = JSON.parse(getStore('choisedDoorList')).doors;
@@ -86,14 +111,19 @@ export default {
           this.registerFirst();
         }
       } else if (this.stepStatus === 3) {
-        this.$router.push({ path: '/management' });
+        if (this.authorizationUrl) {
+          this.judgeToClose();
+        } else {
+          history.back(-1);
+          // this.$router.push({ path: '/management' });
+        }
       }
     },
     // 第一次注册
     registerFirst() {
       this.$post('/ssh/grantCard/registerCardEvent', {
         cardId: this.cardID,
-        doorID: this.doorID, // 测试们
+        doorID: this.doorID, // 测试门
       }).then(res => {
         console.log(res);
         if (res.errorCode === 200) {
@@ -115,8 +145,7 @@ export default {
       }).then(res => {
         console.log(res);
         if (res.errorCode === 200) {
-          clearInterval(this.longAskTimer);
-          this.longAsk();
+          this.longAsk(this.secondCount, false);
         } else {
           console.log(res)
           this.tipsText1 = '' + res.message;
@@ -133,11 +162,13 @@ export default {
       this.$post('/ssh/grantCard/grantCardEvent', {
         cardId: this.cardID,
       }).then(res => {
+        console.log(res)
         if (res.errorCode === 200) {
-          this.switchJuged(3);
-          clearInterval(this.countTimer);
           clearInterval(this.longAskTimer);
-          // console.log('最终成功');
+          this.doors = res.result.doors;
+          this.grantNo = res.result.cardNumber;
+          this.switchJuged(3);
+          this.judgeToComplete();
         } else {
           this.tipsText1 = '' + res.message;
           this.allRestart();
@@ -150,64 +181,72 @@ export default {
     },
     // 全部清除重新开始
     allRestart() {
-      clearInterval(this.countTimer);
       clearInterval(this.longAskTimer);
       this.switchJuged(10);
       document.getElementsByClassName('btn')[0].removeAttribute('disabled');
     },
     // 计时
-    count(num) {
-      this.countTime = num;
-      var _this = this;
-      this.countTimer = setInterval(function() {
-        _this.countTime = parseInt(_this.countTime);
-        _this.countTime--;
-        if (_this.countTime < 10 && _this.countTime >= 0) {
-          _this.countTime = '0' + _this.countTime;
-        }
-        if (_this.countTime <= 0) {
-          clearInterval(_this.longAskTimer)
-          clearInterval(_this.countTimer);
-          if (num === _this.firstCount) {
-            _this.registerFirst();
-          }
-          if (num === _this.secondCount) {
-            _this.registerSec();
-          }
-          _this.countTime = num;
-
-        }
-      }, 1000)
-    },
+    // count(num) {
+    //   this.countTime = num;
+    //   var _this = this;
+    //   this.countTimer = setInterval(function() {
+    //     _this.countTime = parseInt(_this.countTime);
+    //     _this.countTime--;
+    //     if (_this.countTime < 10 && _this.countTime >= 0) {
+    //       _this.countTime = '0' + _this.countTime;
+    //     }
+    //     if (_this.countTime <= 0) {
+    //       clearInterval(_this.longAskTimer)
+    //       clearInterval(_this.countTimer);
+    //       if (num === _this.firstCount) {
+    //         _this.registerFirst();
+    //       }
+    //       if (num === _this.secondCount) {
+    //         _this.registerSec();
+    //       }
+    //       _this.countTime = num;
+    //     }
+    //   }, 1000)
+    // },
     // 轮询
-    longAsk() {
+    longAsk(num, long) {
       var _this = this;
+      this.tempTime = num;
+      this.long = long;
       this.longAskTimer = setInterval(function() {
+        _this.tempTime = _this.tempTime - 2;
         _this.$post('/ssh/grantCard/checkCallBack', {
           cardId: _this.cardID,
         }).then(res => {
           console.log(res.result);
           if (res.errorCode === 200) {
             if (res.result.number === 1 && res.result.registerNumber === 1) {
+              clearInterval(_this.longAskTimer)
               _this.switchJuged(2);
+            } else if (res.result.number === 2 && res.result.registerNumber === 2) {
               clearInterval(_this.longAskTimer)
-              clearInterval(_this.countTimer);
-            }
-            if (res.result.number === 2 && res.result.registerNumber === 2) {
-              clearInterval(_this.longAskTimer)
-              clearInterval(_this.countTimer);
               _this.grantCard();
             }
           } else {
             console.log(res.errorCode)
-            this.tipsText1 = '' + res.message;
+            _this.tipsText1 = '' + res.message;
             // _this.allRestart();
+          }
+          // 判断是30s的还是15s的
+          if (_this.tempTime<=0) {
+              if (_this.long) {
+                _this.tempTime = _this.firstCount;
+                _this.registerFirst();  // 重新注册1
+              } else {
+                _this.tempTime = _this.secondCount;
+                _this.switchJuged(2);   //重新注册2
+              }
           }
         }).catch(err => {
           console.log(err)
           this.tipsText1 = '' + res.message;
         })
-      }, 2000)
+      }, 1000)
     },
     switchJuged(num) {
       this.stepStatus = num;
@@ -222,19 +261,15 @@ export default {
           this.tipsText1 = '第一次读卡';
           this.tipsText2 = '请将IC卡放置需要授权的门禁读头';
           this.btnText = '下一步';
-          clearInterval(this.countTimer);
           clearInterval(this.longAskTimer);
-          this.count(this.firstCount);
           this.currents = 1;
-          this.longAsk();
+          this.longAsk(this.firstCount, true);
           break
         case 2:
           this.tipsText1 = '第二次读卡';
           this.tipsText2 = '请再次将IC卡防止门禁读头上';
           this.btnText = '下一步';
-          clearInterval(this.countTimer);
           clearInterval(this.longAskTimer);
-          this.count(this.secondCount);
           this.registerSec();
           break
         case 3:
@@ -253,7 +288,13 @@ export default {
           this.errorText = true;
           var _this = this;
           MessageBox('错误', this.tipsText1);
-          this.$router.push({ path: "/authorization", query: { return: 1 } })
+
+          // 如果是从当家进来的则跳回有参数的页面,否则是无参的页面
+          if (this.authorizationUrl) {
+            history.back(-1);
+          } else {
+            this.$router.push({ path: "/authorization", query: { return: 1 } })
+          }
           break
         default:
           break
