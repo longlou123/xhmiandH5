@@ -291,7 +291,7 @@ export default {
 
           // 如果是从当家进来的则跳回有参数的页面,否则是无参的页面
           if (this.authorizationUrl) {
-            window.location.href = this.authorizationUrl;
+            history.back(-1);
           } else {
             this.$router.push({ path: "/authorization", query: { return: 1 } })
           }
