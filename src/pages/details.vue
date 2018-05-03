@@ -75,8 +75,6 @@ import {getStore,saveStore} from '@/script/util'
 		methods:{
 			again(){
         saveStore('userData', this.data);
-        console.log(this.num);
-        console.log((getStore("userData")));
 				this.$router.push({path:"/authorization", query: {
                     value: this.num,Id:this.Id
                 }})
@@ -84,6 +82,7 @@ import {getStore,saveStore} from '@/script/util'
 			add() {
 			this.num=this.$route.query.value;
 			this.data=JSON.parse(getStore("userData"));
+      console.log(this.data);
       this.Id=this.data[this.num].id;
 			this.name=this.data[this.num].name;
 			this.type=this.data[this.num].type

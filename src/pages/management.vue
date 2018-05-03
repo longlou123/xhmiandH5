@@ -8,7 +8,7 @@
           <span class="text_span">{{item.name}}</span><span class="guest" v-if="item.type===1">家属</span>
           <span class="guest" v-else-if="item.type===2">租客</span><span class="guest" v-else-if="item.type===3">访客</span>
           <div class="card" :value="item.cardNumber">卡号：{{item.cardNumber}}</div>
-          <div class="time">有效期：{{item.startTime}} 至 {{item.endTime}}</div>
+          <div class="time">有效期：{{item.startTime}} 至 {{item.endTimes}}</div>
           <img class="show_img" src="../images/cancellation.png" alt="" v-show="item.isCancel">
           <img class="show_img" src="../images/overdue.png" alt="" v-show="!showBtnList[index]">
         </div>
@@ -64,7 +64,7 @@ export default {
     }
   },
   mounted(index) {
-    console.log(1)
+    // console.log(1)
     this.getdata();
     // Vue.set(this.doorList,index,res.result.cardList);
 
@@ -114,6 +114,7 @@ export default {
       })
     },
     getnow(d, index) {
+      console.log(d)
           this.modifyvue = d;
           this.$router.push({
           path: "/details",
@@ -148,7 +149,7 @@ export default {
           for (var i = 0; i < this.doorList.length; i++) {
           this.doorList[i].startTime = this.doorList[i].startTime.substring(0,10);
           var endtime =  this.doorList[i].endTime;
-          this.doorList[i].endTime = this.doorList[i].endTime.substring(0,10);
+          this.doorList[i].endTimes = this.doorList[i].endTime.substring(0,10);
           if (new Date() > new Date(endtime)) {
           this.showBtnList[i] = false;
           } else {

@@ -180,13 +180,18 @@
 					var Month = this.selectTimeStar.getMonth()+1;
 					if(Month<10){Month = '0'+Month;}
 					var Date = this.selectTimeStar.getDate();
+          if(Date<10){
+            Date = '0'+Date;
+          }
 					var hour = this.selectTimeStar.getHours();
 					if(hour<10){hour = '0'+hour;}
 					var minute = this.selectTimeStar.getMinutes();
 					if(minute<10){minute = '0'+minute;}
 					this.formValidate.startTime = Year+'-'+Month+'-'+Date+' '+hour+':'+minute;
+          console.log(this.formValidate.startTime );
 			},
 			endTime_() {
+        console.log("1")
 				this.$refs.pickerEnd.open();
 					var Year = this.selectTimeEnd.getFullYear();
 					var Month = this.selectTimeEnd.getMonth()+1;
@@ -204,6 +209,7 @@
 						minute = '0'+minute;
 					}
 					this.formValidate.endTime = Year+'-'+Month+'-'+Date+' '+hour+':'+minute;
+          console.log(this.formValidate.endTime);
 			},
 			//添加门列表
 			sure() {
