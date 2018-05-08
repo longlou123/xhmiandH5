@@ -63,7 +63,7 @@ export default {
 				this.qrcode.makeCode(this.codeData);
 				this.startTime = res.result.startTime;
 				this.endTime = res.result.endTime;
-				this.useCount = res.result.useCount
+				this.useCount = res.result.useCount==0?'次数不限':res.result.useCount
 				var date = new Date(res.result.createTime);
 				var Y = date.getFullYear();
 				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) ;

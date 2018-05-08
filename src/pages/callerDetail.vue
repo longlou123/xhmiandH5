@@ -68,6 +68,7 @@
 			}
 		},
 		mounted() {
+      this.judgePhone();
 			this.newData();
 			this.active();
 		},

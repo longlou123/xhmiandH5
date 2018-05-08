@@ -3,21 +3,21 @@
 		<div class="scoll">
 			<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
 				<FormItem label="姓名 :" prop="name">
-					<Input v-model="formValidate.name" placeholder=""></Input>
+					<Input v-model="formValidate.name" placeholder="" :disabled="hasParams"></Input>
 				</FormItem>
 				<FormItem label="类型 :" prop="type">
-					<Select v-model="formValidate.type" placeholder="请选择">
+					<Select v-model="formValidate.type" placeholder="请选择" :disabled="hasParams">
 						<Option value="1">家属</Option>
 						<Option value="2">租客</Option>
 						<Option value="3">访客</Option>
 					</Select>
 				</FormItem>
 				<FormItem label="手机 :" prop="phone">
-					<Input v-model="formValidate.phone" placeholder=""></Input>
+					<Input v-model="formValidate.phone" placeholder="" :disabled="hasParams"></Input>
 				</FormItem>
 				<div @click="starTime_">
 					<FormItem label="生效日期 :" prop="startTime" >
-						<Input  placeholder="请填写生效时间" v-model="formValidate.startTime" readonly='readonly'></Input>
+						<Input  placeholder="请填写生效时间" v-model="formValidate.startTime" readonly='readonly' :disabled="hasParams"></Input>
 					</FormItem>
 				</div>
 				<mt-datetime-picker  v-model="selectTimeStar" type="datetime" ref="pickerSrtar"
@@ -26,11 +26,11 @@
 					 date-format=" {value} 日"
 					 hour-format=" {value}时"
 					 minute-format="{value}分"
-					 :startDate="this.time">
+					 :startDate="this.time" :disabled="hasParams">
 				</mt-datetime-picker>
 				<div @click="endTime_">
 					<FormItem label="失效日期 :" prop="endTime" >
-						<Input placeholder="请填写失效时间"  v-model="formValidate.endTime" readonly='readonly'></Input>
+						<Input placeholder="请填写失效时间"  v-model="formValidate.endTime" readonly='readonly' :disabled="hasParams"></Input>
 					</FormItem>
 				</div>
 				<mt-datetime-picker v-model="selectTimeEnd" type="datetime" ref="pickerEnd"
@@ -39,10 +39,11 @@
 					 date-format=" {value} 日"
 					 hour-format=" {value}时"
 					 minute-format="{value}分"
-					 :startDate="this.time" >
+					 :startDate="this.time" :disabled="hasParams">
 				</mt-datetime-picker>
 				 <FormItem label="有效次数 :" prop="useCount">
-					<Select v-model="formValidate.useCount" placeholder="请选择">
+					<Select v-model="formValidate.useCount" placeholder="请选择" :disabled="hasParams">
+            <Option value="0">无限次</Option>
 						<Option value="1">1次</Option>
 						<Option value="2">2次</Option>
 						<Option value="3">3次</Option>
@@ -73,7 +74,7 @@
 			</div>
 		</div>
 		<div class="next_btn" @click="handleSubmit('formValidate')">
-			<Button type="primary" shape="circle" :long="true">确定邀请</Button>
+			<Button type="primary" shape="circle" :long="true">{{hasParams?"确定":"确定邀请"}}</Button>
 		</div>
 	</div>
 </template>
@@ -101,12 +102,16 @@
 					endTime: [{required: true,message: '请填写失效时间',trigger: 'change'}],
 					useCount: [{required: true,message: '请选择有效次数',trigger: 'change'}],
 				},
-				selectTimeStar:new Date() ,
-				selectTimeEnd:new Date() ,
+				selectTimeStar: new Date() ,
+        // selectTimeStar: "",
+				selectTimeEnd: new Date() ,
 				time: new Date(), //选择生效的最早起始时间
 				index:0,
 				show:[],
 				sendData:[], //发送后台的数据
+        hasParams: false,
+        doors: null,
+        codeData: null
 			}
 		},
 		watch:{
@@ -126,12 +131,23 @@
 
 		},
 		mounted() {
+      this.getUrlParams();
 			this.getdata();
 			this.active();
 			var d = new Date();
         		this.formValidate.startTime = d.format("yyyy-MM-dd hh:mm");
 		},
 		methods: {
+      getUrlParams() {
+        if (this.$route.query.userName&&this.$route.query.projectCode&&this.$route.query.granterPhone&&this.$route.query.name&&this.$route.query.type&&this.$route.query.phone&&this.$route.query.endTime&&this.$route.query.useCount&&this.$route.query.telephone) {
+          this.formValidate.name = this.$route.query.name;
+          this.formValidate.type = this.$route.query.type;
+          this.formValidate.phone = this.$route.query.phone;
+          this.formValidate.endTime = this.$route.query.endTime;
+          this.formValidate.useCount = this.$route.query.useCount;
+          this.hasParams = true;  // 禁用表单
+        }
+      },
 			active(){
 				document.body.addEventListener('touchstart', function () { });
 			},
@@ -143,7 +159,7 @@
 				_this.$post('/ssh/openDoor/getDoorByPhone', {
 					projectCode: _this.projectCode,
 					userName:_this.userName,
-					phone: _this.granterPhone
+					phone: _this.$route.query.telephone?_this.$route.query.telephone:_this.granterPhone
 				}).then(res => {
 					console.log(res)
 					for(var i=0;i<res.result.doorList.length;i++){
@@ -176,19 +192,28 @@
 					//将修改过的门列表保存到vuex
 			},
 			starTime_() {
-				this.$refs.pickerSrtar.open();
+          if (!this.hasParams) {
+            this.$refs.pickerSrtar.open();
+          }
+          console.log(this.selectTimeStar)
 					var Year = this.selectTimeStar.getFullYear();
 					var Month = this.selectTimeStar.getMonth()+1;
 					if(Month<10){Month = '0'+Month;}
 					var Date = this.selectTimeStar.getDate();
+          if(Date<10){
+            Date = '0'+Date;
+          }
 					var hour = this.selectTimeStar.getHours();
 					if(hour<10){hour = '0'+hour;}
 					var minute = this.selectTimeStar.getMinutes();
 					if(minute<10){minute = '0'+minute;}
 					this.formValidate.startTime = Year+'-'+Month+'-'+Date+' '+hour+':'+minute;
+          console.log(this.formValidate.startTime)
 			},
 			endTime_() {
-				this.$refs.pickerEnd.open();
+          if (!this.hasParams) {
+            this.$refs.pickerEnd.open();
+          }
 					var Year = this.selectTimeEnd.getFullYear();
 					var Month = this.selectTimeEnd.getMonth()+1;
 					if(Month<10){Month = '0'+Month;}
@@ -205,6 +230,7 @@
 						minute = '0'+minute;
 					}
 					this.formValidate.endTime = Year+'-'+Month+'-'+Date+' '+hour+':'+minute;
+          console.log(this.formValidate.endTime);
 			},
 			//添加门列表
 			sure() {
@@ -214,6 +240,30 @@
 					})
 				}
 			},
+
+      // 判断不同端返回不同数据
+      shareProfessor() {
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        var iOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        if (isAndroid && ! iOS) {
+          jsObj.twoDimensionCode(this.doors, this.grantNo);
+        }else if(!isAndroid && iOS){
+          window.webkit.messageHandlers.passValue.postMessage({doors: this.doors, grantNo: this.grantNo});
+        }
+      },
+
+      // 判断不同端调用关闭webview
+      judgeToClose() {
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        var iOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        if (isAndroid && ! iOS) {
+          jsObj.finished();
+        }else if(!isAndroid && iOS){
+          window.webkit.messageHandlers.passValue.postMessage({finish: true});
+        }
+      },
 			//确定邀请
 			handleSubmit(name) {					
 				this.$refs[name].validate((valid) => {
