@@ -147,6 +147,7 @@
           this.formValidate.useCount = this.$route.query.useCount;
           this.hasParams = true;  // 禁用表单
         }
+        console.log(this.$route.query);
       },
 			active(){
 				document.body.addEventListener('touchstart', function () { });

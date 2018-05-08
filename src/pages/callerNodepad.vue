@@ -82,7 +82,7 @@ export default {
 					var date = new Date(_this.userData[i].createTime);
 					var Y = date.getFullYear();
 					var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) ;
-					var D = date.getDate() ;
+					var D = (date.getDate() < 10 ? '0'+ date.getDate() : date.getDate()) ;					
 					var h = date.getHours() ;
 					if(h<10){h = "0"+ h;}
 					var m = date.getMinutes()

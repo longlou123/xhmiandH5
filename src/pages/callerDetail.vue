@@ -93,6 +93,7 @@
 	      		}else{}
 			},
 			newData(){
+				var _this = this;
 				this.data = JSON.parse(getStore("userData"));
 				//console.log(this.data);
 				this.num=this.$route.query.value;
@@ -101,7 +102,11 @@
 				this.phone = this.data[this.num].phone;
 				this.startTime = this.data[this.num].startTime;//要分享的开始时间
 				this.endTime =  this.data[this.num].endTime;//要分享的结束时间
-				this.useCount = this.data[this.num].useCount;
+				if(_this.data[_this.num].useCount == "0"){
+					_this.useCount = "无限次"
+				}else{
+					_this.useCount = _this.data[_this.num].useCount;
+				}				
 				this.Id = this.data[this.num].Id;
 				this.doors= JSON.parse(this.data[this.num].doors);
 				var crea = this.data[this.num].createTime;
