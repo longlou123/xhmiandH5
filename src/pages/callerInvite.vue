@@ -89,6 +89,7 @@
 				projectCode:'',
 				granterPhone:'',
 				userName:'',
+				submit:true,
 				projectPage:[],//页面展示数据
 				projectInital:[],//初始化存储全部数据
 				projectDoor:[],//存储门列表数据
@@ -214,28 +215,35 @@
 				}
 			},
 			//确定邀请
-			handleSubmit(name) {
+			handleSubmit(name) {					
 				this.$refs[name].validate((valid) => {
 					if(valid) {
-						//将当前选中授权的门列表与初始的门列表对比相同的元素
-						for(var i = 0; i < this.projectPage.length; i++) {
-							for(var j = 0; j < this.projectInital.length; j++) {
-								if(this.projectPage[i] == this.projectInital[j].doorName) {
-									this.sendData[i]=this.projectInital[j];
+						if(this.submit){
+							this.submit = false;//确认后不可重复（禁止按钮）
+							//将当前选中授权的门列表与初始的门列表对比相同的元素
+							for(var i = 0; i < this.projectPage.length; i++) {
+								for(var j = 0; j < this.projectInital.length; j++) {
+									if(this.projectPage[i] == this.projectInital[j].doorName) {
+										this.sendData[i]=this.projectInital[j];
+									}
 								}
 							}
-						}
-						this.formValidate.granterPhone = this.granterPhone;
-						this.formValidate.projectCode = this.projectCode;
-						this.formValidate.doors = JSON.stringify(this.sendData);
-						//console.log(this.formValidate)
-						this.$post('/ssh/grantCard/grantQREvent',this.formValidate).then(res => {
-							this.saveData();
-						})
+							this.formValidate.granterPhone = this.granterPhone;
+							this.formValidate.projectCode = this.projectCode;
+							this.formValidate.doors = JSON.stringify(this.sendData);
+							//console.log(this.formValidate)								
+							this.$post('/ssh/grantCard/grantQREvent',this.formValidate).then(res => {
+								this.saveData();
+							}).catch(function(error) {
+								console.log(error);
+								this.submit = true;
+							});
+						}						
 					} else {
 						// this.$Message.error('Fail!');
 					}
 				})
+				
 			},
 			saveData(){
 				var _this = this;
@@ -247,12 +255,13 @@
 				}).then(res => {
 					this.userData = res.result.cardList;
 					saveStore('userData',this.userData);
-	          this.$store.commit('CLEAR_FORM');
-						this.$router.push({path: "/callerDetail",query: {value: 0}})
-					}).catch(function(error) {
-						console.log(error);
-					});
-				},
+	          		this.$store.commit('CLEAR_FORM');
+	          		this.submit = true;//恢复按钮
+					this.$router.push({path: "/callerDetail",query: {value: 0}})
+				}).catch(function(error) {
+					console.log(error);
+				});
+			},
 			handleReset(name) {
 				this.$refs[name].resetFields();
 			}

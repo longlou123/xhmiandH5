@@ -86,9 +86,9 @@
 	      	share() {
 	      		this.judgePhone();
 	      		if(this.isAndroid && !this.iOS){
-	      			jsObj.twoDimensionCode("http://202.105.96.131:3002/sendCard/#/twoDimension?id="+this.id,this.startTime,this.endTime);
+	      			jsObj.twoDimensionCode("http://202.105.96.131:8086twoDimension/?id="+this.id,this.startTime,this.endTime);
 	      		}else if(!this.isAndroid && this.iOS){
-	      			 window.webkit.messageHandlers.passValue.postMessage({url:"http://202.105.96.131:3002/sendCard/#/twoDimension?id="+this.id,startTime:this.startTime,endTime:this.endTime});
+	      			 window.webkit.messageHandlers.passValue.postMessage({url:"http://202.105.96.131:8086/twoDimension?id="+this.id,startTime:this.startTime,endTime:this.endTime});
 	      		}else{}
 			},
 			newData(){
