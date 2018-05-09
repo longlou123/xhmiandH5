@@ -44,8 +44,7 @@ export default {
     },
     //判断请求是否带参数，参数是否正确
 		getAppData(){
-      console.log(this.$route.query)
-			if(this.$route.path != '/twoDimension'){
+			if(this.$route.path.indexOf('twoDimension') == -1){
 				if(this.$route.query.userName&&this.$route.query.projectCode&&this.$route.query.granterPhone){
 					saveStore('userName', this.$route.query.userName);
 					saveStore('projectCode', this.$route.query.projectCode);

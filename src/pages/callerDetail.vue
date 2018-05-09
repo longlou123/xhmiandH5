@@ -83,15 +83,17 @@
 		        var u = navigator.userAgent;
 		        this.isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 		        this.iOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-      },
-      share() {
-        if(this.isAndroid && !this.iOS){
-          jsObj.twoDimensionCode("http://202.105.96.131:3002/sendCard/#/twoDimension?id="+this.id,this.startTime,this.endTime);
-        }else if(!this.isAndroid && this.iOS){
-           window.webkit.messageHandlers.passValue.postMessage({url:"http://202.105.96.131:3002/sendCard/#/twoDimension?id="+this.id,startTime:this.startTime,endTime:this.endTime});
-        }
+		     },
+	      	share() {
+	      		this.judgePhone();
+	      		if(this.isAndroid && !this.iOS){
+	      			jsObj.twoDimensionCode("https://yq.xhmind.com:8093/#/twoDimension/?id="+this.id,this.startTime,this.endTime);
+	      		}else if(!this.isAndroid && this.iOS){
+	      			 window.webkit.messageHandlers.passValue.postMessage({url:"https://yq.xhmind.com:8093/#/twoDimension?id="+this.id,startTime:this.startTime,endTime:this.endTime});
+	      		}else{}
 			},
 			newData(){
+				var _this = this;
 				this.data = JSON.parse(getStore("userData"));
 				//console.log(this.data);
 				this.num=this.$route.query.value;
@@ -100,7 +102,11 @@
 				this.phone = this.data[this.num].phone;
 				this.startTime = this.data[this.num].startTime;//要分享的开始时间
 				this.endTime =  this.data[this.num].endTime;//要分享的结束时间
-				this.useCount = this.data[this.num].useCount;
+				if(_this.data[_this.num].useCount == "0"){
+					_this.useCount = "无限次"
+				}else{
+					_this.useCount = _this.data[_this.num].useCount;
+				}
 				this.Id = this.data[this.num].Id;
 				this.doors= JSON.parse(this.data[this.num].doors);
 				var crea = this.data[this.num].createTime;
