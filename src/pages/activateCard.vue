@@ -125,7 +125,6 @@ export default {
         cardId: this.cardID,
         doorID: this.doorID, // 测试门
       }).then(res => {
-        console.log(res);
         if (res.errorCode === 200) {
           this.switchJuged(1);
         } else {
@@ -143,11 +142,9 @@ export default {
       this.$post('/ssh/grantCard/registerCardEventSecound', {
         cardId: this.cardID,
       }).then(res => {
-        console.log(res);
         if (res.errorCode === 200) {
           this.longAsk(this.secondCount, false);
         } else {
-          console.log(res)
           this.tipsText1 = '' + res.message;
           this.allRestart();
         }
@@ -162,7 +159,6 @@ export default {
       this.$post('/ssh/grantCard/grantCardEvent', {
         cardId: this.cardID,
       }).then(res => {
-        console.log(res)
         if (res.errorCode === 200) {
           clearInterval(this.longAskTimer);
           this.doors = res.result.doors;
@@ -218,7 +214,6 @@ export default {
         _this.$post('/ssh/grantCard/checkCallBack', {
           cardId: _this.cardID,
         }).then(res => {
-          console.log(res.result);
           if (res.errorCode === 200) {
             if (res.result.number === 1 && res.result.registerNumber === 1) {
               clearInterval(_this.longAskTimer)
@@ -228,7 +223,6 @@ export default {
               _this.grantCard();
             }
           } else {
-            console.log(res.errorCode)
             _this.tipsText1 = '' + res.message;
             // _this.allRestart();
           }

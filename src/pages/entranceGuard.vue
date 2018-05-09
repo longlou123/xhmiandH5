@@ -44,7 +44,6 @@ import {getStore,saveStore} from '@/script/util'
          methods: {
             getProject(){
 		    this.checkAllGroup=this.saveDoor;
-            // console.log(this.saveDoor);
 		      },
             getdata(){
             var _this=this;
@@ -56,7 +55,6 @@ import {getStore,saveStore} from '@/script/util'
           userName:_this.userName,
           phone: _this.granterPhone
           }).then(res=>{
-              console.log(res)
             for(var i=0; i<res.result.doorList.length;i++){
             _this.dataDoor[i]=res.result.doorList[i].doorName;
 

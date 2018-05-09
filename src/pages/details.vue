@@ -34,7 +34,7 @@
 				<i>{{isCancel}}</i>
 			</section>
     		<div class="next_btn">
-        		<Button type="primary" @click="again"  :disabled="yCancal">重新发卡</Button>
+        		<Button type="primary" @click="again"  :disabled="yCancal || showBtnList"  >重新发卡</Button>
         		<Button type="primary"  @click="modal3 = true">删除信息</Button>
     		</div>
     			<Modal  v-model="modal3" @on-ok="delet()" >
@@ -66,7 +66,8 @@ import {getStore,saveStore} from '@/script/util'
 				num:null,
 				door:null,
 				cardNumber:null,
-        Id:null
+        Id:null,
+        showBtnList:null
 			}
 		},
 		mounted(){
@@ -77,12 +78,12 @@ import {getStore,saveStore} from '@/script/util'
         saveStore('userData', this.data);
 				this.$router.push({path:"/authorization", query: {
                     value: this.num,Id:this.Id
-                }})
+                }
+              })
 			},
 			add() {
 			this.num=this.$route.query.value;
 			this.data=JSON.parse(getStore("userData"));
-      console.log(this.data);
       this.Id=this.data[this.num].id;
 			this.name=this.data[this.num].name;
 			this.type=this.data[this.num].type
@@ -109,10 +110,14 @@ import {getStore,saveStore} from '@/script/util'
 				this.isCancel="有效"
         this.yCancal=true
 			}
+      if(new Date() > new Date(this.data[this.num].endTime)){
+        this.showBtnList = true
+      }else{
+        this.showBtnList = false
+      }
 		},
 		delet(){
 			 var cardN=this.cardNumber.toString();
-			 console.log(cardN)
              this.$post('/ssh/grantCard/deleteGrantCard', {
               cardNumber:cardN
              }).then(res=>{

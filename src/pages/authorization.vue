@@ -159,7 +159,6 @@
           var docEl = document.documentElement;
           var scollH = scoll.clientHeight;
           var clientWidth = docEl.clientWidth;
-          console.log(scoll.style)
           var marginT = sumHeight - scollH - (0.89 + 0.8) * (100 * (clientWidth /750))
           obj.style.marginTop = marginT + 'px';
         },
@@ -167,7 +166,6 @@
           var _this=this;
           _this.num=_this.$route.query.value;
           _this.Id=_this.$route.query.Id;
-          console.log(_this.$route.query);
           _this.detailsData=JSON.parse(getStore("userData"));
           _this.formValidate.name=_this.detailsData[_this.num].name;
           _this.formValidate.phone=_this.detailsData[_this.num].phone;
@@ -248,11 +246,8 @@
                     }
                     this.formValidate.startTime=(this.formValidate.startTime+'00:00:00').substring(0, 19);
                     this.formValidate.endTime=(this.formValidate.endTime+' 23:59:59').substring(0, 19);
-                    console.log(this.formValidate.endTime);
                     this.formValidate.doors = JSON.stringify(this.sendData);
-                    console.log(this.Id)
                     this.$post('/ssh/grantCard/reGrantCardEvent',{id:this.Id,startTime:this.formValidate.startTime,endTime:this.formValidate.endTime,doors:this.formValidate.doors}).then(res=>{
-                      console.log(res)
                       if(res.errorCode === 200){
                         this.$router.push({path: "/management"})
                       }
@@ -280,7 +275,6 @@
                     this.$store.commit('MASSAGESAVE',this.formValidate);
                     this.$post('/ssh/grantCard/addCard',this.formValidate).then(res => {
                       if(res.errorCode === 200){
-                        console.log(res)
                         if (this.formValidate.endTime.indexOf('23:59:59') != -1) {
                           this.formValidate.endTime = this.formValidate.endTime.slice(0, this.formValidate.endTime.indexOf('23:59:59'))
                         }

@@ -56,17 +56,13 @@
 				}).then(res => {
 					for(var i = 0; i < res.result.doorList.length; i++) {
 						_this.dataDoor[i] = res.result.doorList[i].doorName;
-						//console.log(_this.dataDoor)
 					}
 					this.hasData = true;
-					//console.log(JSON.stringify(this.doorName));
 				}).catch(function(error) {
 					console.log(error);
 				});
 			},
 			nextClick() {
-				//this.checkAllGroup.push('报错');
-				//          		console.log(this.checkAllGroup)
 				this.$store.commit('PROJECT', this.checkAllGroup);
         history.back(-1);
 				// this.$router.push({

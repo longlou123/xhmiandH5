@@ -33,7 +33,6 @@ axios.interceptors.request.use(
 	    };
 			// alert(projectId)
  }
-		 console.log(config)
     return config;
   },
   err => {

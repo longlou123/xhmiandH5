@@ -64,7 +64,6 @@ export default {
     }
   },
   mounted(index) {
-    // console.log(1)
     this.getdata();
     // Vue.set(this.doorList,index,res.result.cardList);
 
@@ -114,7 +113,6 @@ export default {
       })
     },
     getnow(d, index) {
-      console.log(d)
           this.modifyvue = d;
           this.$router.push({
           path: "/details",
