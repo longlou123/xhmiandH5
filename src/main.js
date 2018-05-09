@@ -44,7 +44,7 @@ Date.prototype.format = function(fmt) {
 document.setTitle = function(t) {
   document.title = t;
   var i = document.createElement('iframe');
-  i.src = 'http://www.baidu.com/favicon.ico';
+  i.src = 'https://www.baidu.com/favicon.ico';
   i.style.display = 'none';
   i.onload = function() {
     setTimeout(function(){

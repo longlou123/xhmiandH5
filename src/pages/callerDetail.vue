@@ -87,9 +87,9 @@
 	      	share() {
 	      		this.judgePhone();
 	      		if(this.isAndroid && !this.iOS){
-	      			jsObj.twoDimensionCode("http://202.105.96.131:8086twoDimension/?id="+this.id,this.startTime,this.endTime);
+	      			jsObj.twoDimensionCode("https://yq.xhmind.com:8093/#/twoDimension/?id="+this.id,this.startTime,this.endTime);
 	      		}else if(!this.isAndroid && this.iOS){
-	      			 window.webkit.messageHandlers.passValue.postMessage({url:"http://202.105.96.131:8086/twoDimension?id="+this.id,startTime:this.startTime,endTime:this.endTime});
+	      			 window.webkit.messageHandlers.passValue.postMessage({url:"https://yq.xhmind.com:8093/#/twoDimension?id="+this.id,startTime:this.startTime,endTime:this.endTime});
 	      		}else{}
 			},
 			newData(){
@@ -106,7 +106,7 @@
 					_this.useCount = "无限次"
 				}else{
 					_this.useCount = _this.data[_this.num].useCount;
-				}				
+				}
 				this.Id = this.data[this.num].Id;
 				this.doors= JSON.parse(this.data[this.num].doors);
 				var crea = this.data[this.num].createTime;
