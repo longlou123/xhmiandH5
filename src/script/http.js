@@ -5,7 +5,7 @@ import qs from 'qs'
 
 
 // axios 配置
-var baseUrl = 'https://seven.xhmind.com:8443';
+var baseUrl = 'http://202.105.104.105:8006';
 // var baseUrl = 'http://10.51.39.112:8080'
 
 axios.defaults.timeout = 5000;
@@ -33,6 +33,7 @@ axios.interceptors.request.use(
 	    };
 			// alert(projectId)
  }
+
     return config;
   },
   err => {
