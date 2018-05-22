@@ -2,12 +2,13 @@ import axios from 'axios'
 import {delCookie,getCookie, setSession, getSession, getStore} from '@/script/util'
 import router from '@/router/index'
 import qs from 'qs'
+import apis from '@/config/apis'
 
 
 // axios 配置
-var baseUrl = 'https://seven.xhmind.com:8443';
+// var baseUrl = 'https://seven.xhmind.com:8443';
 // var baseUrl = 'http://10.51.39.112:8080'
-
+var baseUrl = apis.main;
 axios.defaults.timeout = 5000;
 axios.defaults.baseURL = baseUrl; //这是调用数据接口
 var Content_Type = 'application/json;charset=utf-8';

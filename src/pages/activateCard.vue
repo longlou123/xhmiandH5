@@ -54,7 +54,7 @@ export default {
       currents: 0, //步骤条的步骤数
       countTime: 30,
       tempTime: null,
-      long: true,    // 当前轮询是短时还是长时
+      long: true, // 当前轮询是短时还是长时
       selectValue: '',
       countTimer: null,
       longAskTimer: null,
@@ -81,20 +81,20 @@ export default {
       var u = navigator.userAgent;
       var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
       var iOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-      if (isAndroid && ! iOS) {
+      if (isAndroid && !iOS) {
         jsObj.twoDimensionCode(this.doors, this.grantNo);
-      }else if(!isAndroid && iOS){
-        window.webkit.messageHandlers.passValue.postMessage({doors: this.doors, grantNo: this.grantNo});
+      } else if (!isAndroid && iOS) {
+        window.webkit.messageHandlers.passValue.postMessage({ doors: this.doors, grantNo: this.grantNo });
       }
     },
     judgeToClose() {
       var u = navigator.userAgent;
       var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
       var iOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-      if (isAndroid && ! iOS) {
+      if (isAndroid && !iOS) {
         jsObj.finished();
-      }else if(!isAndroid && iOS){
-        window.webkit.messageHandlers.passValue.postMessage({finish: true});
+      } else if (!isAndroid && iOS) {
+        window.webkit.messageHandlers.passValue.postMessage({ finish: true });
       }
     },
     initData() {
@@ -227,14 +227,14 @@ export default {
             // _this.allRestart();
           }
           // 判断是30s的还是15s的
-          if (_this.tempTime<=0) {
-              if (_this.long) {
-                _this.tempTime = _this.firstCount;
-                _this.registerFirst();  // 重新注册1
-              } else {
-                _this.tempTime = _this.secondCount;
-                _this.switchJuged(2);   //重新注册2
-              }
+          if (_this.tempTime <= 0) {
+            if (_this.long) {
+              _this.tempTime = _this.firstCount;
+              _this.registerFirst(); // 重新注册1
+            } else {
+              _this.tempTime = _this.secondCount;
+              _this.switchJuged(2); //重新注册2
+            }
           }
         }).catch(err => {
           console.log(err)
