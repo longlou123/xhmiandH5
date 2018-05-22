@@ -1,5 +1,5 @@
 'use strict'
 module.exports = {
   NODE_ENV: '"production"',
-  API_TYPE: '"production"'
+  API_TYPE: '"test"'
 }
