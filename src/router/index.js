@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import test1 from '@/pages/test1'
-import test2 from '@/pages/test2'
 import doorCard from '@/pages/doorCard'
 import management from '@/pages/management'
 import authorization from '@/pages/authorization'
@@ -15,7 +13,6 @@ import callerNodepad from '@/pages/callerNodepad'
 import details from '@/pages/details'
 import twoDimension from '@/pages/twoDimension'
 import callerDetail from '@/pages/callerDetail'
-import demo from '@/pages/demo'
 Vue.use(Router)
 
 export default new Router({
@@ -27,22 +24,6 @@ export default new Router({
       component: management,
       meta: {
         title: '门卡管理',
-      }
-    },
-    {
-      path: '/test1',
-      name: 'test1',
-      component: test1,
-      meta: {
-        title: '测试列表',
-      }
-    },
-    {
-      path: '/test2',
-      name: 'test2',
-      component: test2,
-      meta: {
-        title: '测试列表',
       }
     },
     {
