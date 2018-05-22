@@ -7,6 +7,7 @@
         <div class="tips_two">{{tipsText2}}</div>
       </div>
       <div class="circle_time" v-if="stepStatus==1||stepStatus==2">
+        <img src="../images/active.jpg" alt="">
       </div>
       <div class="select" v-if="stepStatus==0">
         <span class="label">读卡门禁：</span>
@@ -322,8 +323,10 @@ export default {
     height: 5rem;
     margin: 0 auto;
     margin-top: 0.2rem;
-    background: url('http://202.105.96.131:3002/active.jpg');
-    background-size: 100% 100%;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
   overflow: hidden;
   .tips {

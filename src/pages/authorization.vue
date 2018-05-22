@@ -3,10 +3,10 @@
 		<div class="scoll">
 			<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
         	<FormItem label="姓名 :" prop="name">
-            	<Input v-model="formValidate.name" placeholder="访客姓名" :disabled="hasParams"></Input>
+            	<Input v-model="formValidate.name" placeholder="姓名" :disabled="hasParams"></Input>
         	</FormItem>
         	<FormItem label="类型 :" prop="type">
-            <Select v-model="formValidate.type" placeholder="请选择访客类型" :disabled="hasParams">
+            <Select v-model="formValidate.type" placeholder="请选择类型" :disabled="hasParams">
                 <Option value="1">家属</Option>
                 <Option value="2">租客</Option>
                 <Option value="3">访客</Option>
@@ -99,7 +99,9 @@
                   { required: true, message: '请填写使用人', trigger: 'blur' }
               ],
               phone: [
-                  {required: true,message: '请输入手机号',trigger: 'blur'},{type: "string", required: true,len: 11,message: '号码输入错误', trigger: 'blur' }
+                  {required: true,message: '请输入手机号',trigger: 'blur'},{type: "string",len: 11,message: '号码输入错误', trigger: 'blur' }
+                  // { required: true, message: '请输入手机号'},
+                  // { type: 'number', message: '号码输入错误'}
               ],
               type: [
                   { required:true, message: '请选择类型', trigger: 'change' }
