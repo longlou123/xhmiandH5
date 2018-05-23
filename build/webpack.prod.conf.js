@@ -11,7 +11,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-if(process.env.NODE_ENV === 'testing') {
+if (process.env.NODE_ENV === 'testing') {
   var env = process.env.NODE_ENV
 } else {
   var env = process.env.API_TYPE === 'test'
