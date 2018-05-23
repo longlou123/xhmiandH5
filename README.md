@@ -11,8 +11,11 @@ npm install
 # serve with hot reload at localhost:8080
 npm run dev
 
-# build for production with minification
-npm run build
+# 打包测试环境命令
+npm run buildtest
+
+# 打包正式环境命令
+npm run buildprod
 
 # build for production and view the bundle analyzer report
 npm run build --report
