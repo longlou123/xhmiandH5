@@ -17,7 +17,7 @@ Vue.prototype.$get = get;
 Vue.prototype.$patch = patch;
 Vue.prototype.$put = put;
 
-alert(process.env.API_TYPE)
+console.log(process.env.API_TYPE)
 
 // 时间格式化函数
 Date.prototype.format = function(fmt) {
