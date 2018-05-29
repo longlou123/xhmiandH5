@@ -5,7 +5,6 @@
     <div class="entranceGuard_box" >
         <Checkbox
             v-if="hasData"
-            :indeterminate="indeterminate"
             :value="checkAll"
             @click.prevent.native="handleCheckAll">全选</Checkbox>
     </div>
@@ -27,7 +26,6 @@ import {getStore,saveStore} from '@/script/util'
  export default {
         data () {
             return {
-            indeterminate: true,
             checkAll: false,
             checkAllGroup: [],
             dataDoor:[],
@@ -65,38 +63,31 @@ import {getStore,saveStore} from '@/script/util'
           });
             },
             nextClick(){
-                this.$store.commit('SAVEDOOR',this.checkAllGroup);
-              // this.$router.push({path:"/authorization"})
-                history.back(-1);
+                if (this.checkAllGroup.length === 0) {
+                    this.$store.commit('SAVEDOOR', null);
+                    history.back(-1);
+                  } else {this.$store.commit('SAVEDOOR', this.checkAllGroup);
+                    history.back(-1);
+                  }
                 },
-
             handleCheckAll () {
-                if (this.indeterminate) {
-                    this.checkAll = false;
-                } else {
-                    this.checkAll = !this.checkAll;
-                }
-                this.indeterminate = false;
-
+                  this.checkAll = !this.checkAll;
                 if (this.checkAll) {
-                    this.checkAllGroup = this.dataDoor;
+                  this.checkAllGroup = this.dataDoor;
                 } else {
-                    this.checkAllGroup = [];
-                }
+                  this.checkAllGroup = [];
+              }
             },
             checkAllGroupChange (data) {
-                if (data.length === 3) {
-                    this.indeterminate = false;
-                    this.checkAll = true;
-                } else if (data.length > 0) {
-                    this.indeterminate = true;
-                    this.checkAll = false;
+               if(data.length === this.dataDoor.length) {
+                  this.checkAll = true;
+                } else if(data.length < this.dataDoor.length) {
+                  this.checkAll = false;
                 } else {
-                    this.indeterminate = false;
-                    this.checkAll = false;
+                  this.checkAll = false;
                 }
-            }
-        }
+                  }
+                }
     }
 </script>
 <style lang="scss" scoped>
@@ -149,20 +140,20 @@ import {getStore,saveStore} from '@/script/util'
 
 	    }
       .next_btn {
-    z-index:-1;
-    Button {
-      position:absolute;
-                        margin:auto;
-                        // top:0;
-                        left:0;
-                        right:0;
-                        bottom:0.4rem;
-                        width: 6.92rem;
-                        height: 0.89rem;
-                        border-radius:0.2rem;
-                        font-size:0.36rem;
-                        color:#ffffff;
+      z-index:-1;
+      Button {
+        position:absolute;
+        margin:auto;
+        // top:0;
+        left:0;
+        right:0;
+        bottom:0.4rem;
+        width: 6.92rem;
+        height: 0.89rem;
+        border-radius:0.2rem;
+        font-size:0.36rem;
+        color:#ffffff;
+      }
     }
-  }
 
 </style>

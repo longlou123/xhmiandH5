@@ -1,28 +1,27 @@
 <template>
-  <div class="management" >
-    <mt-loadmore  :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :max-distance="150"
-                    ref="loadmore" :auto-fill="false" @bottom-status-change="handleTopChange" >
-    <ul class="visitors" v-for="(item, index) in doorList" v-if="hasData">
-      <li class="center_one">
-        <div class="center_two" @click="getnow(item,index)">
-          <span class="text_span">{{item.name}}</span><span class="guest" v-if="item.type===1">家属</span>
-          <span class="guest" v-else-if="item.type===2">租客</span><span class="guest" v-else-if="item.type===3">访客</span>
-          <div class="card" :value="item.cardNumber">卡号：{{item.cardNumber}}</div>
-          <div class="time">有效期：{{item.startTime}} 至 {{item.endTimes}}</div>
-          <img class="show_img" src="../images/cancellation.png" alt="" v-show="item.isCancel">
-          <img class="show_img" src="../images/overdue.png" alt="" v-show="!showBtnList[index]">
+  <div class="management">
+    <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :max-distance="150" ref="loadmore" :auto-fill="false" @bottom-status-change="handleTopChange">
+      <ul class="visitors" v-for="(item, index) in doorList" v-if="hasData">
+        <li class="center_one">
+          <div class="center_two" @click="getnow(item,index)">
+            <span class="text_span">{{item.name}}</span><span class="guest" v-if="item.type===1">家属</span>
+            <span class="guest" v-else-if="item.type===2">租客</span><span class="guest" v-else-if="item.type===3">访客</span>
+            <div class="card" :value="item.cardNumber">卡号：{{item.cardNumber}}</div>
+            <div class="time">有效期：{{item.startTime}} 至 {{item.endTimes}}</div>
+            <img class="show_img" src="../images/cancellation.png" alt="" v-show="item.isCancel">
+            <img class="show_img" src="../images/overdue.png" alt="" v-show="!showBtnList[index]">
+          </div>
+          <div v-show="!item.isCancel">
+            <Button type="primary" class="btn" @click="showModal(item,index)" v-if="showBtnList[index]">注销</Button>
+          </div>
+        </li>
+        <div class="deletes">
+          <Modal v-model="modal3" @on-ok="cancellation(modalItem,modalIndex)">
+            <p>注销将会无法使用门卡</p>
+            <p>请确定是否进行删除</p>
+          </Modal>
         </div>
-        <div v-show="!item.isCancel">
-          <Button  type="primary" class="btn" @click="showModal(item,index)" v-if="showBtnList[index]">注销</Button>
-        </div>
-      </li>
-      <div class="deletes">
-        <Modal v-model="modal3" @on-ok="cancellation(modalItem,modalIndex)">
-          <p>注销将会无法使用门卡</p>
-          <p>请确定是否进行删除</p>
-        </Modal>
-      </div>
-    </ul>
+      </ul>
     </mt-loadmore>
     <div v-if="!hasData">
       <div class="center">
@@ -35,7 +34,7 @@
 <script>
 import Vue from 'vue'
 import { getStore, saveStore } from '@/script/util'
-import {Loadmore} from 'mint-ui';
+import { Loadmore } from 'mint-ui';
 export default {
   data() {
     return {
@@ -55,10 +54,10 @@ export default {
       topStatus: '',
       hasData: true,
       allLoaded: false,
-      page:1,
-      dataList:null,
-      scrollMode:"touch",
-      num:null
+      page: 1,
+      dataList: null,
+      scrollMode: "touch",
+      num: null
 
       // showImg:false
     }
@@ -68,43 +67,42 @@ export default {
     // Vue.set(this.doorList,index,res.result.cardList);
 
   },
-  created() {
-  },
-  watch:{
+  created() {},
+  watch: {
 
   },
   methods: {
     loadBottom() { // 加载更多数据的操作
-                //load data
-                //this.allLoaded = true;// 若数据已全部获取完毕
-         var _this = this;
-         setTimeout(function () {
-                if(_this.dataList<4){
-                    console.log('无数据更新')
-                }else{
-                    _this.page = Number(_this.page) +1;
-                     _this.getdata();
-                }
-                _this.$refs.loadmore.onBottomLoaded();
-           }, 1000);
-        },
-    handleTopChange(status) {
-        this.topStatus = status;
-        },
-    showModal(item, index) {
-        this.modalItem = item;
-        this.modalIndex = index;
-        this.modal3 = true
+      //load data
+      //this.allLoaded = true;// 若数据已全部获取完毕
+      var _this = this;
+      setTimeout(function() {
+        if (_this.dataList < 4) {
+          console.log('无数据更新')
+        } else {
+          _this.page = Number(_this.page) + 1;
+          _this.getdata();
+        }
+        _this.$refs.loadmore.onBottomLoaded();
+      }, 1000);
     },
-    cancellation(item,index) {
-        var cardN = item.cardNumber.toString();
-        this.$post('/ssh/grantCard/cancelGrantCard', {
+    handleTopChange(status) {
+      this.topStatus = status;
+    },
+    showModal(item, index) {
+      this.modalItem = item;
+      this.modalIndex = index;
+      this.modal3 = true
+    },
+    cancellation(item, index) {
+      var cardN = item.cardNumber.toString();
+      this.$post('/ssh/grantCard/cancelGrantCard', {
         cardNumber: cardN
-        }).then(res => {
-        if(res.errorCode===200){
-        this.getdata();
-        Vue.set(this.doorList,index,res.result.cardList);
-        }else{
+      }).then(res => {
+        if (res.errorCode === 200) {
+          this.getdata();
+          Vue.set(this.doorList, index, res.result.cardList);
+        } else {
 
         }
 
@@ -113,51 +111,52 @@ export default {
       })
     },
     getnow(d, index) {
-          this.modifyvue = d;
-          this.$router.push({
-          path: "/details",
-          query: {
-          value:index + ''}
-          });
-        },
+      this.modifyvue = d;
+      this.$router.push({
+        path: "/details",
+        query: {
+          value: index + ''
+        }
+      });
+    },
     success() {
-          this.MessageBox.confirm(message, title);
+      this.MessageBox.confirm(message, title);
     },
     getdata() {
-          var _this = this
-          _this.projectCode = getStore('projectCode');
-          _this.granterPhone = getStore('granterPhone');
-          this.$post('/ssh/grantCard/getGrantCardByUser', {
-          "projectCode": _this.projectCode,
-          "granterPhone": _this.granterPhone,
-          "pageSize": 4,
-          "pageNumber": _this.page
+      var _this = this
+      _this.projectCode = getStore('projectCode');
+      _this.granterPhone = getStore('granterPhone');
+      this.$post('/ssh/grantCard/getGrantCardByUser', {
+        "projectCode": _this.projectCode,
+        "granterPhone": _this.granterPhone,
+        "pageSize": 4,
+        "pageNumber": _this.page
       }).then(res => {
-          if (res.result.cardList.length === 0) {
+        if (res.result.cardList.length === 0) {
           this.hasData = false;
-          }else{
-          this.dataList=res.result.cardList.length;
-          if(this.page===1){
-          this.doorList = res.result.cardList;
-          }else{
-          this.doorList =this.doorList.concat(res.result.cardList);
+        } else {
+          this.dataList = res.result.cardList.length;
+          if (this.page === 1) {
+            this.doorList = res.result.cardList;
+          } else {
+            this.doorList = this.doorList.concat(res.result.cardList);
           }
           this.hasData = true;
           saveStore('userData', this.doorList);
           for (var i = 0; i < this.doorList.length; i++) {
-          this.doorList[i].startTime = this.doorList[i].startTime.substring(0,10);
-          var endtime =  this.doorList[i].endTime;
-          this.doorList[i].endTimes = this.doorList[i].endTime.substring(0,10);
-          if (new Date() > new Date(endtime)) {
-          this.showBtnList[i] = false;
-          } else {
-          this.showBtnList[i] = true;
+            this.doorList[i].startTime = this.doorList[i].startTime.substring(0, 10);
+            var endtime = this.doorList[i].endTime;
+            this.doorList[i].endTimes = this.doorList[i].endTime.substring(0, 10);
+            if (new Date() > new Date(endtime)) {
+              this.showBtnList[i] = false;
+            } else {
+              this.showBtnList[i] = true;
+            }
           }
-        }
 
         }
       }).catch(function(error) {
-            console.log(error);
+        console.log(error);
       });
 
     }
@@ -212,7 +211,7 @@ export default {
         }
       }
       .btn {
-        float:right;
+        float: right;
         color: #ffffff;
         outline: none;
         margin-top: 0.1rem;
@@ -221,24 +220,25 @@ export default {
     }
   }
 }
-.center{
-    width:7.5rem;
-    height:13.34rem;
-    background-color:#EFf2f5;
-    padding-top:2.3rem;
-  .door_text{
-    width:2.96rem;
-    height:0.29rem;
-    background-image:url(../images/text.png);
-    background-size:100% 100%;
-    margin:0 auto;
-    margin-bottom:0.5rem;
+
+.center {
+  width: 7.5rem;
+  height: 13.34rem;
+  background-color: #EFf2f5;
+  padding-top: 2.3rem;
+  .door_text {
+    width: 2.96rem;
+    height: 0.29rem;
+    background-image: url(../images/text.png);
+    background-size: 100% 100%;
+    margin: 0 auto;
+    margin-bottom: 0.5rem;
   }
-  .door_img{
-    width:1.76rem;
-    height:1.19rem;
-    background-size:100% 100%;
-    margin:0 auto;
+  .door_img {
+    width: 1.76rem;
+    height: 1.19rem;
+    background-size: 100% 100%;
+    margin: 0 auto;
   }
 }
 
