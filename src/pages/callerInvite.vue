@@ -266,7 +266,7 @@
         }
       },
 			//确定邀请
-			handleSubmit(name) {					
+			handleSubmit(name) {
 				this.$refs[name].validate((valid) => {
 					if(valid) {
 						if(this.submit){
@@ -279,22 +279,27 @@
 									}
 								}
 							}
-							this.formValidate.granterPhone = this.granterPhone;
-							this.formValidate.projectCode = this.projectCode;
-							this.formValidate.doors = JSON.stringify(this.sendData);
-							//console.log(this.formValidate)								
-							this.$post('/ssh/grantCard/grantQREvent',this.formValidate).then(res => {
-								this.saveData();
-							}).catch(function(error) {
-								console.log(error);
-								this.submit = true;
-							});
-						}						
+						}
+            this.formValidate.granterPhone = this.granterPhone;
+            this.formValidate.projectCode = this.projectCode;
+            this.formValidate.doors = JSON.stringify(this.sendData);
+            //console.log(this.formValidate)
+            this.$post('/ssh/grantCard/grantQREvent', this.formValidate).then(res => {
+              console.log(res)
+              this.doors = res.result.doors;
+              this.grantNo = res.result.codeData;
+              if (this.hasParams) {
+                  this.shareProfessor();
+                  this.judgeToClose();
+              } else {
+                  this.saveData();
+              }
+            })
 					} else {
 						// this.$Message.error('Fail!');
 					}
 				})
-				
+
 			},
 			saveData(){
 				var _this = this;
