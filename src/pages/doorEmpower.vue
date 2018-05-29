@@ -3,7 +3,7 @@
 		<div class="doorList">
 			<div class="entranceGuard">
 				<div class="entranceGuard_box">
-					<Checkbox v-if="hasData" :indeterminate="indeterminate" :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox>
+					<Checkbox v-if="hasData"  :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox>
 				</div>
 				<CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
 					<Checkbox :label="item" v-for="item in dataDoor" :key="item.id"></Checkbox>
@@ -36,12 +36,13 @@
 			...mapState(['project'])
 		},
 		mounted() {
-			this.getProject();
-			this.getdata();
+    			this.getProject();
+    			this.getdata();
 
 		},
 		methods: {
 			getProject() {
+        console.log(this.project)
 				this.checkAllGroup = this.project
 			},
 			getdata() {
@@ -49,7 +50,7 @@
 				_this.projectCode = getStore('projectCode');
 				_this.userName = getStore('userName');
 				_this.granterPhone = getStore('granterPhone');
-				this.$post('/ssh/openDoor/getDoorByPhone', {
+				  this.$post('/ssh/openDoor/getDoorByPhone', {
 					projectCode: _this.projectCode,
 					userName: _this.userName,
 					phone: _this.granterPhone
@@ -63,20 +64,18 @@
 				});
 			},
 			nextClick() {
-				this.$store.commit('PROJECT', this.checkAllGroup);
-        history.back(-1);
-				// this.$router.push({
-				// 	path: "/callerInvite"
-				// })
-			},
+          if (this.checkAllGroup.length === 0) {
+            this.$store.commit('PROJECT', null);
+            history.back(-1);
+          } else {this.$store.commit('PROJECT', this.checkAllGroup);
+            history.back(-1);
+          }
+  				// this.$router.push({
+  				// 	path: "/callerInvite"
+  				// })
+  			},
 			handleCheckAll() {
-				if(this.indeterminate) {
-					this.checkAll = false;
-				} else {
-					this.checkAll = !this.checkAll;
-				}
-				this.indeterminate = false;
-
+				this.checkAll = !this.checkAll;
 				if(this.checkAll) {
 					this.checkAllGroup = this.dataDoor;
 				} else {
@@ -85,13 +84,10 @@
 			},
 			checkAllGroupChange(data) {
 				if(data.length === this.dataDoor.length) {
-					this.indeterminate = false;
 					this.checkAll = true;
-				} else if(data.length > 0) {
-					this.indeterminate = true;
+				} else if(data.length < this.dataDoor.length) {
 					this.checkAll = false;
 				} else {
-					this.indeterminate = false;
 					this.checkAll = false;
 				}
 			}
@@ -107,7 +103,6 @@
 			overflow-y: auto;
 		}
 	}
-
 	.entranceGuard {
 		width: 90%;
 		background-color: #ffffff;

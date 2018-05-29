@@ -9394,8 +9394,8 @@ span.ivu-radio+* {
 }
 
 .ivu-checkbox-indeterminate .ivu-checkbox-inner {
-    background-color: #39f;
-    border-color: #39f
+    /*background-color: #39f;
+    border-color: #39f*/
 }
 
 .ivu-checkbox-wrapper {
