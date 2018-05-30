@@ -116,7 +116,6 @@ export default {
     ...mapState(['project', 'formValidate'])
   },
   created() {
-
   },
   mounted() {
     this.getUrlParams();
