@@ -13,7 +13,7 @@
           </Select>
         </FormItem>
         <FormItem label="手机 :" prop="phone">
-          <Input v-model="formValidate.phone" placeholder="" :disabled="hasParams"></Input>
+          <Input id="number" v-model="formValidate.phone" placeholder="" :disabled="hasParams"></Input>
         </FormItem>
         <div @click="starTime_">
           <FormItem label="生效日期 :" prop="startTime">
@@ -111,7 +111,6 @@ export default {
     selectTimeEnd: function() {
       this.endTime_();
     }
-
   },
   computed: {
     ...mapState(['project', 'formValidate'])
@@ -125,6 +124,23 @@ export default {
     this.active();
     var d = new Date();
     this.formValidate.startTime = d.format("yyyy-MM-dd hh:mm");
+    var number = document.getElementById("number");
+    var input =number.getElementsByTagName('input');
+    input[0].type = 'number';
+    var u = navigator.userAgent;
+    var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    if (isIOS) {
+      if (screen.height == 812 && screen.width == 375){
+          //是iphoneX
+          console.log("是iphoneX")
+          var scoll = document.getElementsByClassName('scoll');
+          scoll[0].classList.add('addheight') ;
+          console.log(scoll)
+      }else{
+          //不是iphoneX
+          console.log("不是iphoneX")
+      }
+    }
   },
   methods: {
     getUrlParams() {
@@ -183,7 +199,6 @@ export default {
     starTime_() {
       if (!this.hasParams) {
         this.$refs.pickerSrtar.open();
-
       }
       var Year = this.selectTimeStar.getFullYear();
       var Month = this.selectTimeStar.getMonth() + 1;
@@ -252,11 +267,10 @@ export default {
     },
     //确定邀请
     handleSubmit(name) {
-      if (this.formValidate.endTime && this.formValidate.endTime < this.formValidate.startTime) {
-        MessageBox('提示', '失效日期不能小于有效日期');
-        return;
-      } else {
-        // console.log("不能选择")
+        if (this.formValidate.endTime && this.formValidate.endTime < this.formValidate.startTime) {
+          MessageBox('提示', '失效日期不能小于有效日期');
+          return;
+        } else {
       }
       this.$refs[name].validate((valid) => {
         if (valid) {
@@ -284,7 +298,6 @@ export default {
           // this.$Message.error('Fail!');
         }
       })
-
     },
     saveData() {
       var _this = this;
@@ -390,6 +403,9 @@ export default {
         }
       }
     }
+  }
+  .addheight{
+    height:12rem;
   }
   .list-item {
     display: inline-block;
