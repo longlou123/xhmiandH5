@@ -6,7 +6,7 @@
 			</div>
 			<div>
 				<p class="name">{{name}}</p>
-			</div>			
+			</div>
 			<div class="message">
 				<div class="left">
 					<p>二维码生成时间:</p>
