@@ -264,14 +264,6 @@ export default {
         window.webkit.messageHandlers.passValue.postMessage({ finish: true });
       }
     },
-<<<<<<< HEAD
-    //确定邀请
-    handleSubmit(name) {
-        if (this.formValidate.endTime && this.formValidate.endTime < this.formValidate.startTime) {
-          MessageBox('提示', '失效日期不能小于有效日期');
-          return;
-        } else {
-=======
 		// 确定邀请
 		handleSubmit(name) {
       if (this.formValidate.endTime && this.formValidate.endTime < this.formValidate.startTime) {
@@ -279,7 +271,6 @@ export default {
         return;
       } else {
         // console.log("不能选择")
->>>>>>> 0daed17325416e2ad182d4441c725b138017b041
       }
 			this.$refs[name].validate((valid) => {
 				if(valid) {
@@ -308,44 +299,6 @@ export default {
             } else {
                 this.saveData();
             }
-<<<<<<< HEAD
-            this.formValidate.granterPhone = this.granterPhone;
-            this.formValidate.projectCode = this.projectCode;
-            this.formValidate.doors = JSON.stringify(this.sendData);
-            this.$post('/ssh/grantCard/grantQREvent', this.formValidate).then(res => {
-              this.saveData();
-            }).catch(function(error) {
-              console.log(error);
-              this.submit = true;
-            });
-          }
-        } else {
-          // this.$Message.error('Fail!');
-        }
-      })
-    },
-    saveData() {
-      var _this = this;
-      this.$get('/ssh/grantCard/getGrantQRByUser', {
-        "projectCode": _this.projectCode, //项目id
-        "pageSize": "2",
-        "granterPhone": _this.granterPhone, //使用人的手机号
-        "pageNumber": '1'
-      }).then(res => {
-        this.userData = res.result.cardList;
-        saveStore('userData', this.userData);
-        this.$store.commit('CLEAR_FORM');
-        this.submit = true; //恢复按钮
-        this.$router.push({ path: "/callerDetail", query: { value: 0 } })
-      }).catch(function(error) {
-        console.log(error);
-      });
-    },
-    handleReset(name) {
-      this.$refs[name].resetFields();
-    }
-  }
-=======
           })
 				} else {
 					// this.$Message.error('Fail!');
@@ -362,8 +315,8 @@ export default {
 			}).then(res => {
 				this.userData = res.result.cardList;
 				saveStore('userData',this.userData);
-          		this.$store.commit('CLEAR_FORM');
-          		this.submit = true;//恢复按钮
+    		this.$store.commit('CLEAR_FORM');
+    		this.submit = true;//恢复按钮
 				this.$router.push({path: "/callerDetail",query: {value: 0}})
 			}).catch(function(error) {
 				console.log(error);
@@ -373,7 +326,6 @@ export default {
 			this.$refs[name].resetFields();
 		}
 	}
->>>>>>> 0daed17325416e2ad182d4441c725b138017b041
 }
 </script>
 <style lang="scss" scoped>
