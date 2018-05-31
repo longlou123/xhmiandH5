@@ -13,7 +13,7 @@
           </Select>
         </FormItem>
         <FormItem label="手机 :" prop="phone">
-          <Input v-model="formValidate.phone" :disabled="hasParams"></Input>
+          <Input id="number" v-model="formValidate.phone" :disabled="hasParams"></Input>
           <!-- <input type="number" class="number" v-model="formValidate.phone"  :disabled="hasParams" type="number" pattern="\d*"> -->
           <!-- <input type="number" class="number" v-model="formValidate.phone"  name="" :disabled="hasParams" pattern="\d*"> -->
         </FormItem>
@@ -111,6 +111,24 @@ export default {
     var d = new Date();
     this.formValidate.startTime = d.format("yyyy-MM-dd ");
     // this.addBtnClass();
+    var number = document.getElementById("number");
+    var input =number.getElementsByTagName('input');
+    input[0].type = 'number';
+    var u = navigator.userAgent;
+    var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    if (isIOS) {
+      if (screen.height == 812 && screen.width == 375){
+          //是iphoneX
+          console.log("是iphoneX")
+          var scoll = document.getElementsByClassName('scoll');
+          scoll[0].classList.add('addheight') ;
+          console.log(scoll)
+
+      }else{
+          //不是iphoneX
+          console.log("不是iphoneX")
+      }
+    }
   },
   watch: {
     pickerValuer() {
@@ -400,6 +418,9 @@ body {
         }
       }
     }
+  }
+  .addheight{
+    height:11.5rem;
   }
   .btn {
     margin-top: 0.8rem;
