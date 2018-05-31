@@ -35,6 +35,7 @@
 import Vue from 'vue'
 import { getStore, saveStore } from '@/script/util'
 import { Loadmore } from 'mint-ui';
+import { MessageBox } from 'mint-ui';
 export default {
   data() {
     return {
@@ -58,7 +59,6 @@ export default {
       dataList: null,
       scrollMode: "touch",
       num: null
-
       // showImg:false
     }
   },
@@ -132,28 +132,31 @@ export default {
         "pageSize": 4,
         "pageNumber": _this.page
       }).then(res => {
-        if (res.result.cardList.length === 0) {
-          this.hasData = false;
-        } else {
-          this.dataList = res.result.cardList.length;
-          if (this.page === 1) {
-            this.doorList = res.result.cardList;
+          if(res.errorCode === 200){
+            if (res.result.cardList.length === 0) {
+            this.hasData = false;
           } else {
-            this.doorList = this.doorList.concat(res.result.cardList);
-          }
-          this.hasData = true;
-          saveStore('userData', this.doorList);
-          for (var i = 0; i < this.doorList.length; i++) {
-            this.doorList[i].startTime = this.doorList[i].startTime.substring(0, 10);
-            var endtime = this.doorList[i].endTime;
-            this.doorList[i].endTimes = this.doorList[i].endTime.substring(0, 10);
-            if (new Date() > new Date(endtime)) {
-              this.showBtnList[i] = false;
+            this.dataList = res.result.cardList.length;
+            if (this.page === 1) {
+              this.doorList = res.result.cardList;
             } else {
-              this.showBtnList[i] = true;
+              this.doorList = this.doorList.concat(res.result.cardList);
+            }
+            this.hasData = true;
+            saveStore('userData', this.doorList);
+            for (var i = 0; i < this.doorList.length; i++) {
+              this.doorList[i].startTime = this.doorList[i].startTime.substring(0, 10);
+              var endtime = this.doorList[i].endTime;
+              this.doorList[i].endTimes = this.doorList[i].endTime.substring(0, 10);
+              if (new Date() > new Date(endtime)) {
+                this.showBtnList[i] = false;
+              } else {
+                this.showBtnList[i] = true;
+              }
             }
           }
-
+        }else{
+          MessageBox('提示', res.message);
         }
       }).catch(function(error) {
         console.log(error);

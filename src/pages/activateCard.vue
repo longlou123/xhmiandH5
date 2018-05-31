@@ -85,7 +85,8 @@ export default {
       if (isAndroid && !iOS) {
         jsObj.twoDimensionCode(this.doors, this.grantNo);
       } else if (!isAndroid && iOS) {
-        window.webkit.messageHandlers.passValue.postMessage({ doors: this.doors, grantNo: this.grantNo });
+        window.webkit.messageHandlers.passValue.postMessage({ doors: this.doors, grantNo: this.grantNo
+        });
       }
     },
     judgeToClose() {

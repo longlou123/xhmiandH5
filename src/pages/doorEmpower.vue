@@ -19,6 +19,7 @@
 <script>
 	import { mapState, mapMutations } from 'vuex';
 	import { getStore } from '@/script/util';
+  import { MessageBox } from 'mint-ui';
 	export default {
 		data() {
 			return {
@@ -55,10 +56,14 @@
 					userName: _this.userName,
 					phone: _this.granterPhone
 				}).then(res => {
-					for(var i = 0; i < res.result.doorList.length; i++) {
-						_this.dataDoor[i] = res.result.doorList[i].doorName;
-					}
-					this.hasData = true;
+          if(res.errorCode === 200){
+            for(var i = 0; i < res.result.doorList.length; i++) {
+            _this.dataDoor[i] = res.result.doorList[i].doorName;
+          }
+          this.hasData = true;
+          }else{
+            MessageBox('提示', res.message);
+          }
 				}).catch(function(error) {
 					console.log(error);
 				});

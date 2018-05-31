@@ -91,12 +91,11 @@ export default {
       } else if (!this.isAndroid && this.iOS) {
         window.webkit.messageHandlers.passValue.postMessage({ url: "https://yq.xhmind.com:8093/#/twoDimension?id=" + this.id, startTime: this.startTime, endTime: this.endTime });
       } else {
-      }
-    },
+    }
+  },
     newData() {
       var _this = this;
       this.data = JSON.parse(getStore("userData"));
-      //console.log(this.data);
       this.num = this.$route.query.value;
       this.id = this.data[this.num].id //要分享的id
       this.name = this.data[this.num].name;

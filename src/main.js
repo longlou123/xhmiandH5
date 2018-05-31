@@ -16,8 +16,6 @@ Vue.prototype.$post = post;
 Vue.prototype.$get = get;
 Vue.prototype.$patch = patch;
 Vue.prototype.$put = put;
-
-
 // 时间格式化函数
 Date.prototype.format = function(fmt) {
   var o = {

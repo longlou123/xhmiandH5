@@ -2,11 +2,12 @@
 	<div class="center">
 		<div class="content">
 			<div class="img">
-				<div id="imgBox"></div>
+				<div id="imgBox">
+        </div>
 			</div>
 			<div>
 				<p class="name">{{name}}</p>
-			</div>			
+			</div>
 			<div class="message">
 				<div class="left">
 					<p>二维码生成时间:</p>
@@ -29,6 +30,7 @@
 
 <script>
 import QRCode from 'qrcodejs2'
+import { MessageBox } from 'mint-ui';
 export default {
 	data() {
 		return {
@@ -57,31 +59,32 @@ export default {
 			this.$get('/ssh/grantCard/getGrantQRById', {
 				"id": id,
 			}).then(res => {
-				//console.log(res.result);....
-				this.name = res.result.name;
-				this.codeData = res.result.codeData;
-				this.qrcode.makeCode(this.codeData);
-				this.startTime = res.result.startTime;
-				this.endTime = res.result.endTime;
-				this.useCount = res.result.useCount==0?'次数不限':res.result.useCount
-				var date = new Date(res.result.createTime);
-				var Y = date.getFullYear();
-				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) ;
-				var D = date.getDate() ;
-				var h = date.getHours() ;
-				if(h<10){h = "0"+ h;}
-				var m = date.getMinutes()
-				if(m<10){m = "0"+ m;}
-				var s = date.getSeconds();
-				if(s<10){s = "0"+ s;}
-				this.createTime = Y+'-'+M+'-'+D+' '+h+':'+m+':'+s;
+        if(res.errorCode === 200){
+          this.name = res.result.name;
+          this.codeData = res.result.codeData;
+          this.qrcode.makeCode(this.codeData);
+          this.startTime = res.result.startTime;
+          this.endTime = res.result.endTime;
+          this.useCount = res.result.useCount==0?'次数不限':res.result.useCount
+          var date = new Date(res.result.createTime);
+          var Y = date.getFullYear();
+          var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) ;
+          var D = date.getDate() ;
+          var h = date.getHours() ;
+          if(h<10){h = "0"+ h;}
+          var m = date.getMinutes()
+          if(m<10){m = "0"+ m;}
+          var s = date.getSeconds();
+          if(s<10){s = "0"+ s;}
+          this.createTime = Y+'-'+M+'-'+D+' '+h+':'+m+':'+s;
+        }else{
+          MessageBox('提示', res.message);
+        }
 			}).catch(function(error) {
 				console.log(error);
 			});
 		},
 		makeCode () {
-
-
 		}
 	}
 }
@@ -107,7 +110,7 @@ export default {
 			height: 4.8rem;
 			border: 0.02rem solid #000000;
 		}
-    }
+  }
     .name{
     	display: inline-block;
     	width:100%;
@@ -132,6 +135,6 @@ export default {
 			height: 3.4rem;
 			display: inline-block;
 		}
-    }
- }
+  }
+}
 </style>

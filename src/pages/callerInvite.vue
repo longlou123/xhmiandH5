@@ -131,13 +131,9 @@ export default {
     if (isIOS) {
       if (screen.height == 812 && screen.width == 375){
           //是iphoneX
-          console.log("是iphoneX")
           var scoll = document.getElementsByClassName('scoll');
           scoll[0].classList.add('addheight') ;
-          console.log(scoll)
       }else{
-          //不是iphoneX
-          console.log("不是iphoneX")
       }
     }
   },
@@ -165,26 +161,30 @@ export default {
         userName: _this.userName,
         phone: _this.$route.query.telephone ? _this.$route.query.telephone : _this.granterPhone
       }).then(res => {
-        for (var i = 0; i < res.result.doorList.length; i++) {
-          var list = {};
-          list.doorID = res.result.doorList[i].doorID;
-          list.doorName = res.result.doorList[i].doorName;
-          _this.projectInital[i] = list;
-          _this.projectDoor[i] = res.result.doorList[i].doorName;
-          _this.show.push(1)
-        }
-        if (this.project === null || this.project.length !== 0) {
-          this.projectPage = this.project ? this.project : [];
-          this.$store.commit('PROJECT', []);
-          if (this.projectPage.length < this.projectDoor.length) {
-            this.add = true;
+        if(res.errorCode === 200){
+            for (var i = 0; i < res.result.doorList.length; i++) {
+            var list = {};
+            list.doorID = res.result.doorList[i].doorID;
+            list.doorName = res.result.doorList[i].doorName;
+            _this.projectInital[i] = list;
+            _this.projectDoor[i] = res.result.doorList[i].doorName;
+            _this.show.push(1)
           }
-        } else {
-          this.projectPage = this.projectDoor
-          //this.projectPage = JSON.stringify(this.projectInital)
+          if (this.project === null || this.project.length !== 0) {
+            this.projectPage = this.project ? this.project : [];
+            this.$store.commit('PROJECT', []);
+            if (this.projectPage.length < this.projectDoor.length) {
+              this.add = true;
+            }
+          } else {
+            this.projectPage = this.projectDoor
+            //this.projectPage = JSON.stringify(this.projectInital)
+          }
+        }else{
+          MessageBox('提示', res.message);
         }
       }).catch(function(error) {
-        console.log(error);
+          console.log(error);
       });
     },
     //删除门列表选项
@@ -232,7 +232,6 @@ export default {
         minute = '0' + minute;
       }
       this.formValidate.endTime = Year + '-' + Month + '-' + Date + ' ' + hour + ':' + minute;
-      // this.formValidate.endTime = Year + '-' + Month + '-' + Date + ' ' + hour + ':' + minute;
     },
     //添加门列表
     sure() {
@@ -250,7 +249,8 @@ export default {
       if (isAndroid && !iOS) {
         jsObj.twoDimensionCode(this.doors, this.grantNo);
       } else if (!isAndroid && iOS) {
-        window.webkit.messageHandlers.passValue.postMessage({ doors: this.doors, grantNo: this.grantNo });
+        window.webkit.messageHandlers.passValue.postMessage({ doors: this.doors, grantNo: this.grantNo
+        });
       }
     },
     // 判断不同端调用关闭webview
@@ -264,14 +264,6 @@ export default {
         window.webkit.messageHandlers.passValue.postMessage({ finish: true });
       }
     },
-<<<<<<< HEAD
-    //确定邀请
-    handleSubmit(name) {
-        if (this.formValidate.endTime && this.formValidate.endTime < this.formValidate.startTime) {
-          MessageBox('提示', '失效日期不能小于有效日期');
-          return;
-        } else {
-=======
 		// 确定邀请
 		handleSubmit(name) {
       if (this.formValidate.endTime && this.formValidate.endTime < this.formValidate.startTime) {
@@ -279,7 +271,6 @@ export default {
         return;
       } else {
         // console.log("不能选择")
->>>>>>> 0daed17325416e2ad182d4441c725b138017b041
       }
 			this.$refs[name].validate((valid) => {
 				if(valid) {
@@ -297,9 +288,7 @@ export default {
           this.formValidate.granterPhone = this.granterPhone;
           this.formValidate.projectCode = this.projectCode;
           this.formValidate.doors = JSON.stringify(this.sendData);
-          //console.log(this.formValidate)
           this.$post('/ssh/grantCard/grantQREvent', this.formValidate).then(res => {
-            console.log(res)
             this.doors = res.result.doors;
             this.grantNo = res.result.codeData;
             if (this.hasParams) {
@@ -308,44 +297,6 @@ export default {
             } else {
                 this.saveData();
             }
-<<<<<<< HEAD
-            this.formValidate.granterPhone = this.granterPhone;
-            this.formValidate.projectCode = this.projectCode;
-            this.formValidate.doors = JSON.stringify(this.sendData);
-            this.$post('/ssh/grantCard/grantQREvent', this.formValidate).then(res => {
-              this.saveData();
-            }).catch(function(error) {
-              console.log(error);
-              this.submit = true;
-            });
-          }
-        } else {
-          // this.$Message.error('Fail!');
-        }
-      })
-    },
-    saveData() {
-      var _this = this;
-      this.$get('/ssh/grantCard/getGrantQRByUser', {
-        "projectCode": _this.projectCode, //项目id
-        "pageSize": "2",
-        "granterPhone": _this.granterPhone, //使用人的手机号
-        "pageNumber": '1'
-      }).then(res => {
-        this.userData = res.result.cardList;
-        saveStore('userData', this.userData);
-        this.$store.commit('CLEAR_FORM');
-        this.submit = true; //恢复按钮
-        this.$router.push({ path: "/callerDetail", query: { value: 0 } })
-      }).catch(function(error) {
-        console.log(error);
-      });
-    },
-    handleReset(name) {
-      this.$refs[name].resetFields();
-    }
-  }
-=======
           })
 				} else {
 					// this.$Message.error('Fail!');
@@ -360,20 +311,23 @@ export default {
 				"granterPhone": _this.granterPhone,  //使用人的手机号
 				"pageNumber":'1'
 			}).then(res => {
-				this.userData = res.result.cardList;
-				saveStore('userData',this.userData);
-          		this.$store.commit('CLEAR_FORM');
-          		this.submit = true;//恢复按钮
-				this.$router.push({path: "/callerDetail",query: {value: 0}})
+        if(res.errorCode === 200){
+          this.userData = res.result.cardList;
+          saveStore('userData',this.userData);
+          this.$store.commit('CLEAR_FORM');
+          this.submit = true;//恢复按钮
+          this.$router.push({path: "/callerDetail",query: {value: 0}})
+        }else{
+          MessageBox('提示', res.message);
+        }
 			}).catch(function(error) {
 				console.log(error);
 			});
 		},
 		handleReset(name) {
-			this.$refs[name].resetFields();
+        this.$refs[name].resetFields();
 		}
 	}
->>>>>>> 0daed17325416e2ad182d4441c725b138017b041
 }
 </script>
 <style lang="scss" scoped>

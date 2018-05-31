@@ -14,8 +14,6 @@
         </FormItem>
         <FormItem label="手机 :" prop="phone">
           <Input id="number" v-model="formValidate.phone" :disabled="hasParams"></Input>
-          <!-- <input type="number" class="number" v-model="formValidate.phone"  :disabled="hasParams" type="number" pattern="\d*"> -->
-          <!-- <input type="number" class="number" v-model="formValidate.phone"  name="" :disabled="hasParams" pattern="\d*"> -->
         </FormItem>
         <div @click="show">
           <FormItem label="生效日期 :" prop="startTime">
@@ -78,6 +76,7 @@ export default {
       Id: null,
       detailsData: null,
       hasParams: false,
+      errMassage: '',
       ruleValidate: {
         name: [
           { required: true, message: '请填写使用人', trigger: 'blur' }
@@ -112,22 +111,15 @@ export default {
     this.formValidate.startTime = d.format("yyyy-MM-dd ");
     // this.addBtnClass();
     var number = document.getElementById("number");
-    var input =number.getElementsByTagName('input');
+    var input = number.getElementsByTagName('input');
     input[0].type = 'number';
     var u = navigator.userAgent;
     var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
     if (isIOS) {
-      if (screen.height == 812 && screen.width == 375){
-          //是iphoneX
-          console.log("是iphoneX")
-          var scoll = document.getElementsByClassName('scoll');
-          scoll[0].classList.add('addheight') ;
-          console.log(scoll)
-
-      }else{
-          //不是iphoneX
-          console.log("不是iphoneX")
-      }
+      if (screen.height == 812 && screen.width == 375) {
+        var scoll = document.getElementsByClassName('scoll');
+        scoll[0].classList.add('addheight');
+      } else {}
     }
   },
   watch: {
@@ -190,6 +182,7 @@ export default {
         userName: _userName,
         phone: _granterPhone
       }).then(res => {
+        console.log(res);
         if (res.errorCode === 200) {
           for (var i = 0; i < res.result.doorList.length; i++) {
             var obj = {};
@@ -209,9 +202,13 @@ export default {
             this.saveDoordata = this.seeproject
             //this.projectPage = JSON.stringify(this.projectInital)
           }
+        } else {
+          this.errMassage = res.message;
+          MessageBox('提示', this.errMassage);
         }
       }).catch(err => {
         console.log(err);
+
       });
     },
     removeTode(index) {
@@ -262,6 +259,9 @@ export default {
             this.$post('/ssh/grantCard/reGrantCardEvent', { id: this.Id, startTime: this.formValidate.startTime, endTime: this.formValidate.endTime, doors: this.formValidate.doors }).then(res => {
               if (res.errorCode === 200) {
                 this.$router.push({ path: "/management" })
+              }else{
+                this.errMassage = res.message;
+                MessageBox('提示', this.errMassage);
               }
             })
           }
@@ -285,16 +285,23 @@ export default {
             }
             this.$store.commit('MASSAGESAVE', this.formValidate);
             this.$post('/ssh/grantCard/addCard', this.formValidate).then(res => {
+              console.log(res)
               if (res.errorCode === 200) {
                 if (this.formValidate.endTime.indexOf('23:59:59') != -1) {
                   this.formValidate.endTime = this.formValidate.endTime.slice(0, this.formValidate.endTime.indexOf('23:59:59'))
                 }
-                if (this.formValidate.startTime.indexOf('00:00:00') != -1) {
-                  this.formValidate.startTime = this.formValidate.startTime.slice(0, this.formValidate.startTime.indexOf('00:00:00'))
-                }
+                  if (this.formValidate.startTime.indexOf('00:00:00') != -1) {
+                    this.formValidate.startTime = this.formValidate.startTime.slice(0, this.formValidate.startTime.indexOf('00:00:00'))
+                    }
                 saveStore('choisedDoorList', this.formValidate);
                 this.$store.commit('CLEAR_FORM');
-                this.$router.push({ path: "/activateCard", query: { cardID: res.result.cardId } })
+                this.$router.push({
+                  path: "/activateCard",
+                  query: { cardID: res.result.cardId }
+                })
+              } else {
+                this.errMassage = res.message;
+                MessageBox('提示', this.errMassage);
               }
             })
           } else {
@@ -419,8 +426,8 @@ body {
       }
     }
   }
-  .addheight{
-    height:11.5rem;
+  .addheight {
+    height: 11.5rem;
   }
   .btn {
     margin-top: 0.8rem;
