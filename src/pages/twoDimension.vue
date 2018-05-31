@@ -2,7 +2,7 @@
 	<div class="center">
 		<div class="content">
 			<div class="img">
-				<div id="imgBox"></div>
+				<div id="qrcode"></div>
 			</div>
 			<div>
 				<p class="name">{{name}}</p>
@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import QRCode from 'qrcodejs2'
 export default {
 	data() {
 		return {
@@ -46,11 +45,6 @@ export default {
 	},
 	mounted() {
 		this.gitData(this.$route.query.id)
-		this.imgBox = document.getElementById("imgBox");
-		this.qrcode = new QRCode(this.imgBox, {
-			width : 274,
-			height :250
-		});
 	},
 	methods: {
 		gitData(id) {
@@ -60,10 +54,11 @@ export default {
 				//console.log(res.result);....
 				this.name = res.result.name;
 				this.codeData = res.result.codeData;
-				this.qrcode.makeCode(this.codeData);
 				this.startTime = res.result.startTime;
 				this.endTime = res.result.endTime;
 				this.useCount = res.result.useCount==0?'次数不限':res.result.useCount
+        this.showQr(this.codeData);
+
 				var date = new Date(res.result.createTime);
 				var Y = date.getFullYear();
 				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) ;
@@ -79,10 +74,20 @@ export default {
 				console.log(error);
 			});
 		},
-		makeCode () {
-
-
-		}
+		showQr(data) {
+      // console.log(QRCode)
+      new QRCode(document.getElementById("qrcode"), {
+        text: data, // 内容
+        width: 274, // 宽度
+        height: 250, // 高度，包含标题高 50px
+        colorDark: "#000000", // 深色
+        colorLight: "#ffffff", // 浅色
+        logo:"static/logo.png", // LOGO
+        logoWidth: 40, //
+        logoHeight: 30,
+        correctLevel: QRCode.CorrectLevel.H // 纠错级别， L, M, Q, H
+      });
+    }
 	}
 }
 </script>
@@ -105,7 +110,7 @@ export default {
 		#qrcode{
 			width: 100%;
 			height: 4.8rem;
-			border: 0.02rem solid #000000;
+			// border: 0.02rem solid #000000;
 		}
     }
     .name{

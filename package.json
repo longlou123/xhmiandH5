@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "easyqrcodejs": "^2.0.0",
     "iview": "^2.8.0",
     "iview-loader": "^1.0.0",
     "mint-ui": "^2.2.13",
